@@ -198,7 +198,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
 
          List<Entry> entries = new List<Entry>(length);
          IntPtr stmt = SQLite3.Prepare2(mDB, string.Format(
-            "SELECT id, ts, name, type, text_content, binary_content FROM data_table WHERE {0} ORDER BY {1} LIMIT {2}, {3};",
+            "SELECT id, ts, name, type, text_content, binary_content, hits FROM data_table WHERE {0} ORDER BY {1} LIMIT {2}, {3};",
             where, orderByFields, start, length));
          while (SQLite3.Step(stmt) == SQLite3.Result.Row)
          {
@@ -220,6 +220,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                   s.Dispose();
                   break;
             }
+            e.Hits = SQLite3.ColumnInt(stmt, 6);
             entries.Add(e);
          }
          SQLite3.Finalize(stmt);
