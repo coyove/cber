@@ -12,6 +12,36 @@ namespace Clipboarder
       private const UInt32 sGenerator = 0xEDB88320;
       private static readonly UInt32[] mChecksumTable;
 
+        public static string GetHostFromUri(string uri)
+        {
+            try
+            {
+                return new Uri(uri).Host;
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        public static string ExtractFieldFromHTMLClipboard(string content, string name)
+        {
+            foreach (string line in content.Substring(0, content.Length < 1024 ? content.Length : 1024)
+                                .Split(new char[] { '\n' }))
+            {
+                if (line.StartsWith(name + ":"))
+                    return line.Substring(1 + name.Length);
+            }
+            return "";
+        }
+
+        public static string ExtractHTMLFromClipboard(string text)
+        {
+            int startHTML = 0;
+            int.TryParse(Helper.ExtractFieldFromHTMLClipboard(text, "StartHTML"), out startHTML);
+            return text.Substring(startHTML);
+        }
+
       public static Int32 UnixTimestamp()
       {
          return (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -56,6 +86,7 @@ namespace Clipboarder
          public int Hits { get; set; }
          public ContentType Type { get; set; }
          public string Name { get; set; }
+         public string SourceUrl { get; set; }
          public DateTime Time { get; set; }
          public object Content { get; set; }
       }
@@ -65,6 +96,7 @@ namespace Clipboarder
          RawText = 0,
          RawBinary,
          Image,
+         HTML,
       }
 
       private IntPtr mDB;
@@ -86,6 +118,7 @@ CREATE TABLE IF NOT EXISTS data_table (
    id INTEGER PRIMARY KEY AUTOINCREMENT,
    ts INTEGER NOT NULL,
    name TEXT NOT NULL,
+   source_url TEXT,
    type INTEGER NOT NULL,
    hash INTEGER NOT NULL,
    hits INTEGER DEFAULT 1,
@@ -93,6 +126,7 @@ CREATE TABLE IF NOT EXISTS data_table (
    binary_content BLOB
 );
 CREATE INDEX data_table_name_idx ON data_table (name);
+CREATE INDEX data_table_url_idx ON data_table (source_url);
 CREATE INDEX data_table_type_idx ON data_table (type);
 CREATE INDEX data_table_hash_idx ON data_table (hash);
 ");
@@ -122,12 +156,12 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
          return id;
       }
 
-      public SQLite3.Result Insert(string name, string content)
+      public SQLite3.Result Insert(string name, string content, string sourceUrl = "", ContentType ct = ContentType.RawText)
       {
          int id = FindIDByHash(content.GetHashCode());
          IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
             "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
-            "INSERT INTO data_table (ts, name, type, hash, text_content) VALUES (?, ?, ?, ?, ?);");
+            "INSERT INTO data_table (ts, name, type, hash, text_content, source_url) VALUES (?, ?, ?, ?, ?, ?);");
 
          if (string.IsNullOrWhiteSpace(name))
             name = Helper.GetDefaultName();
@@ -140,9 +174,10 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
          else
          {
             SQLite3.BindText(stmt, 2, name);
-            SQLite3.BindInt(stmt, 3, 0);
+            SQLite3.BindInt(stmt, 3, (int)ct);
             SQLite3.BindInt(stmt, 4, content.GetHashCode());
             SQLite3.BindText(stmt, 5, content);
+            SQLite3.BindText(stmt, 6, sourceUrl);
          }
 
          var res = SQLite3.Step(stmt);
@@ -194,11 +229,11 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
          if (string.IsNullOrWhiteSpace(where))
             where = "1 = 1";
          if (string.IsNullOrWhiteSpace(orderByFields))
-            orderByFields = "ts DESC";
+            orderByFields = "ts DESC, id DESC";
 
          List<Entry> entries = new List<Entry>(length);
          IntPtr stmt = SQLite3.Prepare2(mDB, string.Format(
-            "SELECT id, ts, name, type, text_content, binary_content, hits FROM data_table WHERE {0} ORDER BY {1} LIMIT {2}, {3};",
+            "SELECT id, ts, name, type, text_content, binary_content, hits, source_url FROM data_table WHERE {0} ORDER BY {1} LIMIT {2}, {3};",
             where, orderByFields, start, length));
          while (SQLite3.Step(stmt) == SQLite3.Result.Row)
          {
@@ -209,6 +244,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             e.Type = (ContentType)(SQLite3.ColumnInt(stmt, 3));
             switch (e.Type) {
                case ContentType.RawText:
+                    case ContentType.HTML:
                   e.Content = SQLite3.ColumnString(stmt, 4);
                   break;
                case ContentType.RawBinary:
@@ -221,6 +257,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                   break;
             }
             e.Hits = SQLite3.ColumnInt(stmt, 6);
+                e.SourceUrl = SQLite3.ColumnString(stmt, 7);
             entries.Add(e);
          }
          SQLite3.Finalize(stmt);

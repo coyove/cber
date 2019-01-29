@@ -70,6 +70,141 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\BookmarkActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\CaretActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\ClipBoardActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\FoldActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\FormatActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\HomeEndActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\IEditAction.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\MiscActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Actions\SelectionActions.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\AbstractSegment.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\BookmarkManager\Bookmark.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\BookmarkManager\BookmarkEventHandler.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\BookmarkManager\BookmarkManager.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\BookmarkManager\BookmarkManagerMemento.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\DefaultDocument.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\DefaultTextEditorProperties.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\DocumentEventArgs.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\DocumentFactory.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\FoldingStrategy\FoldingManager.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\FoldingStrategy\FoldMarker.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\FoldingStrategy\IFoldingStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\FoldingStrategy\IndentFoldingStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\FormattingStrategy\DefaultFormattingStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\FormattingStrategy\IFormattingStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\DefaultHighlightingStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\FontContainer.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightBackground.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightColor.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightInfo.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightingColorNotFoundException.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightingDefinitionInvalidException.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightingDefinitionParser.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightingManager.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightingStrategyFactory.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\HighlightRuleSet.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\IHighlightingStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\NextMarker.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\PrevMarker.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\Span.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\SpanStack.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\SyntaxModes\FileSyntaxModeProvider.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\SyntaxModes\ISyntaxModeFileProvider.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\SyntaxModes\ResourceSyntaxModeProvider.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\SyntaxModes\SyntaxMode.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\HighlightingStrategy\TextWord.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\IDocument.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\ISegment.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\ITextEditorProperties.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\LineManager\DeferredEventList.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\LineManager\LineManager.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\LineManager\LineManagerEventArgs.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\LineManager\LineSegment.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\LineManager\LineSegmentTree.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\MarkerStrategy\MarkerStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\MarkerStrategy\TextMarker.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\Selection\ColumnRange.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\Selection\DefaultSelection.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\Selection\ISelection.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\Selection\SelectionManager.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\TextAnchor.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\TextBufferStrategy\GapTextBufferStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\TextBufferStrategy\ITextBufferStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\TextBufferStrategy\StringTextBufferStrategy.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\TextLocation.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Document\TextUtilities.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\AbstractMargin.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\BracketHighlighter.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\BrushRegistry.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\Caret.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\CompletionWindow\AbstractCompletionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\CompletionWindow\CodeCompletionListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\CompletionWindow\CodeCompletionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\CompletionWindow\DeclarationViewWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\CompletionWindow\ICompletionData.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\CompletionWindow\ICompletionDataProvider.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\DrawableLine.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\FoldMargin.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\GutterMargin.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\HRuler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\IconBarMargin.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\Ime.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\InsightWindow\IInsightDataProvider.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\InsightWindow\InsightWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextArea.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextAreaClipboardHandler.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextAreaControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextAreaDragDropHandler.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextAreaMouseHandler.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextAreaUpdate.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextEditorControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.TextEditor\Gui\TextView.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Gui\ToolTipRequestEventArgs.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Undo\IUndoableOperation.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Undo\UndoableDelete.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Undo\UndoableInsert.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Undo\UndoableReplace.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Undo\UndoQueue.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Undo\UndoStack.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\AugmentableRedBlackTree.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\CheckedList.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\FileReader.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\LoggingService.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\LookupTable.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\MouseWheelHandler.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\RedBlackTreeIterator.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\RtfWriter.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\TextUtility.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\TipPainter.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\TipPainterTools.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\TipSection.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\TipSpacer.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\TipSplitter.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\TipText.cs" />
+    <Compile Include="ICSharpCode.TextEditor\Util\WeakCollection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite.cs" />
@@ -94,11 +229,35 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ICModes\ASPX.xshd" />
+    <None Include="ICModes\BAT-Mode.xshd" />
+    <None Include="ICModes\Boo.xshd" />
+    <None Include="ICModes\Coco-Mode.xshd" />
+    <None Include="ICModes\CPP-Mode.xshd" />
+    <None Include="ICModes\CSharp-Mode.xshd" />
+    <None Include="ICModes\HTML-Mode.xshd" />
+    <None Include="ICModes\ICSharpCode.TextEditor.snk" />
+    <None Include="ICModes\Java-Mode.xshd" />
+    <None Include="ICModes\JavaScript-Mode.xshd" />
+    <None Include="ICModes\Mode.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ICModes\Patch-Mode.xshd" />
+    <None Include="ICModes\PHP-Mode.xshd" />
+    <None Include="ICModes\Tex-Mode.xshd" />
+    <None Include="ICModes\VBNET-Mode.xshd" />
+    <None Include="ICModes\XML-Mode.xshd" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ICModes\RightArrow.cur" />
+    <Content Include="ICModes\SyntaxModes.xml" />
+    <Content Include="ICModes\TextEditorControl.bmp" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>XCOPY "$(ProjectDir)ICModes" "$(TargetDir)ICModes\" /S /Y</PreBuildEvent>
+  </PropertyGroup>
 </Project>
