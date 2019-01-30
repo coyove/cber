@@ -13,6 +13,7 @@ namespace Clipboarder
         public DateTime Time;
         public int Hits;
         public Size Size;
+        public string Url;
     }
 
     class CellHelper
@@ -37,7 +38,7 @@ namespace Clipboarder
             else if (secDiff < 3600)
                 now = "+" + (secDiff / 60).ToString() + "m" + (secDiff % 60).ToString() + "s " + now;
             else if (secDiff < 86400)
-                now = "+" + (secDiff / 3600).ToString() + "h" + ((secDiff - secDiff / 3600 * 3600) % 60).ToString() + "m " + now;
+                now = "+" + (secDiff / 3600).ToString() + "h" + ((secDiff - secDiff / 3600 * 3600) / 60).ToString() + "m " + now;
 
             if (title.Hits > 1)
                 now += " (" + title.Hits.ToString() + ")";
@@ -73,26 +74,12 @@ namespace Clipboarder
             {
                 this._Title = value;
                 this.Style.Padding = CellHelper.CalcTitlePadding(InheritedStyle.Padding, InheritedStyle.Font);
+                if (!string.IsNullOrWhiteSpace(value.Url))
+                    this.Style.Padding = CellHelper.CalcTitlePadding(InheritedStyle.Padding, InheritedStyle.Font);
             }
         }
 
-        private string _Url;
         private Rectangle mUrlHotArea;
-        public string Url
-        {
-            get
-            {
-                return _Url;
-            }
-            set
-            {
-                if (_Url == null && !string.IsNullOrWhiteSpace(value))
-                {
-                    this._Url = value;
-                    this.Style.Padding = CellHelper.CalcTitlePadding(InheritedStyle.Padding, InheritedStyle.Font);
-                }
-            }
-        }
 
         protected override void Paint(Graphics graphics, Rectangle clipBounds,
         Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState,
@@ -107,12 +94,12 @@ namespace Clipboarder
                advancedBorderStyle, paintParts);
 
             CellHelper.DrawTitle(graphics, Title, InheritedStyle.Font, cellBounds, Brushes.Peru);
-            if (!string.IsNullOrWhiteSpace(Url))
+            if (!string.IsNullOrWhiteSpace(Title.Url))
             {
                 var size = TextRenderer.MeasureText("A", InheritedStyle.Font, new Size(0, 0));
                 System.Drawing.Drawing2D.GraphicsContainer container = graphics.BeginContainer();
                 graphics.FillRectangle(Brushes.Teal, cellBounds.Left, cellBounds.Top + size.Height, cellBounds.Width, size.Height);
-                graphics.DrawString(Url, InheritedStyle.Font, Brushes.White, cellBounds.Left, cellBounds.Top + size.Height);
+                graphics.DrawString(Helper.GetHostFromUri(Title.Url), InheritedStyle.Font, Brushes.White, cellBounds.Left, cellBounds.Top + size.Height);
                 graphics.EndContainer(container);
                 mUrlHotArea = new Rectangle(0, size.Height, cellBounds.Width, size.Height);
             }

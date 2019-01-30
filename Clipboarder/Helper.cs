@@ -13,6 +13,18 @@ namespace Clipboarder
         private const UInt32 sGenerator = 0xEDB88320;
         private static readonly UInt32[] mChecksumTable;
 
+        public static Tuple<int, int> SlidingWindow(int length, int window, int index)
+        {
+            int w = (window - 1) / 2;
+            if (length <= window)
+                return new Tuple<int, int>(1, length);
+            if (index <= w)
+                index = w + 1;
+            if (index > length - w)
+                index = length - w;
+            return new Tuple<int, int>(index - w, index + w);
+        }
+
         public static string GetHostFromUri(string uri)
         {
             try
@@ -248,13 +260,21 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
-        public SQLite3.Result Insert(string name, byte[] content, ContentType contentType)
+        public SQLite3.Result Insert(string name, System.Drawing.Image content, string sourceUrl = "")
+        {
+            if (content == null) return SQLite3.Result.Abort;
+            MemoryStream buf = new MemoryStream();
+            content.Save(buf, System.Drawing.Imaging.ImageFormat.Png);
+            return Insert(null, buf.GetBuffer(), Database.ContentType.Image, sourceUrl);
+        }
+
+        public SQLite3.Result Insert(string name, byte[] content, ContentType contentType, string sourceUrl = "")
         {
             int hash = (int)Helper.Crc32(content);
             int id = FindIDByHash(hash);
             IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
                "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
-               "INSERT INTO data_table (ts, name, type, hash, binary_content) VALUES (?, ?, ?, ?, ?);");
+               "INSERT INTO data_table (ts, name, type, hash, binary_content, source_url) VALUES (?, ?, ?, ?, ?, ?);");
             if (string.IsNullOrWhiteSpace(name))
                 name = Helper.GetDefaultName();
 
@@ -270,6 +290,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                 SQLite3.BindInt(stmt, 3, (int)contentType);
                 SQLite3.BindInt(stmt, 4, hash);
                 SQLite3.BindBlob(stmt, 5, content, content.Length, (IntPtr)(-1));
+                SQLite3.BindText(stmt, 6, sourceUrl);
             }
 
             var res = SQLite3.Step(stmt);
@@ -305,6 +326,16 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             var res = SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             return res;
+        }
+
+        public int TotalEntries(string where = "1 = 1")
+        {
+            IntPtr stmt = SQLite3.Prepare2(mDB, "SELECT COUNT(id) FROM data_table WHERE " + where + ";");
+            int count = 0;
+            if (SQLite3.Step(stmt) == SQLite3.Result.Row)
+                count = SQLite3.ColumnInt(stmt, 0);
+            SQLite3.Finalize(stmt);
+            return count;
         }
 
         public Entry[] Paging(string where, string orderByFields, int start, int length)
