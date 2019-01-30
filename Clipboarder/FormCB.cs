@@ -33,6 +33,8 @@ namespace Clipboarder
 
         private bool mActivated;
 
+        private bool mClearingRows;
+
         public FormCB()
         {
             InitializeComponent();
@@ -74,11 +76,12 @@ namespace Clipboarder
             object html = Clipboard.GetData(DataFormats.Html);
             if (html != null)
             {
+                object rawContent = data.GetData(typeof(string));
                 byte[] buf = Encoding.Default.GetBytes(html.ToString());
                 string content = Encoding.UTF8.GetString(buf);
                 if (content == "") return;
                 string url = Helper.ExtractFieldFromHTMLClipboard(content, "SourceURL");
-                mDB.Insert(null, content, url, Database.ContentType.HTML);
+                mDB.Insert(null, rawContent?.ToString(), content, url);
             }
             else if (Clipboard.ContainsText())
             {
@@ -100,7 +103,9 @@ namespace Clipboarder
 
         private void RefreshDataMainView()
         {
+            mClearingRows = true;
             mainData.Rows.Clear();
+            mClearingRows = false;
             foreach (Database.Entry e in mDB.Paging(null, null, 0, 20))
             {
                 int index = mainData.Rows.Add();
@@ -118,8 +123,15 @@ namespace Clipboarder
                     var text = e.Content.ToString();
                     if (e.Type == Database.ContentType.HTML)
                     {
-                        text = Helper.ExtractHTMLFromClipboard(text);
-                        text = Helper.ExtractTextFromHTML(text);
+                        if (!string.IsNullOrWhiteSpace(e.Html))
+                        {
+                            text = e.Html;
+                        }
+                        else
+                        {
+                            text = Helper.ExtractHTMLFromClipboard(text);
+                            text = Helper.ExtractTextFromHTML(text);
+                        }
                     }
                     if (text.Length > 1024)
                         text = text.Substring(0, 1024) + "...";
@@ -137,6 +149,7 @@ namespace Clipboarder
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            mClearingRows = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
             mTimer = new System.Timers.Timer(2000);
             mTimer.AutoReset = true;
@@ -179,8 +192,14 @@ namespace Clipboarder
         {
             if (e.RowIndex >= mainData.Rows.Count || e.RowIndex < 0) return;
 
-            splitContainer.Panel2.Controls.Clear();
+            for (int i = splitContainer.Panel2.Controls.Count - 1; i >= 0; i--) {
+                var ctrlp = splitContainer.Panel2.Controls[i];
+                if (!(ctrlp is Panel)) splitContainer.Panel2.Controls.Remove(ctrlp);
+            }
+
             var entry = mainData.Rows[e.RowIndex].Tag as Database.Entry;
+            buttonSaveChange.Enabled = false;
+            Control ctrl;
             switch (entry.Type)
             {
                 case Database.ContentType.Image:
@@ -189,20 +208,26 @@ namespace Clipboarder
                     viewer.Image = entry.Content as Image;
                     viewer.SizeMode = PictureBoxSizeMode.Zoom;
                     splitContainer.Panel2.Controls.Add(viewer);
+                    ctrl = viewer;
                     break;
                 case Database.ContentType.HTML:
                     WebBrowser web = new WebBrowser();
                     web.Dock = DockStyle.Fill;
                     web.DocumentText = Helper.ExtractHTMLFromClipboard(entry.Content.ToString());
                     splitContainer.Panel2.Controls.Add(web);
+                    ctrl = web;
                     break;
                 default:
                     var text = new ICSharpCode.TextEditor.TextEditorControl();
                     text.Dock = DockStyle.Fill;
                     text.Text = entry.Content.ToString();
                     splitContainer.Panel2.Controls.Add(text);
+                    ctrl = text;
+                    buttonSaveChange.Enabled = true;
+                    buttonSaveChange.Tag = new object[] { entry, text };
                     break;
             }
+            ctrl.BringToFront();
 
             if (!(mainData.Columns[e.ColumnIndex] is DataGridViewButtonColumn)) return;
 
@@ -210,10 +235,43 @@ namespace Clipboarder
             switch (entry.Type)
             {
                 case Database.ContentType.HTML:
-                    Clipboard.SetData(DataFormats.Html, entry.Content);
+                    DataObject obj = new DataObject();
+                    obj.SetData(DataFormats.Html, entry.Content);
+                    obj.SetData(DataFormats.StringFormat, entry.Html);
+                    Clipboard.SetDataObject(obj, true);
+                    break;
+                case Database.ContentType.Image:
+                    Clipboard.SetData(DataFormats.Bitmap, entry.Content);
+                    break;
+                default:
+                    Clipboard.SetData(DataFormats.StringFormat, entry.Content);
                     break;
             }
             mActivated = false;
+        }
+
+        private void mainData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void mainData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= mainData.Rows.Count || e.RowIndex < 0) return;
+            string newName = mainData.Rows[e.RowIndex].Cells["entryName"].Value.ToString();
+            mDB.Rename((mainData.Rows[e.RowIndex].Tag as Database.Entry).Id, newName);
+        }
+
+        private void mainData_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            mDB.Delete((e.Row.Tag as Database.Entry).Id);
+        }
+
+        private void buttonSaveChange_Click(object sender, EventArgs e)
+        {
+            var tags = buttonSaveChange.Tag as object[];
+            mDB.UpdateContent((tags[0] as Database.Entry).Id, (tags[1] as ICSharpCode.TextEditor.TextEditorControl).Text);
+            RefreshDataMainView();
         }
     }
 }

@@ -29,17 +29,21 @@
       private void InitializeComponent()
       {
             this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.statusInfo = new System.Windows.Forms.StatusStrip();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainData = new System.Windows.Forms.DataGridView();
             this.entryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.entryUse = new System.Windows.Forms.DataGridViewButtonColumn();
             this.entryContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusInfo = new System.Windows.Forms.StatusStrip();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonSaveChange = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -57,31 +61,11 @@
             // 
             // splitContainer.Panel2
             // 
+            this.splitContainer.Panel2.Controls.Add(this.panel1);
             this.splitContainer.Size = new System.Drawing.Size(726, 551);
             this.splitContainer.SplitterDistance = 285;
             this.splitContainer.SplitterWidth = 3;
             this.splitContainer.TabIndex = 1;
-            // 
-            // statusInfo
-            // 
-            this.statusInfo.Location = new System.Drawing.Point(0, 529);
-            this.statusInfo.Name = "statusInfo";
-            this.statusInfo.Size = new System.Drawing.Size(726, 22);
-            this.statusInfo.TabIndex = 2;
-            this.statusInfo.Text = "statusStrip1";
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Name";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Content";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // mainData
             // 
@@ -103,6 +87,9 @@
             this.mainData.Size = new System.Drawing.Size(726, 285);
             this.mainData.TabIndex = 2;
             this.mainData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellClick);
+            this.mainData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellContentClick);
+            this.mainData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellEndEdit);
+            this.mainData.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.mainData_UserDeletingRow);
             // 
             // entryName
             // 
@@ -125,6 +112,47 @@
             this.entryContent.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.entryContent.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // statusInfo
+            // 
+            this.statusInfo.Location = new System.Drawing.Point(0, 529);
+            this.statusInfo.Name = "statusInfo";
+            this.statusInfo.Size = new System.Drawing.Size(726, 22);
+            this.statusInfo.TabIndex = 2;
+            this.statusInfo.Text = "statusStrip1";
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Content";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.buttonSaveChange);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 202);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(726, 61);
+            this.panel1.TabIndex = 0;
+            // 
+            // buttonSaveChange
+            // 
+            this.buttonSaveChange.Enabled = false;
+            this.buttonSaveChange.Location = new System.Drawing.Point(3, 3);
+            this.buttonSaveChange.Name = "buttonSaveChange";
+            this.buttonSaveChange.Size = new System.Drawing.Size(92, 30);
+            this.buttonSaveChange.TabIndex = 0;
+            this.buttonSaveChange.Text = "Save";
+            this.buttonSaveChange.UseVisualStyleBackColor = true;
+            this.buttonSaveChange.Click += new System.EventHandler(this.buttonSaveChange_Click);
+            // 
             // FormCB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -140,9 +168,11 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,6 +187,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn entryName;
         private System.Windows.Forms.DataGridViewButtonColumn entryUse;
         private System.Windows.Forms.DataGridViewTextBoxColumn entryContent;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonSaveChange;
     }
 }
 

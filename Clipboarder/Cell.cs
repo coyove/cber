@@ -37,7 +37,7 @@ namespace Clipboarder
             else if (secDiff < 3600)
                 now = "+" + (secDiff / 60).ToString() + "m" + (secDiff % 60).ToString() + "s " + now;
             else if (secDiff < 86400)
-                now = "+" + (secDiff / 60).ToString() + "h" + (secDiff % 60).ToString() + "m " + now;
+                now = "+" + (secDiff / 3600).ToString() + "h" + ((secDiff - secDiff / 3600 * 3600) % 60).ToString() + "m " + now;
 
             if (title.Hits > 1)
                 now += " (" + title.Hits.ToString() + ")";
