@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace Clipboarder
 {
@@ -40,6 +41,32 @@ namespace Clipboarder
             int startHTML = 0;
             int.TryParse(Helper.ExtractFieldFromHTMLClipboard(text, "StartHTML"), out startHTML);
             return text.Substring(startHTML);
+        }
+
+        // TODO: HTML parser
+        public static string ExtractTextFromHTML(string html, int maxLength = 1024)
+        {
+            if (string.IsNullOrWhiteSpace(html)) return html;
+
+            StringBuilder res = new StringBuilder();
+            StringReader buf = new StringReader(html);
+            bool flag = false;
+            while (buf.Peek() >= 0)
+            {
+                char ch = (char)buf.Read();
+                if (ch == '<' || ch == '>')
+                {
+                    flag = ch == '<';
+                    continue;
+                }
+
+                if (!flag && !"\n\r".Contains(ch))
+                    res.Append(ch);
+
+                if (res.Length > maxLength)
+                    break;
+            }
+            return res.ToString();
         }
 
       public static Int32 UnixTimestamp()

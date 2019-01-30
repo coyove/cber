@@ -10,10 +10,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Clipboarder
 {
-    public partial class Form1 : Form
+    public partial class FormCB : Form
     {
         [DllImport("User32.dll")]
         protected static extern int SetClipboardViewer(int hWndNewViewer);
@@ -28,9 +29,11 @@ namespace Clipboarder
 
         private IntPtr mNextClipboardViewer;
 
+        private System.Timers.Timer mTimer;
+
         private bool mActivated;
 
-        public Form1()
+        public FormCB()
         {
             InitializeComponent();
         }
@@ -71,15 +74,18 @@ namespace Clipboarder
             object html = Clipboard.GetData(DataFormats.Html);
             if (html != null)
             {
-                string content = html.ToString();
+                byte[] buf = Encoding.Default.GetBytes(html.ToString());
+                string content = Encoding.UTF8.GetString(buf);
+                if (content == "") return;
                 string url = Helper.ExtractFieldFromHTMLClipboard(content, "SourceURL");
                 mDB.Insert(null, content, url, Database.ContentType.HTML);
             }
             else if (Clipboard.ContainsText())
             {
                 string content = data.GetData(typeof(string)).ToString();
+                string url = Helper.GetHostFromUri(content) != "" ? content : "";
                 if (content == "") return;
-                mDB.Insert(null, content);
+                mDB.Insert(null, content, url);
             }
             else if (Clipboard.ContainsImage())
             {
@@ -102,18 +108,19 @@ namespace Clipboarder
                 mainData.Rows[index].Cells["entryName"].Value = e.Name;
                 mainData.Rows[index].Cells["entryUse"].Value = "C";
 
-                string title = e.Id.ToString() + "|" + e.Time.ToString() + (e.Hits > 1 ? "|" + e.Hits.ToString() : "");
-
                 if (e.Content is string)
                 {
                     var cell = new TextTitleCell();
                     mainData.Rows[index].Cells["entryContent"] = cell;
                     cell.ReadOnly = true;
-                    cell.Title = title;
+                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time };
                     cell.Url = Helper.GetHostFromUri(e.SourceUrl);
                     var text = e.Content.ToString();
                     if (e.Type == Database.ContentType.HTML)
+                    {
                         text = Helper.ExtractHTMLFromClipboard(text);
+                        text = Helper.ExtractTextFromHTML(text);
+                    }
                     if (text.Length > 1024)
                         text = text.Substring(0, 1024) + "...";
                     cell.Value = text;
@@ -122,7 +129,7 @@ namespace Clipboarder
                 {
                     var cell = new ImageTitleCell();
                     mainData.Rows[index].Cells["entryContent"] = cell;
-                    cell.Title = title;
+                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Size = ((Image)e.Content).Size };
                     cell.Value = e.Content;
                 }
             }
@@ -131,6 +138,10 @@ namespace Clipboarder
         private void Form1_Load(object sender, EventArgs e)
         {
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
+            mTimer = new System.Timers.Timer(2000);
+            mTimer.AutoReset = true;
+            mTimer.Enabled = true;
+            mTimer.Elapsed += (v1, v2) => mainData.Invalidate();
             mainData.RowTemplate.MinimumHeight = 100;
             mainData.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(mainData, true, null);
             mainData.ShowCellToolTips = false;
@@ -146,6 +157,9 @@ namespace Clipboarder
         {
             if (mDB != null)
                 mDB.Close();
+
+            mTimer.Stop();
+            mTimer.Dispose();
         }
 
         private void Form1_Activated(object sender, EventArgs e)
@@ -200,16 +214,6 @@ namespace Clipboarder
                     break;
             }
             mActivated = false;
-        }
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void mainData_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }
