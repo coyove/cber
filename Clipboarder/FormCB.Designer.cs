@@ -28,6 +28,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCB));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.mainData = new System.Windows.Forms.DataGridView();
@@ -36,8 +37,21 @@
             this.entryContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelNav = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonSaveChange = new System.Windows.Forms.Button();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
+            this.statusTotalEntries = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuMain = new System.Windows.Forms.MenuStrip();
+            this.clipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stayOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horizontalVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -46,6 +60,8 @@
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).BeginInit();
             this.panel1.SuspendLayout();
+            this.statusInfo.SuspendLayout();
+            this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -111,9 +127,17 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonEdit);
             this.panel1.Controls.Add(this.buttonSaveChange);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
+            // 
+            // buttonEdit
+            // 
+            resources.ApplyResources(this.buttonEdit, "buttonEdit");
+            this.buttonEdit.Name = "buttonEdit";
+            this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
             // 
             // buttonSaveChange
             // 
@@ -125,8 +149,91 @@
             // statusInfo
             // 
             this.statusInfo.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusInfo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusTotalEntries,
+            this.statusMessage});
             resources.ApplyResources(this.statusInfo, "statusInfo");
             this.statusInfo.Name = "statusInfo";
+            // 
+            // statusTotalEntries
+            // 
+            this.statusTotalEntries.Name = "statusTotalEntries";
+            resources.ApplyResources(this.statusTotalEntries, "statusTotalEntries");
+            // 
+            // statusMessage
+            // 
+            this.statusMessage.Name = "statusMessage";
+            resources.ApplyResources(this.statusMessage, "statusMessage");
+            // 
+            // menuMain
+            // 
+            this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clipboardToolStripMenuItem,
+            this.viewToolStripMenuItem});
+            resources.ApplyResources(this.menuMain, "menuMain");
+            this.menuMain.Name = "menuMain";
+            // 
+            // clipboardToolStripMenuItem
+            // 
+            this.clipboardToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.listenToolStripMenuItem,
+            this.stayOnTopToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.exitToolStripMenuItem});
+            this.clipboardToolStripMenuItem.Name = "clipboardToolStripMenuItem";
+            resources.ApplyResources(this.clipboardToolStripMenuItem, "clipboardToolStripMenuItem");
+            // 
+            // listenToolStripMenuItem
+            // 
+            this.listenToolStripMenuItem.Checked = true;
+            this.listenToolStripMenuItem.CheckOnClick = true;
+            this.listenToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.listenToolStripMenuItem.Name = "listenToolStripMenuItem";
+            resources.ApplyResources(this.listenToolStripMenuItem, "listenToolStripMenuItem");
+            this.listenToolStripMenuItem.Click += new System.EventHandler(this.listenToolStripMenuItem_Click);
+            // 
+            // stayOnTopToolStripMenuItem
+            // 
+            this.stayOnTopToolStripMenuItem.CheckOnClick = true;
+            this.stayOnTopToolStripMenuItem.Name = "stayOnTopToolStripMenuItem";
+            resources.ApplyResources(this.stayOnTopToolStripMenuItem, "stayOnTopToolStripMenuItem");
+            this.stayOnTopToolStripMenuItem.Click += new System.EventHandler(this.stayOnTopToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.horizontalVerticalToolStripMenuItem,
+            this.refreshToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            resources.ApplyResources(this.viewToolStripMenuItem, "viewToolStripMenuItem");
+            // 
+            // horizontalVerticalToolStripMenuItem
+            // 
+            this.horizontalVerticalToolStripMenuItem.Name = "horizontalVerticalToolStripMenuItem";
+            resources.ApplyResources(this.horizontalVerticalToolStripMenuItem, "horizontalVerticalToolStripMenuItem");
+            this.horizontalVerticalToolStripMenuItem.Click += new System.EventHandler(this.horizontalVerticalToolStripMenuItem_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            resources.ApplyResources(this.refreshToolStripMenuItem, "refreshToolStripMenuItem");
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // notifyIcon
+            // 
+            resources.ApplyResources(this.notifyIcon, "notifyIcon");
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -146,19 +253,27 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.menuMain);
             this.Controls.Add(this.statusInfo);
             this.Name = "FormCB";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Activated += new System.EventHandler(this.Form1_Activated);
             this.Deactivate += new System.EventHandler(this.Form1_Deactivate);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCB_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.FormCB_Resize);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.statusInfo.ResumeLayout(false);
+            this.statusInfo.PerformLayout();
+            this.menuMain.ResumeLayout(false);
+            this.menuMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,6 +291,19 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn entryName;
         private System.Windows.Forms.DataGridViewButtonColumn entryUse;
         private System.Windows.Forms.DataGridViewTextBoxColumn entryContent;
+        private System.Windows.Forms.ToolStripStatusLabel statusTotalEntries;
+        private System.Windows.Forms.Button buttonEdit;
+        private System.Windows.Forms.ToolStripStatusLabel statusMessage;
+        private System.Windows.Forms.MenuStrip menuMain;
+        private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stayOnTopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem horizontalVerticalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 

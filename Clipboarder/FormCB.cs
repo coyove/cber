@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -36,9 +37,9 @@ namespace Clipboarder
 
         private System.Timers.Timer mTimer;
 
-        private bool mActivated;
+        private bool mListenDeactivated;
 
-        private bool mClearingRows;
+        private bool mRealExit;
 
         public FormCB()
         {
@@ -73,7 +74,7 @@ namespace Clipboarder
 
         private void OnClipboardChanged()
         {
-            if (mActivated) return;
+            if (mListenDeactivated) return;
 
             IDataObject data = Clipboard.GetDataObject();
             if (mDB == null || data == null) return;
@@ -115,99 +116,6 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
-        private void RefreshDataMainView()
-        {
-            mClearingRows = true;
-            mainData.Rows.Clear();
-            mClearingRows = false;
-
-            int epp = Properties.Settings.Default.EntriesPerPage;
-            int currentPage = (mainData.Tag as Page).Current;
-            int totalEntries = mDB.TotalEntries();
-            int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
-            if (pages == 0) return;
-            if (currentPage > pages)
-            {
-                currentPage = pages;
-                (mainData.Tag as Page).Current = currentPage;
-            }
-            foreach (Database.Entry e in mDB.Paging(null, null, (currentPage - 1) * epp, epp))
-            {
-                int index = mainData.Rows.Add();
-                mainData.Rows[index].Tag = e;
-                mainData.Rows[index].Cells["entryName"].Value = e.Name;
-                mainData.Rows[index].Cells["entryUse"].Value = "C";
-
-                if (e.Content is string)
-                {
-                    var cell = new TextTitleCell();
-                    mainData.Rows[index].Cells["entryContent"] = cell;
-                    cell.ReadOnly = true;
-                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Url = e.SourceUrl };
-                    var text = e.Content.ToString();
-                    if (e.Type == Database.ContentType.HTML)
-                    {
-                        if (!string.IsNullOrWhiteSpace(e.Html))
-                        {
-                            text = e.Html;
-                        }
-                        else
-                        {
-                            text = Helper.ExtractHTMLFromClipboard(text);
-                            text = Helper.ExtractTextFromHTML(text);
-                        }
-                    }
-                    if (text.Length > 1024)
-                        text = text.Substring(0, 1024) + "...";
-                    cell.Value = text;
-                }
-                else
-                {
-                    var cell = new ImageTitleCell();
-                    mainData.Rows[index].Cells["entryContent"] = cell;
-                    Image img = (Image)e.Content;
-                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Size = img.Size, Url = e.SourceUrl };
-                    cell.Value = e.Content;
-                    if (img.Size.Width > mainData.RowTemplate.MinimumHeight || img.Size.Height > mainData.RowTemplate.MinimumHeight)
-                        mainData.Rows[index].Height = mainData.RowTemplate.MinimumHeight * 2;
-                }
-            }
-
-            var size = TextRenderer.MeasureText("A", panelNav.Font, new Size(0, 0));
-            var buttonSize = new Size(size.Width * 3, size.Height * 2);
-            panelNav.Controls.Clear();
-            panelNav.Height = size.Height * 2 + 10;
-            Button btnFirst = new Button();
-            btnFirst.Size = buttonSize;
-            btnFirst.Location = new Point(5, 5);
-            btnFirst.Text = "<<";
-            btnFirst.Tag = 1;
-            btnFirst.Click += NavBtn_Click;
-            panelNav.Controls.Add(btnFirst);;
-            int left = 5 + buttonSize.Width + 5;
-            var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
-            for (int i = startEnd.Item1; i <= startEnd.Item2; i++)
-            {
-                if (i < 1 || i > pages) continue;
-                Button btn = new Button();
-                btn.Size = buttonSize;
-                btn.Location = new Point(left, 5);
-                btn.Text = i.ToString();
-                btn.Tag = i;
-                btn.Click += NavBtn_Click;
-                btn.Enabled = i != currentPage;
-                panelNav.Controls.Add(btn);
-                left += 5 + buttonSize.Width;
-            }
-            Button btnLast = new Button();
-            btnLast.Size = buttonSize;
-            btnLast.Location = new Point(left, 5);
-            btnLast.Text = ">>";
-            btnLast.Tag = pages;
-            btnLast.Click += NavBtn_Click;
-            panelNav.Controls.Add(btnLast);
-        }
-
         private void NavBtn_Click(object sender, EventArgs e)
         {
             int p = (int)(sender as Button).Tag;
@@ -217,7 +125,7 @@ namespace Clipboarder
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            mClearingRows = false;
+            mRealExit = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
             mTimer = new System.Timers.Timer(2000);
             mTimer.AutoReset = true;
@@ -230,9 +138,18 @@ namespace Clipboarder
             entryName.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             entryContent.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             entryContent.DefaultCellStyle.Font = new Font("Consolas", 12);
+            notifyIcon.Icon = Properties.Resources.SystrayIcon;
+            notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {
+                new MenuItem("Listen", listenToolStripMenuItem_Click),
+                new MenuItem("Open", showToolStripMenuItem_Click),
+                new MenuItem("Exit", exitToolStripMenuItem_Click),
+            });
 
             System.IO.File.Delete("test.db");
             mDB = Database.Open("test.db");
+            RefreshDataMainView();
+
+            listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -257,17 +174,29 @@ namespace Clipboarder
 
         }
 
+        private void ClearPanel2(bool preview = true)
+        {
+            for (int i = splitContainer.Panel2.Controls.Count - 1; i >= 0; i--)
+            {
+                var ctrlp = splitContainer.Panel2.Controls[i];
+                if (!(ctrlp is Panel)) splitContainer.Panel2.Controls.Remove(ctrlp);
+            }
+            if (!preview) return;
+            Label lbl = new Label();
+            lbl.Dock = DockStyle.Fill;
+            lbl.Text = "Preview";
+            lbl.TextAlign = ContentAlignment.MiddleCenter;
+            splitContainer.Panel2.Controls.Add(lbl);
+        }
+
         private void mainData_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= mainData.Rows.Count || e.RowIndex < 0) return;
 
-            for (int i = splitContainer.Panel2.Controls.Count - 1; i >= 0; i--) {
-                var ctrlp = splitContainer.Panel2.Controls[i];
-                if (!(ctrlp is Panel)) splitContainer.Panel2.Controls.Remove(ctrlp);
-            }
-
+            ClearPanel2(false);
             var entry = mainData.Rows[e.RowIndex].Tag as Database.Entry;
             buttonSaveChange.Enabled = false;
+            buttonEdit.Enabled = false;
             Control ctrl;
             switch (entry.Type)
             {
@@ -277,14 +206,32 @@ namespace Clipboarder
                     viewer.Image = entry.Content as Image;
                     viewer.SizeMode = PictureBoxSizeMode.Zoom;
                     splitContainer.Panel2.Controls.Add(viewer);
+                    buttonEdit.Enabled = true;
+                    buttonEdit.Tag = entry;
                     ctrl = viewer;
                     break;
                 case Database.ContentType.HTML:
+                    SplitContainer inner = new SplitContainer();
+                    inner.Orientation = (Orientation)Math.Abs((int)splitContainer.Orientation - 1);
+                    inner.Dock = DockStyle.Fill;
+
                     WebBrowser web = new WebBrowser();
                     web.Dock = DockStyle.Fill;
                     web.DocumentText = Helper.ExtractHTMLFromClipboard(entry.Content.ToString());
-                    splitContainer.Panel2.Controls.Add(web);
-                    ctrl = web;
+                    inner.Panel1.Controls.Add(web);
+
+                    TextBox webText = new TextBox();
+                    webText.BorderStyle = BorderStyle.None;
+                    webText.ReadOnly = true;
+                    webText.Multiline = true;
+                    webText.Text = entry.Html;
+                    webText.Dock = DockStyle.Fill;
+                    webText.ScrollBars = ScrollBars.Vertical;
+                    inner.Panel2.Controls.Add(webText);
+
+                    splitContainer.Panel2.Controls.Add(inner);
+                    inner.SplitterDistance = inner.Width * 3 / 4;
+                    ctrl = inner;
                     break;
                 default:
                     var text = new ICSharpCode.TextEditor.TextEditorControl();
@@ -297,10 +244,11 @@ namespace Clipboarder
                     break;
             }
             ctrl.BringToFront();
+            splitContainer.Panel2.Tag = ctrl;
 
             if (!(mainData.Columns[e.ColumnIndex] is DataGridViewButtonColumn)) return;
 
-            mActivated = true;
+            mListenDeactivated = true;
             switch (entry.Type)
             {
                 case Database.ContentType.HTML:
@@ -316,7 +264,7 @@ namespace Clipboarder
                     Clipboard.SetData(DataFormats.StringFormat, entry.Content);
                     break;
             }
-            mActivated = false;
+            mListenDeactivated = false;
         }
 
         private void mainData_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -341,6 +289,90 @@ namespace Clipboarder
             var tags = buttonSaveChange.Tag as object[];
             mDB.UpdateContent((tags[0] as Database.Entry).Id, (tags[1] as ICSharpCode.TextEditor.TextEditorControl).Text);
             RefreshDataMainView();
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var img = (buttonEdit.Tag as Database.Entry).Content as Image;
+                string fn = (Path.GetTempFileName()) + ".png";
+                img.Save(fn);
+
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = Properties.Settings.Default.ExternalImageEditor;
+                psi.Arguments = fn;
+                var p = Process.Start(psi);
+                p.WaitForExit();
+
+                img = Image.FromFile(fn);
+                (splitContainer.Panel2.Tag as PictureBox).Image = img;
+                (buttonEdit.Tag as Database.Entry).Content = img;
+                mDB.UpdateContent((buttonEdit.Tag as Database.Entry).Id, img);
+
+                RefreshDataMainView();
+            }
+            catch (Exception ex)
+            {
+                statusMessage.Text = ex.Message;
+            }
+        }
+
+        private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            splitContainer.Orientation = splitContainer.Orientation == Orientation.Vertical ?
+                Orientation.Horizontal :
+                Orientation.Vertical;
+        }
+
+        private void stayOnTopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.TopMost = stayOnTopToolStripMenuItem.Checked;
+        }
+
+        private void listenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender != listenToolStripMenuItem)
+                listenToolStripMenuItem.Checked = !listenToolStripMenuItem.Checked;
+            mListenDeactivated = !listenToolStripMenuItem.Checked;
+            notifyIcon.ContextMenu.MenuItems[0].Checked = !mListenDeactivated;
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshDataMainView();
+        }
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.BringToFront();
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+        }
+
+        private void FormCB_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+                Hide();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mRealExit = true;
+            Close();
+        }
+
+        private void FormCB_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!mRealExit)
+            {
+                Hide();
+                e.Cancel = true;
+            }
         }
     }
 }

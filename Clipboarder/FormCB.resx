@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="splitContainer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 24</value>
   </data>
   <data name="splitContainer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 3, 2, 3</value>
@@ -134,25 +134,12 @@
   <metadata name="entryName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="entryName.HeaderText" xml:space="preserve">
-    <value>Name</value>
-  </data>
   <metadata name="entryUse.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="entryUse.HeaderText" xml:space="preserve">
-    <value />
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="entryUse.Width" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
   <metadata name="entryContent.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="entryContent.HeaderText" xml:space="preserve">
-    <value>Content</value>
-  </data>
   <data name="mainData.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -163,8 +150,9 @@
     <value>Vertical</value>
   </data>
   <data name="mainData.Size" type="System.Drawing.Size, System.Drawing">
-    <value>797, 230</value>
+    <value>797, 234</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="mainData.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
@@ -184,16 +172,19 @@
     <value>Bottom</value>
   </data>
   <data name="panelNav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 230</value>
+    <value>0, 234</value>
   </data>
   <data name="panelNav.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 3, 2, 3</value>
   </data>
   <data name="panelNav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>797, 61</value>
+    <value>797, 44</value>
   </data>
   <data name="panelNav.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
+  </data>
+  <data name="panelNav.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;panelNav.Name" xml:space="preserve">
     <value>panelNav</value>
@@ -219,20 +210,20 @@
   <data name="&gt;&gt;splitContainer.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="buttonSaveChange.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="splitContainer.Panel1MinSize" type="System.Int32, mscorlib">
+    <value>200</value>
   </data>
-  <data name="buttonSaveChange.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+  <data name="&gt;&gt;buttonEdit.Name" xml:space="preserve">
+    <value>buttonEdit</value>
   </data>
-  <data name="buttonSaveChange.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 30</value>
+  <data name="&gt;&gt;buttonEdit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="buttonSaveChange.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;buttonEdit.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;buttonEdit.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="buttonSaveChange.Text" xml:space="preserve">
-    <value>Save</value>
   </data>
   <data name="&gt;&gt;buttonSaveChange.Name" xml:space="preserve">
     <value>buttonSaveChange</value>
@@ -244,13 +235,13 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;buttonSaveChange.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 234</value>
+    <value>0, 223</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>797, 37</value>
@@ -282,11 +273,14 @@
   <data name="&gt;&gt;splitContainer.Panel2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="splitContainer.Panel2MinSize" type="System.Int32, mscorlib">
+    <value>200</value>
+  </data>
   <data name="splitContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>801, 573</value>
+    <value>801, 549</value>
   </data>
   <data name="splitContainer.SplitterDistance" type="System.Int32, mscorlib">
-    <value>295</value>
+    <value>282</value>
   </data>
   <data name="splitContainer.SplitterWidth" type="System.Int32, mscorlib">
     <value>3</value>
@@ -305,6 +299,87 @@
   </data>
   <data name="&gt;&gt;splitContainer.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <metadata name="entryName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="entryName.HeaderText" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <metadata name="entryUse.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="entryUse.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="entryUse.Width" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <metadata name="entryContent.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="entryContent.HeaderText" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="buttonEdit.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="buttonEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonEdit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>101, 3</value>
+  </data>
+  <data name="buttonEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 30</value>
+  </data>
+  <data name="buttonEdit.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="buttonEdit.Text" xml:space="preserve">
+    <value>Edit Image</value>
+  </data>
+  <data name="&gt;&gt;buttonEdit.Name" xml:space="preserve">
+    <value>buttonEdit</value>
+  </data>
+  <data name="&gt;&gt;buttonEdit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonEdit.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;buttonEdit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="buttonSaveChange.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="buttonSaveChange.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonSaveChange.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="buttonSaveChange.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 30</value>
+  </data>
+  <data name="buttonSaveChange.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="buttonSaveChange.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="&gt;&gt;buttonSaveChange.Name" xml:space="preserve">
+    <value>buttonSaveChange</value>
+  </data>
+  <data name="&gt;&gt;buttonSaveChange.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonSaveChange.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;buttonSaveChange.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="statusInfo.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -331,7 +406,106 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;statusInfo.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="statusTotalEntries.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 17</value>
+  </data>
+  <data name="statusMessage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 17</value>
+  </data>
+  <metadata name="menuMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>237, 17</value>
+  </metadata>
+  <data name="listenToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F2</value>
+  </data>
+  <data name="listenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="listenToolStripMenuItem.Text" xml:space="preserve">
+    <value>Listen</value>
+  </data>
+  <data name="stayOnTopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="stayOnTopToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stay on top</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 6</value>
+  </data>
+  <data name="exitToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+W</value>
+  </data>
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="clipboardToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="clipboardToolStripMenuItem.Text" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="menuMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="menuMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>801, 24</value>
+  </data>
+  <data name="menuMain.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="menuMain.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuMain.Name" xml:space="preserve">
+    <value>menuMain</value>
+  </data>
+  <data name="&gt;&gt;menuMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuMain.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="horizontalVerticalToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F4</value>
+  </data>
+  <data name="horizontalVerticalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 22</value>
+  </data>
+  <data name="horizontalVerticalToolStripMenuItem.Text" xml:space="preserve">
+    <value>Horizontal &lt;-&gt; Vertical</value>
+  </data>
+  <data name="refreshToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F5</value>
+  </data>
+  <data name="refreshToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 22</value>
+  </data>
+  <data name="refreshToolStripMenuItem.Text" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <metadata name="notifyIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>352, 17</value>
+  </metadata>
+  <data name="notifyIcon.Text" xml:space="preserve">
+    <value>C-ber</value>
+  </data>
+  <data name="notifyIcon.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>Name</value>
@@ -349,7 +523,7 @@
     <value>801, 595</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>cber</value>
+    <value>C-ber</value>
   </data>
   <data name="&gt;&gt;entryName.Name" xml:space="preserve">
     <value>entryName</value>
@@ -368,6 +542,72 @@
   </data>
   <data name="&gt;&gt;entryContent.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;statusTotalEntries.Name" xml:space="preserve">
+    <value>statusTotalEntries</value>
+  </data>
+  <data name="&gt;&gt;statusTotalEntries.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;statusMessage.Name" xml:space="preserve">
+    <value>statusMessage</value>
+  </data>
+  <data name="&gt;&gt;statusMessage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;clipboardToolStripMenuItem.Name" xml:space="preserve">
+    <value>clipboardToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;clipboardToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;listenToolStripMenuItem.Name" xml:space="preserve">
+    <value>listenToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;listenToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;stayOnTopToolStripMenuItem.Name" xml:space="preserve">
+    <value>stayOnTopToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;stayOnTopToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;exitToolStripMenuItem.Name" xml:space="preserve">
+    <value>exitToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;exitToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;viewToolStripMenuItem.Name" xml:space="preserve">
+    <value>viewToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;viewToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;horizontalVerticalToolStripMenuItem.Name" xml:space="preserve">
+    <value>horizontalVerticalToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;horizontalVerticalToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;refreshToolStripMenuItem.Name" xml:space="preserve">
+    <value>refreshToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;refreshToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;notifyIcon.Name" xml:space="preserve">
+    <value>notifyIcon</value>
+  </data>
+  <data name="&gt;&gt;notifyIcon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NotifyIcon, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn1</value>

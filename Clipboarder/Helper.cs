@@ -326,6 +326,19 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
+        public SQLite3.Result UpdateContent(int id, System.Drawing.Image img)
+        {
+            MemoryStream buf = new MemoryStream();
+            img.Save(buf, System.Drawing.Imaging.ImageFormat.Png);
+
+            IntPtr stmt = SQLite3.Prepare2(mDB, "UPDATE data_table SET binary_content = ? WHERE id = ?");
+            SQLite3.BindBlob(stmt, 1, buf.GetBuffer(), (int)buf.Length, (IntPtr)(-1));
+            SQLite3.BindInt(stmt, 2, id);
+            var res = SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            return res;
+        }
+
         public SQLite3.Result Delete(int id)
         {
             IntPtr stmt = SQLite3.Prepare2(mDB, "DELETE FROM data_table WHERE id = ?");
