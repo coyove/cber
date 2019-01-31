@@ -211,6 +211,9 @@
     <EmbeddedResource Include="FormCB.resx">
       <DependentUpon>FormCB.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormCB.zh-Hans.resx">
+      <DependentUpon>FormCB.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

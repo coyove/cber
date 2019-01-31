@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Clipboarder
 {
-    public struct Title
+    public class Title
     {
         public int No;
         public DateTime Time;
@@ -18,16 +18,16 @@ namespace Clipboarder
 
     class CellHelper
     {
-        public static Padding CalcTitlePadding(Padding inheritedPadding, Font font)
+        public static Padding CalcTitlePadding(Title title, Padding inheritedPadding, Font font)
         {
             var size = TextRenderer.MeasureText("A", font, new Size(0, 0));
             return new Padding(inheritedPadding.Left,
-                              inheritedPadding.Top + size.Height,
+                              inheritedPadding.Top + size.Height * (string.IsNullOrWhiteSpace(title?.Url) ? 1 : 2),
                               inheritedPadding.Right,
                               inheritedPadding.Bottom);
         }
 
-        public static void DrawTitle(Graphics graphics, Title title, Font font, Rectangle cellBounds, Brush color)
+        public static Rectangle DrawTitle(Graphics graphics, Title title, Font font, Rectangle cellBounds, Brush color)
         {
             string no = "No." + title.No.ToString();
             string now = title.Time.ToString();
@@ -45,12 +45,25 @@ namespace Clipboarder
             if (title.Size.Width > 0 && title.Size.Height > 0)
                 now += " [" + title.Size.Width.ToString() + "x" + title.Size.Height.ToString() + "]";
 
-            var size = TextRenderer.MeasureText(no, font, new Size(0, 0));
             System.Drawing.Drawing2D.GraphicsContainer container = graphics.BeginContainer();
+            var size = TextRenderer.MeasureText(no, font, new Size(0, 0));
             graphics.FillRectangle(color, cellBounds.Left, cellBounds.Top, cellBounds.Width, size.Height);
             graphics.DrawString(no, new Font(font, FontStyle.Bold), Brushes.White, cellBounds.Left, cellBounds.Top);
             graphics.DrawString(now, font, Brushes.White, cellBounds.Left + size.Width + 5, cellBounds.Top);
+
+            Rectangle hotarea = default(Rectangle);
+            if (!string.IsNullOrWhiteSpace(title.Url))
+            {
+                var url = Helper.GetHostFromUri(title.Url);
+                var urlSize = TextRenderer.MeasureText(url, font, new Size(0, 0));
+                var left = cellBounds.Left + cellBounds.Width - urlSize.Width;
+                graphics.FillRectangle(Brushes.Teal, left, cellBounds.Top + size.Height, urlSize.Width, urlSize.Height);
+                graphics.DrawString(url, font, Brushes.White, left, cellBounds.Top + size.Height);
+                hotarea = new Rectangle(cellBounds.Width - urlSize.Width, size.Height, urlSize.Width, urlSize.Height);
+            }
+
             graphics.EndContainer(container);
+            return hotarea;
         }
     }
 
@@ -73,9 +86,7 @@ namespace Clipboarder
             set
             {
                 this._Title = value;
-                this.Style.Padding = CellHelper.CalcTitlePadding(InheritedStyle.Padding, InheritedStyle.Font);
-                if (!string.IsNullOrWhiteSpace(value.Url))
-                    this.Style.Padding = CellHelper.CalcTitlePadding(InheritedStyle.Padding, InheritedStyle.Font);
+                this.Style.Padding = CellHelper.CalcTitlePadding(value, InheritedStyle.Padding, InheritedStyle.Font);
             }
         }
 
@@ -93,16 +104,7 @@ namespace Clipboarder
                value, formattedValue, errorText, cellStyle,
                advancedBorderStyle, paintParts);
 
-            CellHelper.DrawTitle(graphics, Title, InheritedStyle.Font, cellBounds, Brushes.Peru);
-            if (!string.IsNullOrWhiteSpace(Title.Url))
-            {
-                var size = TextRenderer.MeasureText("A", InheritedStyle.Font, new Size(0, 0));
-                System.Drawing.Drawing2D.GraphicsContainer container = graphics.BeginContainer();
-                graphics.FillRectangle(Brushes.Teal, cellBounds.Left, cellBounds.Top + size.Height, cellBounds.Width, size.Height);
-                graphics.DrawString(Helper.GetHostFromUri(Title.Url), InheritedStyle.Font, Brushes.White, cellBounds.Left, cellBounds.Top + size.Height);
-                graphics.EndContainer(container);
-                mUrlHotArea = new Rectangle(0, size.Height, cellBounds.Width, size.Height);
-            }
+            mUrlHotArea = CellHelper.DrawTitle(graphics, Title, InheritedStyle.Font, cellBounds, Brushes.Peru);
         }
 
         protected override void OnMouseMove(DataGridViewCellMouseEventArgs e)
@@ -118,6 +120,11 @@ namespace Clipboarder
 
     public class ImageTitleCell : DataGridViewImageCell
     {
+        public ImageTitleCell() : base()
+        {
+            this.ImageLayout = DataGridViewImageCellLayout.Zoom;
+        }
+
         public override object Clone()
         {
             ImageTitleCell c = base.Clone() as ImageTitleCell;
@@ -135,7 +142,7 @@ namespace Clipboarder
             set
             {
                 this._Title = value;
-                this.Style.Padding = CellHelper.CalcTitlePadding(InheritedStyle.Padding, InheritedStyle.Font);
+                this.Style.Padding = CellHelper.CalcTitlePadding(null, InheritedStyle.Padding, InheritedStyle.Font);
             }
         }
 

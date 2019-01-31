@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Clipboarder
@@ -53,6 +54,12 @@ namespace Clipboarder
             int startHTML = 0;
             int.TryParse(Helper.ExtractFieldFromHTMLClipboard(text, "StartHTML"), out startHTML);
             return text.Substring(startHTML);
+        }
+
+        public static string ExtractImgUrlFromHTML(string html)
+        {
+            var m = new Regex(@"<img.+src=['""](\S+)['""]").Match(html);
+            return (m.Groups.Count == 2) ? m.Groups[1].Value : "";
         }
 
         // TODO: HTML parser

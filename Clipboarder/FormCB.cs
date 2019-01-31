@@ -89,6 +89,8 @@ namespace Clipboarder
                 if (Clipboard.ContainsImage())
                 {
                     // Copy an image in browser?
+                    if (string.IsNullOrWhiteSpace(url))
+                        url = Helper.ExtractImgUrlFromHTML(content);
                     mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url);
                 }
                 else
@@ -163,8 +165,11 @@ namespace Clipboarder
                 {
                     var cell = new ImageTitleCell();
                     mainData.Rows[index].Cells["entryContent"] = cell;
-                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Size = ((Image)e.Content).Size };
+                    Image img = (Image)e.Content;
+                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Size = img.Size, Url = e.SourceUrl };
                     cell.Value = e.Content;
+                    if (img.Size.Width > mainData.RowTemplate.MinimumHeight || img.Size.Height > mainData.RowTemplate.MinimumHeight)
+                        mainData.Rows[index].Height = mainData.RowTemplate.MinimumHeight * 2;
                 }
             }
 
