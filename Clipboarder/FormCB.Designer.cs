@@ -36,15 +36,16 @@
             this.entryUse = new System.Windows.Forms.DataGridViewButtonColumn();
             this.entryContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelNav = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonEdit = new System.Windows.Forms.Button();
-            this.buttonSaveChange = new System.Windows.Forms.Button();
+            this.toolbarEdit = new System.Windows.Forms.ToolStrip();
+            this.buttonSaveChange = new System.Windows.Forms.ToolStripButton();
+            this.buttonEdit = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
             this.statusTotalEntries = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.clipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideAfterCopyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stayOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,13 +55,14 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hideAfterCopyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.toolbarEdit.SuspendLayout();
             this.statusInfo.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
@@ -79,7 +81,7 @@
             // 
             // splitContainer.Panel2
             // 
-            this.splitContainer.Panel2.Controls.Add(this.panel1);
+            this.splitContainer.Panel2.Controls.Add(this.toolbarEdit);
             // 
             // mainData
             // 
@@ -126,26 +128,26 @@
             resources.ApplyResources(this.panelNav, "panelNav");
             this.panelNav.Name = "panelNav";
             // 
-            // panel1
+            // toolbarEdit
             // 
-            this.panel1.Controls.Add(this.buttonEdit);
-            this.panel1.Controls.Add(this.buttonSaveChange);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
-            // buttonEdit
-            // 
-            resources.ApplyResources(this.buttonEdit, "buttonEdit");
-            this.buttonEdit.Name = "buttonEdit";
-            this.buttonEdit.UseVisualStyleBackColor = true;
-            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+            resources.ApplyResources(this.toolbarEdit, "toolbarEdit");
+            this.toolbarEdit.ImageScalingSize = new System.Drawing.Size(22, 22);
+            this.toolbarEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonSaveChange,
+            this.buttonEdit});
+            this.toolbarEdit.Name = "toolbarEdit";
             // 
             // buttonSaveChange
             // 
             resources.ApplyResources(this.buttonSaveChange, "buttonSaveChange");
             this.buttonSaveChange.Name = "buttonSaveChange";
-            this.buttonSaveChange.UseVisualStyleBackColor = true;
             this.buttonSaveChange.Click += new System.EventHandler(this.buttonSaveChange_Click);
+            // 
+            // buttonEdit
+            // 
+            resources.ApplyResources(this.buttonEdit, "buttonEdit");
+            this.buttonEdit.Name = "buttonEdit";
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
             // 
             // statusInfo
             // 
@@ -168,6 +170,7 @@
             // 
             // menuMain
             // 
+            this.menuMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clipboardToolStripMenuItem,
             this.viewToolStripMenuItem});
@@ -180,6 +183,8 @@
             this.listenToolStripMenuItem,
             this.hideAfterCopyToolStripMenuItem,
             this.stayOnTopToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.clearEntriesToolStripMenuItem,
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.clipboardToolStripMenuItem.Name = "clipboardToolStripMenuItem";
@@ -193,6 +198,12 @@
             this.listenToolStripMenuItem.Name = "listenToolStripMenuItem";
             resources.ApplyResources(this.listenToolStripMenuItem, "listenToolStripMenuItem");
             this.listenToolStripMenuItem.Click += new System.EventHandler(this.listenToolStripMenuItem_Click);
+            // 
+            // hideAfterCopyToolStripMenuItem
+            // 
+            this.hideAfterCopyToolStripMenuItem.CheckOnClick = true;
+            this.hideAfterCopyToolStripMenuItem.Name = "hideAfterCopyToolStripMenuItem";
+            resources.ApplyResources(this.hideAfterCopyToolStripMenuItem, "hideAfterCopyToolStripMenuItem");
             // 
             // stayOnTopToolStripMenuItem
             // 
@@ -250,11 +261,16 @@
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // hideAfterCopyToolStripMenuItem
+            // clearEntriesToolStripMenuItem
             // 
-            this.hideAfterCopyToolStripMenuItem.CheckOnClick = true;
-            this.hideAfterCopyToolStripMenuItem.Name = "hideAfterCopyToolStripMenuItem";
-            resources.ApplyResources(this.hideAfterCopyToolStripMenuItem, "hideAfterCopyToolStripMenuItem");
+            this.clearEntriesToolStripMenuItem.Name = "clearEntriesToolStripMenuItem";
+            resources.ApplyResources(this.clearEntriesToolStripMenuItem, "clearEntriesToolStripMenuItem");
+            this.clearEntriesToolStripMenuItem.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // FormCB
             // 
@@ -277,7 +293,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).EndInit();
-            this.panel1.ResumeLayout(false);
+            this.toolbarEdit.ResumeLayout(false);
+            this.toolbarEdit.PerformLayout();
             this.statusInfo.ResumeLayout(false);
             this.statusInfo.PerformLayout();
             this.menuMain.ResumeLayout(false);
@@ -293,14 +310,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.StatusStrip statusInfo;
         private System.Windows.Forms.DataGridView mainData;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button buttonSaveChange;
         private System.Windows.Forms.Panel panelNav;
         private System.Windows.Forms.DataGridViewTextBoxColumn entryName;
         private System.Windows.Forms.DataGridViewButtonColumn entryUse;
         private System.Windows.Forms.DataGridViewTextBoxColumn entryContent;
         private System.Windows.Forms.ToolStripStatusLabel statusTotalEntries;
-        private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
         private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem;
@@ -313,6 +327,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideAfterCopyToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolbarEdit;
+        private System.Windows.Forms.ToolStripButton buttonSaveChange;
+        private System.Windows.Forms.ToolStripButton buttonEdit;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem clearEntriesToolStripMenuItem;
     }
 }
 

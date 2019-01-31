@@ -26,12 +26,22 @@ namespace Clipboarder
                 Invalidate();
             };
 
+            Cursor = Cursors.SizeAll;
+
             bool grab = false;
-            Point grabBegin = default(Point);
-            Point oldOffset = mOffset;
+            Point grabBegin = default(Point), oldOffset = mOffset;
             MouseDown += (s, e) =>
             {
+                if (e.Button == MouseButtons.Right)
+                {
+                    CalcFitZoom();
+                    mOffset = new Point(0, 0);
+                    Invalidate();
+                    return;
+                }
+
                 grab = true;
+                oldOffset = mOffset;
                 grabBegin = e.Location;
             };
 
@@ -49,16 +59,35 @@ namespace Clipboarder
             };
         }
 
+        public void CalcFitZoom()
+        {
+            if (Image == null) return;
+
+            int w = Image.Width, h = Image.Height;
+            int pw = this.Width, ph = this.Height;
+
+            if (w <= pw && h <= ph) return;
+            if (w > pw && h <= ph) mZoom = pw * 100 / w;
+            if (w <= pw && h > ph) mZoom = ph * 100 / h;
+
+            if (w > pw && h > ph)
+            {
+                mZoom = ph * 100 / h;
+                if (w * mZoom / 100 > pw)
+                    mZoom = pw * 100 / w;
+            }
+        }
+
         protected override void OnPaint(PaintEventArgs pe)
         {
             var container = pe.Graphics.BeginContainer();
             int cx = this.Width / 2, cy = this.Height / 2;
             int w = Image.Width * mZoom / 100, h = Image.Height * mZoom / 100;
-            pe.Graphics.Clip = new System.Drawing.Region(new System.Drawing.RectangleF(0, 0, this.Width, this.Height));
-            pe.Graphics.DrawImage(Image,
-                cx - w / 2 + mOffset.X,
-                cy - h / 2 + mOffset.Y,
-                w, h);
+            int x = cx - w / 2 + mOffset.X, y = cy - h / 2 + mOffset.Y;
+
+            pe.Graphics.Clip = new Region(new RectangleF(0, 0, this.Width, this.Height));
+            pe.Graphics.DrawImage(Image, x, y, w, h);
+            pe.Graphics.DrawRectangle(Pens.Black, x - 2, y - 2, w + 4, h + 4);
             pe.Graphics.EndContainer(container);
         }
     }

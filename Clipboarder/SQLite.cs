@@ -536,8 +536,11 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
 
         public SQLite3.Result Delete(int id)
         {
-            IntPtr stmt = SQLite3.Prepare2(mDB, "DELETE FROM data_table WHERE id = ?");
-            SQLite3.BindInt(stmt, 1, id);
+            IntPtr stmt = SQLite3.Prepare2(mDB, id == -1 ?
+                "DELETE FROM data_table;" :
+                "DELETE FROM data_table WHERE id = ?");
+            if (id > -1)
+                SQLite3.BindInt(stmt, 1, id);
             var res = SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             return res;

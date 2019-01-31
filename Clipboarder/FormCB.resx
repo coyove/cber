@@ -123,10 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="splitContainer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <data name="splitContainer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 3, 2, 3</value>
+    <value>0, 28</value>
   </data>
   <data name="splitContainer.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
@@ -146,11 +143,14 @@
   <data name="mainData.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="mainData.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
   <data name="mainData.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
     <value>Vertical</value>
   </data>
   <data name="mainData.Size" type="System.Drawing.Size, System.Drawing">
-    <value>797, 234</value>
+    <value>1064, 272</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="mainData.TabIndex" type="System.Int32, mscorlib">
@@ -172,13 +172,10 @@
     <value>Bottom</value>
   </data>
   <data name="panelNav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 234</value>
-  </data>
-  <data name="panelNav.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 3, 2, 3</value>
+    <value>0, 272</value>
   </data>
   <data name="panelNav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>797, 44</value>
+    <value>1064, 51</value>
   </data>
   <data name="panelNav.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -213,52 +210,34 @@
   <data name="splitContainer.Panel1MinSize" type="System.Int32, mscorlib">
     <value>200</value>
   </data>
-  <data name="&gt;&gt;buttonEdit.Name" xml:space="preserve">
-    <value>buttonEdit</value>
+  <metadata name="toolbarEdit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>483, 17</value>
+  </metadata>
+  <data name="toolbarEdit.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="&gt;&gt;buttonEdit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="toolbarEdit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="&gt;&gt;buttonEdit.Parent" xml:space="preserve">
-    <value>panel1</value>
+  <data name="toolbarEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1064, 40</value>
   </data>
-  <data name="&gt;&gt;buttonEdit.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;buttonSaveChange.Name" xml:space="preserve">
-    <value>buttonSaveChange</value>
-  </data>
-  <data name="&gt;&gt;buttonSaveChange.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;buttonSaveChange.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;buttonSaveChange.ZOrder" xml:space="preserve">
+  <data name="toolbarEdit.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
+  <data name="toolbarEdit.Text" xml:space="preserve">
+    <value>toolStrip1</value>
   </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 223</value>
+  <data name="&gt;&gt;toolbarEdit.Name" xml:space="preserve">
+    <value>toolbarEdit</value>
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>797, 37</value>
+  <data name="&gt;&gt;toolbarEdit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;toolbarEdit.Parent" xml:space="preserve">
     <value>splitContainer.Panel2</value>
   </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;toolbarEdit.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;splitContainer.Panel2.Name" xml:space="preserve">
@@ -277,10 +256,10 @@
     <value>200</value>
   </data>
   <data name="splitContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>801, 549</value>
+    <value>1068, 637</value>
   </data>
   <data name="splitContainer.SplitterDistance" type="System.Int32, mscorlib">
-    <value>282</value>
+    <value>327</value>
   </data>
   <data name="splitContainer.SplitterWidth" type="System.Int32, mscorlib">
     <value>3</value>
@@ -321,74 +300,112 @@
   <data name="entryContent.HeaderText" xml:space="preserve">
     <value>Content</value>
   </data>
-  <data name="buttonEdit.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="buttonEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="buttonEdit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 3</value>
-  </data>
-  <data name="buttonEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 30</value>
-  </data>
-  <data name="buttonEdit.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="buttonEdit.Text" xml:space="preserve">
-    <value>Edit Image</value>
-  </data>
-  <data name="&gt;&gt;buttonEdit.Name" xml:space="preserve">
-    <value>buttonEdit</value>
-  </data>
-  <data name="&gt;&gt;buttonEdit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;buttonEdit.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;buttonEdit.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="buttonSaveChange.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="buttonSaveChange.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="buttonSaveChange.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        AABJRU5ErkJggg==
+</value>
   </data>
-  <data name="buttonSaveChange.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+  <data name="buttonSaveChange.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
   <data name="buttonSaveChange.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 30</value>
-  </data>
-  <data name="buttonSaveChange.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>171, 37</value>
   </data>
   <data name="buttonSaveChange.Text" xml:space="preserve">
-    <value>Save</value>
+    <value>Save Text Changes</value>
   </data>
-  <data name="&gt;&gt;buttonSaveChange.Name" xml:space="preserve">
-    <value>buttonSaveChange</value>
+  <data name="buttonSaveChange.ToolTipText" xml:space="preserve">
+    <value>Save Text Changes</value>
   </data>
-  <data name="&gt;&gt;buttonSaveChange.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="buttonEdit.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="&gt;&gt;buttonSaveChange.Parent" xml:space="preserve">
-    <value>panel1</value>
+  <data name="buttonEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
   </data>
-  <data name="&gt;&gt;buttonSaveChange.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="buttonEdit.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="buttonEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 37</value>
+  </data>
+  <data name="buttonEdit.Text" xml:space="preserve">
+    <value>Edit Image</value>
   </data>
   <metadata name="statusInfo.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <data name="statusInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 573</value>
+    <value>0, 665</value>
+  </data>
+  <data name="statusInfo.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 19, 0</value>
   </data>
   <data name="statusInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>801, 22</value>
+    <value>1068, 22</value>
   </data>
   <data name="statusInfo.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -421,43 +438,55 @@
     <value>F2</value>
   </data>
   <data name="listenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="listenToolStripMenuItem.Text" xml:space="preserve">
     <value>Listen</value>
   </data>
   <data name="hideAfterCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="hideAfterCopyToolStripMenuItem.Text" xml:space="preserve">
     <value>Hide after copy</value>
   </data>
   <data name="stayOnTopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="stayOnTopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stay on top</value>
   </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 6</value>
+  </data>
+  <data name="clearEntriesToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+X</value>
+  </data>
+  <data name="clearEntriesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>275, 26</value>
+  </data>
+  <data name="clearEntriesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clear entries</value>
+  </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 6</value>
+    <value>213, 6</value>
   </data>
   <data name="exitToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+W</value>
   </data>
   <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
   <data name="clipboardToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
+    <value>69, 24</value>
   </data>
   <data name="clipboardToolStripMenuItem.Text" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+    <value>56, 24</value>
   </data>
   <data name="viewToolStripMenuItem.Text" xml:space="preserve">
     <value>View</value>
@@ -465,8 +494,11 @@
   <data name="menuMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="menuMain.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 2, 0, 2</value>
+  </data>
   <data name="menuMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>801, 24</value>
+    <value>1068, 28</value>
   </data>
   <data name="menuMain.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -490,7 +522,7 @@
     <value>F4</value>
   </data>
   <data name="horizontalVerticalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>213, 22</value>
+    <value>277, 26</value>
   </data>
   <data name="horizontalVerticalToolStripMenuItem.Text" xml:space="preserve">
     <value>Horizontal &lt;-&gt; Vertical</value>
@@ -499,7 +531,7 @@
     <value>F5</value>
   </data>
   <data name="refreshToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>213, 22</value>
+    <value>277, 26</value>
   </data>
   <data name="refreshToolStripMenuItem.Text" xml:space="preserve">
     <value>Refresh</value>
@@ -523,10 +555,13 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>8, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>801, 595</value>
+    <value>1068, 687</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>C-ber</value>
@@ -548,6 +583,18 @@
   </data>
   <data name="&gt;&gt;entryContent.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonSaveChange.Name" xml:space="preserve">
+    <value>buttonSaveChange</value>
+  </data>
+  <data name="&gt;&gt;buttonSaveChange.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonEdit.Name" xml:space="preserve">
+    <value>buttonEdit</value>
+  </data>
+  <data name="&gt;&gt;buttonEdit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;statusTotalEntries.Name" xml:space="preserve">
     <value>statusTotalEntries</value>
@@ -571,6 +618,12 @@
     <value>listenToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;listenToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;hideAfterCopyToolStripMenuItem.Name" xml:space="preserve">
+    <value>hideAfterCopyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;hideAfterCopyToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;stayOnTopToolStripMenuItem.Name" xml:space="preserve">
@@ -627,11 +680,17 @@
   <data name="&gt;&gt;dataGridViewTextBoxColumn2.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;hideAfterCopyToolStripMenuItem.Name" xml:space="preserve">
-    <value>hideAfterCopyToolStripMenuItem</value>
+  <data name="&gt;&gt;clearEntriesToolStripMenuItem.Name" xml:space="preserve">
+    <value>clearEntriesToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;hideAfterCopyToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;clearEntriesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FormCB</value>

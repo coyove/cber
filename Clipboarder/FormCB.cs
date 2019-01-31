@@ -194,7 +194,7 @@ namespace Clipboarder
             for (int i = splitContainer.Panel2.Controls.Count - 1; i >= 0; i--)
             {
                 var ctrlp = splitContainer.Panel2.Controls[i];
-                if (!(ctrlp is Panel)) splitContainer.Panel2.Controls.Remove(ctrlp);
+                if (ctrlp != toolbarEdit) splitContainer.Panel2.Controls.Remove(ctrlp);
             }
             if (!preview) return;
             Label lbl = new Label();
@@ -221,6 +221,7 @@ namespace Clipboarder
                     viewer.Image = entry.Content as Image;
                     viewer.SizeMode = PictureBoxSizeMode.Zoom;
                     splitContainer.Panel2.Controls.Add(viewer);
+                    viewer.CalcFitZoom();
                     buttonEdit.Enabled = true;
                     buttonEdit.Tag = entry;
                     ctrl = viewer;
@@ -403,6 +404,12 @@ namespace Clipboarder
             }
 
             UnregisterShortcuts();
+        }
+
+        private void clearEntriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mDB.Delete(-1);
+            RefreshDataMainView();
         }
     }
 }
