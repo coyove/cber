@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Clipboarder
@@ -121,6 +122,25 @@ namespace Clipboarder
                 hash = mChecksumTable[(hash & 0xFF) ^ b] ^ (hash >> 8);
             }
             return hash;
+        }
+
+        public static void SetClipboard(Database.Entry entry)
+        {
+            switch (entry.Type)
+            {
+                case Database.ContentType.HTML:
+                    DataObject obj = new DataObject();
+                    obj.SetData(DataFormats.Html, entry.Content);
+                    obj.SetData(DataFormats.StringFormat, entry.Html);
+                    Clipboard.SetDataObject(obj, true);
+                    break;
+                case Database.ContentType.Image:
+                    Clipboard.SetData(DataFormats.Bitmap, entry.Content);
+                    break;
+                default:
+                    Clipboard.SetData(DataFormats.StringFormat, entry.Content);
+                    break;
+            }
         }
     }
 

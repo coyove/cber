@@ -57,6 +57,8 @@ namespace Clipboarder
                 var url = Helper.GetHostFromUri(title.Url);
                 var urlSize = TextRenderer.MeasureText(url, font, new Size(0, 0));
                 var left = cellBounds.Left + cellBounds.Width - urlSize.Width;
+                if (left < cellBounds.Left) left = cellBounds.Left;
+
                 graphics.FillRectangle(Brushes.Teal, left, cellBounds.Top + size.Height, urlSize.Width, urlSize.Height);
                 graphics.DrawString(url, font, Brushes.White, left, cellBounds.Top + size.Height);
                 hotarea = new Rectangle(cellBounds.Width - urlSize.Width, size.Height, urlSize.Width, urlSize.Height);

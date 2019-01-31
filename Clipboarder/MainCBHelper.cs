@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -9,6 +10,75 @@ namespace Clipboarder
 {
     public partial class FormCB : Form
     {
+        public class Page
+        {
+            public int Current;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern int SetClipboardViewer(int hWndNewViewer);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        private static extern int SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr WindowFromPoint(System.Drawing.Point p);
+
+        [DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+        [DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        private Dictionary<UInt64, Action> mShortcutsMap = new Dictionary<ulong, Action>();
+
+        private void RegisterShortcut(string keys, Action a)
+        {
+            uint modifier = 0;
+            int k = 0;
+            foreach (string key in keys.Split(new char[] { '+' })) {
+                switch (key.ToLower())
+                {
+                    case "alt":
+                        modifier |= 1;
+                        break;
+                    case "ctrl":
+                        modifier |= 2;
+                        break;
+                    case "shift":
+                        modifier |= 4;
+                        break;
+                    case "win":
+                        modifier |= 8;
+                        break;
+                    default:
+                        try { k = (int)(Keys)Enum.Parse(typeof(Keys), key); } catch (Exception) { }
+                        break;
+                }
+            }
+            if (k == 0) return;
+            int count = mShortcutsMap.Count;
+            if (RegisterHotKey(Handle, count + 1, modifier, (uint)k))
+            {
+                UInt64 k64 = ((UInt64)modifier << 32) | (UInt64)(uint)k;
+                mShortcutsMap[k64] = a;
+            }
+        }
+
+        private void UnregisterShortcuts()
+        {
+            for (int i = mShortcutsMap.Count; i > 0; i--)
+            {
+                UnregisterHotKey(this.Handle, i);
+            }
+        }
+
         private void RefreshDataMainView()
         {
             mainData.Rows.Clear();
@@ -30,7 +100,7 @@ namespace Clipboarder
                 int index = mainData.Rows.Add();
                 mainData.Rows[index].Tag = e;
                 mainData.Rows[index].Cells["entryName"].Value = e.Name;
-                mainData.Rows[index].Cells["entryUse"].Value = "C";
+                mainData.Rows[index].Cells["entryUse"].Value = "Copy";
 
                 if (e.Content is string)
                 {

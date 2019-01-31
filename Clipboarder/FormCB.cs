@@ -17,20 +17,6 @@ namespace Clipboarder
 {
     public partial class FormCB : Form
     {
-        class Page
-        {
-            public int Current;
-        }
-
-        [DllImport("User32.dll")]
-        protected static extern int SetClipboardViewer(int hWndNewViewer);
-
-        [DllImport("User32.dll", CharSet = CharSet.Auto)]
-        public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
-
         private Database mDB;
 
         private IntPtr mNextClipboardViewer;
@@ -48,9 +34,9 @@ namespace Clipboarder
 
         protected override void WndProc(ref System.Windows.Forms.Message m)
         {
-            // defined in winuser.h
             const int WM_DRAWCLIPBOARD = 0x308;
             const int WM_CHANGECBCHAIN = 0x030D;
+            const int WM_HOTKEY = 0x0312;
 
             switch (m.Msg)
             {
@@ -58,14 +44,18 @@ namespace Clipboarder
                     OnClipboardChanged();
                     SendMessage(mNextClipboardViewer, m.Msg, m.WParam, m.LParam);
                     break;
-
                 case WM_CHANGECBCHAIN:
                     if (m.WParam == mNextClipboardViewer)
                         mNextClipboardViewer = m.LParam;
                     else
                         SendMessage(mNextClipboardViewer, m.Msg, m.WParam, m.LParam);
                     break;
-
+                case WM_HOTKEY:
+                    Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);
+                    uint modifier = (uint)m.LParam & 0xFFFF;
+                    UInt64 k64 = ((UInt64)modifier << 32) | (UInt64)key;
+                    if (mShortcutsMap.ContainsKey(k64)) mShortcutsMap[k64]();
+                    break;
                 default:
                     base.WndProc(ref m);
                     break;
@@ -141,7 +131,7 @@ namespace Clipboarder
             notifyIcon.Icon = Properties.Resources.SystrayIcon;
             notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {
                 new MenuItem("Listen", listenToolStripMenuItem_Click),
-                new MenuItem("Open", showToolStripMenuItem_Click),
+                new MenuItem("Open", (v1, v2) => notifyIcon_MouseDoubleClick(v1, null)),
                 new MenuItem("Exit", exitToolStripMenuItem_Click),
             });
 
@@ -150,6 +140,8 @@ namespace Clipboarder
             RefreshDataMainView();
 
             listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
+
+            RegisterShortcut("Win+Oemtilde", () => notifyIcon_MouseDoubleClick(null, null));
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -218,6 +210,7 @@ namespace Clipboarder
                     WebBrowser web = new WebBrowser();
                     web.Dock = DockStyle.Fill;
                     web.DocumentText = Helper.ExtractHTMLFromClipboard(entry.Content.ToString());
+                    web.Navigating += (v1, v2) => { v2.Cancel = true; };
                     inner.Panel1.Controls.Add(web);
 
                     TextBox webText = new TextBox();
@@ -227,6 +220,7 @@ namespace Clipboarder
                     webText.Text = entry.Html;
                     webText.Dock = DockStyle.Fill;
                     webText.ScrollBars = ScrollBars.Vertical;
+                    webText.Font = mainData.DefaultCellStyle.Font;
                     inner.Panel2.Controls.Add(webText);
 
                     splitContainer.Panel2.Controls.Add(inner);
@@ -249,22 +243,11 @@ namespace Clipboarder
             if (!(mainData.Columns[e.ColumnIndex] is DataGridViewButtonColumn)) return;
 
             mListenDeactivated = true;
-            switch (entry.Type)
-            {
-                case Database.ContentType.HTML:
-                    DataObject obj = new DataObject();
-                    obj.SetData(DataFormats.Html, entry.Content);
-                    obj.SetData(DataFormats.StringFormat, entry.Html);
-                    Clipboard.SetDataObject(obj, true);
-                    break;
-                case Database.ContentType.Image:
-                    Clipboard.SetData(DataFormats.Bitmap, entry.Content);
-                    break;
-                default:
-                    Clipboard.SetData(DataFormats.StringFormat, entry.Content);
-                    break;
-            }
+            Helper.SetClipboard(entry);
             mListenDeactivated = false;
+
+            if (hideAfterCopyToolStripMenuItem.Checked)
+                Hide();
         }
 
         private void mainData_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -295,6 +278,8 @@ namespace Clipboarder
         {
             try
             {
+                mListenDeactivated = true;
+
                 var img = (buttonEdit.Tag as Database.Entry).Content as Image;
                 string fn = (Path.GetTempFileName()) + ".png";
                 img.Save(fn);
@@ -316,6 +301,10 @@ namespace Clipboarder
             {
                 statusMessage.Text = ex.Message;
             }
+            finally
+            {
+                mListenDeactivated = false;
+            }
         }
 
         private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -323,6 +312,15 @@ namespace Clipboarder
             splitContainer.Orientation = splitContainer.Orientation == Orientation.Vertical ?
                 Orientation.Horizontal :
                 Orientation.Vertical;
+            foreach (var ctrl in splitContainer.Panel2.Controls)
+            {
+                if (ctrl is SplitContainer)
+                {
+                    var sc = (ctrl as SplitContainer);
+                    sc.Orientation = (Orientation)Math.Abs((int)splitContainer.Orientation - 1);
+                    sc.SplitterDistance = sc.Width / 2;
+                }
+            }
         }
 
         private void stayOnTopToolStripMenuItem_Click(object sender, EventArgs e)
@@ -343,15 +341,21 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
-        private void showToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Show();
-            this.BringToFront();
-        }
-
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Show();
+            IntPtr topWindow = WindowFromPoint(new Point(this.Location.X + 5, this.Location.Y + 5));
+            if (topWindow == this.Handle)
+            {
+                this.Hide();
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.Show();
+                SetForegroundWindow(this.Handle);
+                this.WindowState = FormWindowState.Normal;
+                this.BringToFront();
+            }
         }
 
         private void FormCB_Resize(object sender, EventArgs e)
@@ -372,7 +376,10 @@ namespace Clipboarder
             {
                 Hide();
                 e.Cancel = true;
+                return;
             }
+
+            UnregisterShortcuts();
         }
     }
 }
