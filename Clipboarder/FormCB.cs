@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -69,6 +70,7 @@ namespace Clipboarder
             if (mDB == null || data == null) return;
 
             object html = Clipboard.GetData(DataFormats.Html);
+            bool finished = false;
             if (html != null)
             {
                 byte[] buf = Encoding.Default.GetBytes(html.ToString());
@@ -81,11 +83,13 @@ namespace Clipboarder
                     // Copy an image in browser?
                     if (string.IsNullOrWhiteSpace(url))
                         url = Helper.ExtractImgUrlFromHTML(content);
-                    mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url);
+                    finished = Dot(() =>
+                        mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url));
                 }
                 else
                 {
-                    mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url);
+                    finished = Dot(() =>
+                        mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url));
                 }
             }
             else if (Clipboard.ContainsText())
@@ -95,14 +99,23 @@ namespace Clipboarder
                 //content = Encoding.UTF8.GetString(Encoding.Default.GetBytes(content));
                 string url = Helper.GetHostFromUri(content) != "" ? content : "";
                 if (content == "") return;
-                mDB.Insert(null, content, url);
+                finished = Dot(() =>
+                    mDB.Insert(null, content, url));
             }
             else if (Clipboard.ContainsImage())
             {
-                mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image);
+                finished = Dot(() =>
+                    mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image));
             }
 
-            RefreshDataMainView();
+            if (finished)
+            {
+                RefreshDataMainView();
+            }
+            else
+            {
+                statusMessage.Text = Properties.Resources.statusOperationTimedout;
+            }
         }
 
         private void NavBtn_Click(object sender, EventArgs e)
@@ -119,7 +132,18 @@ namespace Clipboarder
             mTimer = new System.Timers.Timer(2000);
             mTimer.AutoReset = true;
             mTimer.Enabled = true;
-            mTimer.Elapsed += (v1, v2) => mainData.Invalidate();
+            mTimer.Elapsed += (v1, v2) =>
+            {
+                mainData.Invalidate();
+                foreach (var t in mPendingThreads)
+                {
+                    DateTime dummy;
+                    if (!t.Key.IsAlive)
+                        mPendingThreads.TryRemove(t.Key, out dummy);
+                    else if (DateTime.Now.Subtract(t.Value).TotalSeconds > 2)
+                        t.Key.Abort();
+                }
+            };
             mainData.RowTemplate.MinimumHeight = 100;
             mainData.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(mainData, true, null);
             mainData.ShowCellToolTips = false;
@@ -192,7 +216,7 @@ namespace Clipboarder
             switch (entry.Type)
             {
                 case Database.ContentType.Image:
-                    PictureBox viewer = new PictureBox();
+                    var viewer = new ImageViewer();
                     viewer.Dock = DockStyle.Fill;
                     viewer.Image = entry.Content as Image;
                     viewer.SizeMode = PictureBoxSizeMode.Zoom;

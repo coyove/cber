@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Clipboarder
@@ -38,6 +40,8 @@ namespace Clipboarder
 
         private Dictionary<UInt64, Action> mShortcutsMap = new Dictionary<ulong, Action>();
 
+        private ConcurrentDictionary<Thread, DateTime> mPendingThreads = new ConcurrentDictionary<Thread, DateTime>();
+
         private void RegisterShortcut(string keys, Action a)
         {
             uint modifier = 0;
@@ -69,6 +73,16 @@ namespace Clipboarder
                 UInt64 k64 = ((UInt64)modifier << 32) | (UInt64)(uint)k;
                 mShortcutsMap[k64] = a;
             }
+        }
+
+        private bool Dot(Action a)
+        {
+            Thread t = new Thread(new ThreadStart(a));
+            var now = mPendingThreads[t] = DateTime.Now;
+            t.Start();
+            bool res = t.Join(Properties.Settings.Default.DbOpTimeout);
+            if (res) mPendingThreads.TryRemove(t, out now);
+            return res;
         }
 
         private void UnregisterShortcuts()

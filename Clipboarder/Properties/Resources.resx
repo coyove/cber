@@ -124,4 +124,7 @@
   <data name="SystrayIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystrayIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="statusOperationTimedout" xml:space="preserve">
+    <value>System is busy, try pressing F5 to refresh</value>
+  </data>
 </root>

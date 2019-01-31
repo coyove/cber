@@ -205,6 +205,9 @@
     <Compile Include="ICSharpCode.TextEditor\Util\TipSplitter.cs" />
     <Compile Include="ICSharpCode.TextEditor\Util\TipText.cs" />
     <Compile Include="ICSharpCode.TextEditor\Util\WeakCollection.cs" />
+    <Compile Include="ImageViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainCBHelper.cs">
       <SubType>Form</SubType>
     </Compile>
