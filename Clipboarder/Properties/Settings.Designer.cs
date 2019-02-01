@@ -70,5 +70,53 @@ namespace Clipboarder.Properties {
                 this["DbPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Text,Image,HTML")]
+        public string ShowContents {
+            get {
+                return ((string)(this["ShowContents"]));
+            }
+            set {
+                this["ShowContents"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Text,Image,HTML")]
+        public string ListenContents {
+            get {
+                return ((string)(this["ListenContents"]));
+            }
+            set {
+                this["ListenContents"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HideAfterCopy {
+            get {
+                return ((bool)(this["HideAfterCopy"]));
+            }
+            set {
+                this["HideAfterCopy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StayOnTop {
+            get {
+                return ((bool)(this["StayOnTop"]));
+            }
+            set {
+                this["StayOnTop"] = value;
+            }
+        }
     }
 }

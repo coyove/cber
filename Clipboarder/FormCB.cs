@@ -73,7 +73,7 @@ namespace Clipboarder
             bool finished = false;
             if (html != null)
             {
-                if (!htmlListenToolStripMenuItem.Checked) return;
+                if (!listenHTMLContents.Checked) return;
                 byte[] buf = Encoding.Default.GetBytes(html.ToString());
                 string content = Encoding.UTF8.GetString(buf);
                 if (content == "") return;
@@ -95,7 +95,7 @@ namespace Clipboarder
             }
             else if (Clipboard.ContainsText())
             {
-                if (!textListenToolStripMenuItem.Checked) return;
+                if (!listenTextContents.Checked) return;
                 string content = data.GetData(DataFormats.UnicodeText)?.ToString();
                 if (content == null) return;
                 //content = Encoding.UTF8.GetString(Encoding.Default.GetBytes(content));
@@ -106,7 +106,7 @@ namespace Clipboarder
             }
             else if (Clipboard.ContainsImage())
             {
-                if (!imageListenToolStripMenuItem.Checked) return;
+                if (!listenImageContents.Checked) return;
                 finished = Dot(() =>
                     mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image));
             }
@@ -130,6 +130,7 @@ namespace Clipboarder
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadSettings();
             mRealExit = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
             mTimer = new System.Timers.Timer(2000);
@@ -197,6 +198,7 @@ namespace Clipboarder
 
             mTimer.Stop();
             mTimer.Dispose();
+            SaveSettings();
         }
 
         private void Form1_Activated(object sender, EventArgs e)

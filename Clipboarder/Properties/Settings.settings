@@ -14,5 +14,17 @@
     <Setting Name="DbPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">.</Value>
     </Setting>
+    <Setting Name="ShowContents" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Text,Image,HTML</Value>
+    </Setting>
+    <Setting Name="ListenContents" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Text,Image,HTML</Value>
+    </Setting>
+    <Setting Name="HideAfterCopy" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="StayOnTop" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

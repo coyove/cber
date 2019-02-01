@@ -93,14 +93,49 @@ namespace Clipboarder
             }
         }
 
+        private void LoadSettings()
+        {
+            showTextContents.Checked = showImageContents.Checked = showHTMLContents.Checked = false;
+            listenTextContents.Checked = listenImageContents.Checked = listenHTMLContents.Checked = false;
+            foreach (string show in 
+                Properties.Settings.Default.ShowContents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                (menuMain.Items.Find("show" + show + "Contents", true).First() as ToolStripMenuItem).Checked = true;
+            }
+            foreach (string listen in 
+                Properties.Settings.Default.ListenContents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                (menuMain.Items.Find("listen" + listen + "Contents", true).First() as ToolStripMenuItem).Checked = true;
+            }
+            hideAfterCopyToolStripMenuItem.Checked = Properties.Settings.Default.HideAfterCopy;
+            stayOnTopToolStripMenuItem.Checked = Properties.Settings.Default.StayOnTop;
+            stayOnTopToolStripMenuItem_Click(null, null);
+        }
+
+        private void SaveSettings()
+        {
+            Properties.Settings.Default.StayOnTop = stayOnTopToolStripMenuItem.Checked;
+            Properties.Settings.Default.HideAfterCopy = hideAfterCopyToolStripMenuItem.Checked;
+            Properties.Settings.Default.ShowContents = "";
+            Properties.Settings.Default.ListenContents = "";
+            foreach (string show in new string[] { "Text", "Image", "HTML" })
+            {
+                if ((menuMain.Items.Find("show" + show + "Contents", true).First() as ToolStripMenuItem).Checked)
+                    Properties.Settings.Default.ShowContents += show + ",";
+                if ((menuMain.Items.Find("listen" + show + "Contents", true).First() as ToolStripMenuItem).Checked)
+                    Properties.Settings.Default.ListenContents += show + ",";
+            }
+            Properties.Settings.Default.Save();
+        }
+
         private string CalcWhere()
         {
-StringBuilder where = new StringBuilder();
-            if (!showTextContentsToolStripMenuItem.Checked)
+            StringBuilder where = new StringBuilder();
+            if (!showTextContents.Checked)
                 where.Append("AND type != " + (int)Database.ContentType.RawText);
-            if (!showImageContentsToolStripMenuItem.Checked)
+            if (!showImageContents.Checked)
                 where.Append("AND type != " + (int)Database.ContentType.Image);
-            if (!showHTMLContentsToolStripMenuItem.Checked)
+            if (!showHTMLContents.Checked)
                 where.Append("AND type != " + (int)Database.ContentType.HTML);
             return where.ToString();
         }
@@ -118,7 +153,8 @@ StringBuilder where = new StringBuilder();
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
             statusTotalEntries.Text = string.Format("{0}P / {1}E", pages, totalEntries);
-            statusDbPath.Text = mDB.Path;
+            statusDbPath.Text = mDB.Path + 
+                " (" + ((double) new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00") + "MB)";
 
             if (pages == 0) return;
             if (currentPage > pages)

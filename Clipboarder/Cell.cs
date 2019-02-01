@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,12 @@ namespace Clipboarder
         public DateTime Time;
         public int Hits;
         public Size Size;
-        public string Url;
+
+        private string url;
+        public string Url {
+            get { return url; }
+            set { url = value + " "; }
+        }
     }
 
     class CellHelper
@@ -54,8 +60,11 @@ namespace Clipboarder
             Rectangle hotarea = default(Rectangle);
             if (!string.IsNullOrWhiteSpace(title.Url))
             {
-                var url = Helper.GetHostFromUri(title.Url);
-                var urlSize = TextRenderer.MeasureText(url, font, new Size(0, 0));
+                var urlTrueSize = TextRenderer.MeasureText(title.Url, font, new Size(0, 0));
+                var showFull = (cellBounds.Width * 4 / 3 > urlTrueSize.Width);
+                var url = showFull ? title.Url : Helper.GetHostFromUri(title.Url);
+                var urlSize = showFull ? urlTrueSize : TextRenderer.MeasureText(url, font, new Size(0, 0));
+
                 var left = cellBounds.Left + cellBounds.Width - urlSize.Width;
                 if (left < cellBounds.Left) left = cellBounds.Left;
 
@@ -118,6 +127,16 @@ namespace Clipboarder
                 Cursor.Current = Cursors.Hand;
             }
         }
+
+        protected override void OnMouseDown(DataGridViewCellMouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (mUrlHotArea == null) return;
+            if (mUrlHotArea.Contains(e.Location))
+            {
+                Process.Start(Title.Url);
+            }
+        }
     }
 
     public class ImageTitleCell : DataGridViewImageCell
@@ -125,6 +144,7 @@ namespace Clipboarder
         public ImageTitleCell() : base()
         {
             this.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            this.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         public override object Clone()
@@ -148,6 +168,7 @@ namespace Clipboarder
             }
         }
 
+        private Rectangle mUrlHotArea;
         protected override void Paint(Graphics graphics, Rectangle clipBounds,
         Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState,
         object value, object formattedValue, string errorText,
@@ -160,7 +181,27 @@ namespace Clipboarder
                value, formattedValue, errorText, cellStyle,
                advancedBorderStyle, paintParts);
 
-            CellHelper.DrawTitle(graphics, Title, InheritedStyle.Font, cellBounds, Brushes.PaleVioletRed);
+            mUrlHotArea = CellHelper.DrawTitle(graphics, Title, InheritedStyle.Font, cellBounds, Brushes.PaleVioletRed);
+        }
+
+        protected override void OnMouseMove(DataGridViewCellMouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            if (mUrlHotArea == null) return;
+            if (mUrlHotArea.Contains(e.Location))
+            {
+                Cursor.Current = Cursors.Hand;
+            }
+        }
+
+        protected override void OnMouseDown(DataGridViewCellMouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (mUrlHotArea == null) return;
+            if (mUrlHotArea.Contains(e.Location))
+            {
+                Process.Start(Title.Url);
+            }
         }
     }
 }
