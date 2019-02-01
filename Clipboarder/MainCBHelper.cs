@@ -93,23 +93,41 @@ namespace Clipboarder
             }
         }
 
+        private string CalcWhere()
+        {
+StringBuilder where = new StringBuilder();
+            if (!showTextContentsToolStripMenuItem.Checked)
+                where.Append("AND type != " + (int)Database.ContentType.RawText);
+            if (!showImageContentsToolStripMenuItem.Checked)
+                where.Append("AND type != " + (int)Database.ContentType.Image);
+            if (!showHTMLContentsToolStripMenuItem.Checked)
+                where.Append("AND type != " + (int)Database.ContentType.HTML);
+            return where.ToString();
+        }
+
         private void RefreshDataMainView()
         {
             mainData.Rows.Clear();
             panelNav.Controls.Clear();
             ClearPanel2();
 
+            string where = CalcWhere();
             int epp = Properties.Settings.Default.EntriesPerPage;
             int currentPage = (mainData.Tag as Page).Current;
-            int totalEntries = mDB.TotalEntries();
+            int totalEntries = mDB.TotalEntries(where);
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
+
+            statusTotalEntries.Text = string.Format("{0}P / {1}E", pages, totalEntries);
+            statusDbPath.Text = mDB.Path;
+
             if (pages == 0) return;
             if (currentPage > pages)
             {
                 currentPage = pages;
                 (mainData.Tag as Page).Current = currentPage;
             }
-            foreach (Database.Entry e in mDB.Paging(null, null, (currentPage - 1) * epp, epp))
+
+            foreach (Database.Entry e in mDB.Paging(where.ToString(), null, (currentPage - 1) * epp, epp))
             {
                 int index = mainData.Rows.Add();
                 mainData.Rows[index].Tag = e;
@@ -185,7 +203,6 @@ namespace Clipboarder
             panelNav.Controls.Add(btnLast);
             panelNav.Visible = true;
 
-            statusTotalEntries.Text = string.Format(Properties.Resources.statusEntriesPages, pages, totalEntries);
         }
     }
 }

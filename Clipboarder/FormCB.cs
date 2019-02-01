@@ -73,6 +73,7 @@ namespace Clipboarder
             bool finished = false;
             if (html != null)
             {
+                if (!htmlListenToolStripMenuItem.Checked) return;
                 byte[] buf = Encoding.Default.GetBytes(html.ToString());
                 string content = Encoding.UTF8.GetString(buf);
                 if (content == "") return;
@@ -94,6 +95,7 @@ namespace Clipboarder
             }
             else if (Clipboard.ContainsText())
             {
+                if (!textListenToolStripMenuItem.Checked) return;
                 string content = data.GetData(DataFormats.UnicodeText)?.ToString();
                 if (content == null) return;
                 //content = Encoding.UTF8.GetString(Encoding.Default.GetBytes(content));
@@ -104,6 +106,7 @@ namespace Clipboarder
             }
             else if (Clipboard.ContainsImage())
             {
+                if (!imageListenToolStripMenuItem.Checked) return;
                 finished = Dot(() =>
                     mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image));
             }
@@ -158,8 +161,28 @@ namespace Clipboarder
                 new MenuItem("Exit", exitToolStripMenuItem_Click),
             });
 
-            System.IO.File.Delete("test.db");
-            mDB = Database.Open("test.db");
+            string dbPath = Properties.Settings.Default.DbPath == "." ?
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "cber.db") :
+                Properties.Settings.Default.DbPath;
+            //System.IO.File.Delete("test.db");
+            try
+            {
+                mDB = Database.Open(dbPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                exitToolStripMenuItem_Click(null, null);
+                return;
+            }
+            if (mDB == null)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.databaseNotAvailable, dbPath), 
+                    Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                exitToolStripMenuItem_Click(null, null);
+                return;
+            }
+
             RefreshDataMainView();
 
             listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
@@ -196,6 +219,8 @@ namespace Clipboarder
                 var ctrlp = splitContainer.Panel2.Controls[i];
                 if (ctrlp != toolbarEdit) splitContainer.Panel2.Controls.Remove(ctrlp);
             }
+            buttonSaveChange.Enabled = false;
+            buttonEdit.Enabled = false;
             if (!preview) return;
             Label lbl = new Label();
             lbl.Dock = DockStyle.Fill;
@@ -210,8 +235,6 @@ namespace Clipboarder
 
             ClearPanel2(false);
             var entry = mainData.Rows[e.RowIndex].Tag as Database.Entry;
-            buttonSaveChange.Enabled = false;
-            buttonEdit.Enabled = false;
             Control ctrl;
             switch (entry.Type)
             {
@@ -410,6 +433,40 @@ namespace Clipboarder
         {
             mDB.Delete(-1);
             RefreshDataMainView();
+        }
+
+        private void showTextContentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshDataMainView();
+        }
+
+        private void statusDbPath_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDb = new OpenFileDialog();
+            openDb.Filter = "*.db|*.db";
+
+            if (openDb.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    mDB = Database.Open(openDb.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (mDB == null)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.databaseNotAvailable, openDb.FileName),
+                        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Properties.Settings.Default.DbPath = openDb.FileName;
+                Properties.Settings.Default.Save();
+                RefreshDataMainView();
+            }
         }
     }
 }

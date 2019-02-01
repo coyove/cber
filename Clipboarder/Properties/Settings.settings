@@ -2,14 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Clipboarder.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="EntriesPerPage" Type="System.Int32" Scope="Application">
+    <Setting Name="EntriesPerPage" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="ExternalImageEditor" Type="System.String" Scope="Application">
+    <Setting Name="ExternalImageEditor" Type="System.String" Scope="User">
       <Value Profile="(Default)">mspaint.exe</Value>
     </Setting>
-    <Setting Name="DbOpTimeout" Type="System.Int32" Scope="Application">
+    <Setting Name="DbOpTimeout" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="DbPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.</Value>
     </Setting>
   </Settings>
 </SettingsFile>

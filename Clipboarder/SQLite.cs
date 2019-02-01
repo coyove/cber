@@ -345,9 +345,24 @@ class Database
         private IntPtr mDB;
         private string mPath = null;
 
+        public string Path { get { return mPath; } }
+
         public static Database Open(string path)
         {
             bool newlyCreated = !System.IO.File.Exists(path);
+            if (!newlyCreated)
+            {
+                try
+                {
+                    FileStream stream = new FileInfo(path).Open(FileMode.Open, FileAccess.Read, FileShare.None);
+                    stream.Close();
+                }
+                catch (IOException)
+                {
+                    return null;
+                }
+            }
+
             Database db = new Database();
 
             SQLite3.Open(path, out db.mDB);
@@ -546,9 +561,9 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
-        public int TotalEntries(string where = "1 = 1")
+        public int TotalEntries(string where = "AND 1 = 1")
         {
-            IntPtr stmt = SQLite3.Prepare2(mDB, "SELECT COUNT(id) FROM data_table WHERE " + where + ";");
+            IntPtr stmt = SQLite3.Prepare2(mDB, "SELECT COUNT(id) FROM data_table WHERE 1 = 1 " + where + ";");
             int count = 0;
             if (SQLite3.Step(stmt) == SQLite3.Result.Row)
                 count = SQLite3.ColumnInt(stmt, 0);
@@ -559,13 +574,13 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
         public Entry[] Paging(string where, string orderByFields, int start, int length)
         {
             if (string.IsNullOrWhiteSpace(where))
-                where = "1 = 1";
+                where = "AND 1 = 1";
             if (string.IsNullOrWhiteSpace(orderByFields))
                 orderByFields = "ts DESC, id DESC";
 
             List<Entry> entries = new List<Entry>(length);
             IntPtr stmt = SQLite3.Prepare2(mDB, string.Format(
-               "SELECT id, ts, name, type, text_content, binary_content, hits, source_url, html_content FROM data_table WHERE {0} ORDER BY {1} LIMIT {2}, {3};",
+               "SELECT id, ts, name, type, text_content, binary_content, hits, source_url, html_content FROM data_table WHERE 1 = 1 {0} ORDER BY {1} LIMIT {2}, {3};",
                where, orderByFields, start, length));
             while (SQLite3.Step(stmt) == SQLite3.Result.Row)
             {

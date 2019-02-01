@@ -16,7 +16,7 @@ namespace Clipboarder
             AppDomain.CurrentDomain.UnhandledException += (v, e) =>
             {
                 Exception ex = (Exception)e.ExceptionObject;
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             };
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
