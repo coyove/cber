@@ -52,7 +52,7 @@ namespace Clipboarder
                 now += " [" + title.Size.Width.ToString() + "x" + title.Size.Height.ToString() + "]";
 
             System.Drawing.Drawing2D.GraphicsContainer container = graphics.BeginContainer();
-            var size = TextRenderer.MeasureText(no, font, new Size(0, 0));
+            var size = TextRenderer.MeasureText(no, font, new Size(0, 0), TextFormatFlags.SingleLine);
             graphics.FillRectangle(color, cellBounds.Left, cellBounds.Top, cellBounds.Width, size.Height);
             graphics.DrawString(no, new Font(font, FontStyle.Bold), Brushes.White, cellBounds.Left, cellBounds.Top);
             graphics.DrawString(now, font, Brushes.White, cellBounds.Left + size.Width + 5, cellBounds.Top);
@@ -60,7 +60,7 @@ namespace Clipboarder
             Rectangle hotarea = default(Rectangle);
             if (!string.IsNullOrWhiteSpace(title.Url))
             {
-                var urlTrueSize = TextRenderer.MeasureText(title.Url, font, new Size(0, 0));
+                var urlTrueSize = TextRenderer.MeasureText(title.Url, font, new Size(0, 0), TextFormatFlags.SingleLine);
                 var showFull = (cellBounds.Width * 4 / 3 > urlTrueSize.Width);
                 var url = showFull ? title.Url : Helper.GetHostFromUri(title.Url);
                 var urlSize = showFull ? urlTrueSize : TextRenderer.MeasureText(url, font, new Size(0, 0));
