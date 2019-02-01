@@ -30,6 +30,9 @@ namespace Clipboarder
         private static extern int SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
+        private static extern IntPtr GetParent(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
         private static extern IntPtr WindowFromPoint(System.Drawing.Point p);
 
         [DllImport("user32.dll")]
@@ -175,7 +178,13 @@ namespace Clipboarder
                     var cell = new TextTitleCell();
                     mainData.Rows[index].Cells["entryContent"] = cell;
                     cell.ReadOnly = true;
-                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Url = e.SourceUrl };
+                    cell.Title = new Title {
+                        No = e.Id,
+                        Hits = e.Hits,
+                        Time = e.Time,
+                        Url = e.SourceUrl,
+                        IsHtml = e.Type == Database.ContentType.HTML,
+                    };
                     var text = e.Content.ToString();
                     if (e.Type == Database.ContentType.HTML)
                     {

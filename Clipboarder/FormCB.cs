@@ -64,7 +64,7 @@ namespace Clipboarder
 
         private void OnClipboardChanged()
         {
-            if (mListenDeactivated) return;
+            if (mListenDeactivated || IsTopWindow()) return;
 
             IDataObject data = Clipboard.GetDataObject();
             if (mDB == null || data == null) return;
@@ -157,9 +157,9 @@ namespace Clipboarder
             entryContent.DefaultCellStyle.Font = new Font("Consolas", 12);
             notifyIcon.Icon = Properties.Resources.SystrayIcon;
             notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {
-                new MenuItem("Listen", listenToolStripMenuItem_Click),
+                new MenuItem(listenToolStripMenuItem.Text, listenToolStripMenuItem_Click),
                 new MenuItem("Open", (v1, v2) => notifyIcon_MouseDoubleClick(v1, null)),
-                new MenuItem("Exit", exitToolStripMenuItem_Click),
+                new MenuItem(exitToolStripMenuItem.Text, exitToolStripMenuItem_Click),
             });
 
             string dbPath = Properties.Settings.Default.DbPath == "." ?
@@ -188,7 +188,7 @@ namespace Clipboarder
 
             listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
 
-            RegisterShortcut("Win+Oemtilde", () => notifyIcon_MouseDoubleClick(null, null));
+            RegisterShortcut("Alt+Oemtilde", () => notifyIcon_MouseDoubleClick(null, null));
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -390,10 +390,27 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
+        public bool IsTopWindow()
+        {
+            // Use 5 points to identify, work in most cases
+            int x = this.Location.X, y = this.Location.Y;
+            Func<IntPtr, bool> test = (h) =>
+            {
+                do if (h == this.Handle) return true;
+                while ((h = GetParent(h)) != IntPtr.Zero);
+                return false;
+            };
+            IntPtr w1 = WindowFromPoint(new Point(x + 5, y + 5));
+            IntPtr w2 = WindowFromPoint(new Point(x + this.Width - 5, y + 5));
+            IntPtr w3 = WindowFromPoint(new Point(x + 5, y + this.Height - 5));
+            IntPtr w4 = WindowFromPoint(new Point(x + this.Width - 5, y + this.Height - 5));
+            IntPtr w5 = WindowFromPoint(new Point(x + this.Width / 2, y + this.Height / 2));
+            return test(w1) && test(w2) && test(w3) && test(w4) && test(w5);
+        }
+
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            IntPtr topWindow = WindowFromPoint(new Point(this.Location.X + 5, this.Location.Y + 5));
-            if (topWindow == this.Handle)
+            if (IsTopWindow())
             {
                 this.Hide();
             }
@@ -469,6 +486,17 @@ namespace Clipboarder
                 Properties.Settings.Default.Save();
                 RefreshDataMainView();
             }
+        }
+
+        private void openDatabaseLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(Path.GetDirectoryName(mDB.Path));
+        }
+
+        private void shortcutsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormShortcuts frm = new FormShortcuts();
+            frm.Show();
         }
     }
 }

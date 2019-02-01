@@ -55,6 +55,7 @@
             this.stayOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.horizontalVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,9 +65,12 @@
             this.showTextContents = new System.Windows.Forms.ToolStripMenuItem();
             this.showImageContents = new System.Windows.Forms.ToolStripMenuItem();
             this.showHTMLContents = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.openDatabaseLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shortcutsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -195,6 +199,8 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.statusDbPath.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.statusDbPath.IsLink = true;
+            this.statusDbPath.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.statusDbPath.Name = "statusDbPath";
             this.statusDbPath.Padding = new System.Windows.Forms.Padding(2);
             resources.ApplyResources(this.statusDbPath, "statusDbPath");
@@ -217,6 +223,8 @@
             this.toolStripSeparator4,
             this.hideAfterCopyToolStripMenuItem,
             this.stayOnTopToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.shortcutsToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.clipboardToolStripMenuItem.Name = "clipboardToolStripMenuItem";
@@ -293,6 +301,11 @@
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -303,7 +316,9 @@
             this.toolStripSeparator3,
             this.showTextContents,
             this.showImageContents,
-            this.showHTMLContents});
+            this.showHTMLContents,
+            this.toolStripSeparator5,
+            this.openDatabaseLocationToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(this.viewToolStripMenuItem, "viewToolStripMenuItem");
             // 
@@ -362,6 +377,17 @@
             resources.ApplyResources(this.showHTMLContents, "showHTMLContents");
             this.showHTMLContents.Click += new System.EventHandler(this.showTextContentsToolStripMenuItem_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            // 
+            // openDatabaseLocationToolStripMenuItem
+            // 
+            this.openDatabaseLocationToolStripMenuItem.Name = "openDatabaseLocationToolStripMenuItem";
+            resources.ApplyResources(this.openDatabaseLocationToolStripMenuItem, "openDatabaseLocationToolStripMenuItem");
+            this.openDatabaseLocationToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
+            // 
             // notifyIcon
             // 
             resources.ApplyResources(this.notifyIcon, "notifyIcon");
@@ -379,6 +405,12 @@
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // shortcutsToolStripMenuItem
+            // 
+            this.shortcutsToolStripMenuItem.Name = "shortcutsToolStripMenuItem";
+            resources.ApplyResources(this.shortcutsToolStripMenuItem, "shortcutsToolStripMenuItem");
+            this.shortcutsToolStripMenuItem.Click += new System.EventHandler(this.shortcutsToolStripMenuItem_Click);
             // 
             // FormCB
             // 
@@ -450,6 +482,10 @@
         private System.Windows.Forms.ToolStripMenuItem listenImageContents;
         private System.Windows.Forms.ToolStripMenuItem listenHTMLContents;
         private System.Windows.Forms.ToolStripStatusLabel statusDbPath;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem openDatabaseLocationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
     }
 }
 

@@ -14,6 +14,7 @@ namespace Clipboarder
         public DateTime Time;
         public int Hits;
         public Size Size;
+        public bool IsHtml;
 
         private string url;
         public string Url {
@@ -115,7 +116,8 @@ namespace Clipboarder
                value, formattedValue, errorText, cellStyle,
                advancedBorderStyle, paintParts);
 
-            mUrlHotArea = CellHelper.DrawTitle(graphics, Title, InheritedStyle.Font, cellBounds, Brushes.Peru);
+            mUrlHotArea = CellHelper.DrawTitle(graphics, Title, InheritedStyle.Font, cellBounds,
+                Title.IsHtml ? Brushes.DarkSlateGray : Brushes.Peru);
         }
 
         protected override void OnMouseMove(DataGridViewCellMouseEventArgs e)

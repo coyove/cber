@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="entryName.HeaderText" xml:space="preserve">
-    <value>名称</value>
-  </data>
-  <data name="entryContent.HeaderText" xml:space="preserve">
-    <value>内容</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonSaveChange.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -162,12 +156,6 @@
         TkSuQmCC
 </value>
   </data>
-  <data name="buttonSaveChange.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 37</value>
-  </data>
-  <data name="buttonSaveChange.Text" xml:space="preserve">
-    <value>保存文字修改</value>
-  </data>
   <data name="buttonEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -198,104 +186,26 @@
         hDcJrxL2spetBAT8DaFjwgjRgtP/AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="buttonEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 37</value>
+  <data name="listenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
   </data>
-  <data name="buttonEdit.Text" xml:space="preserve">
-    <value>编辑图片</value>
+  <data name="whatToListenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
   </data>
-  <data name="clipboardToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 24</value>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 6</value>
   </data>
-  <data name="clipboardToolStripMenuItem.Text" xml:space="preserve">
-    <value>剪贴板(&amp;C)</value>
+  <data name="hideAfterCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
   </data>
-  <data name="listenToolStripMenuItem.Text" xml:space="preserve">
-    <value>监听(&amp;L)</value>
+  <data name="stayOnTopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
   </data>
-  <data name="whatToListenToolStripMenuItem.Text" xml:space="preserve">
-    <value>监听内容(&amp;C）</value>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 6</value>
   </data>
-  <data name="listenTextContents.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 26</value>
-  </data>
-  <data name="listenTextContents.Text" xml:space="preserve">
-    <value>文字</value>
-  </data>
-  <data name="listenImageContents.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 26</value>
-  </data>
-  <data name="listenImageContents.Text" xml:space="preserve">
-    <value>图片</value>
-  </data>
-  <data name="listenHTMLContents.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 26</value>
-  </data>
-  <data name="hideAfterCopyToolStripMenuItem.Text" xml:space="preserve">
-    <value>复制后隐藏窗体(&amp;H)</value>
-  </data>
-  <data name="stayOnTopToolStripMenuItem.Text" xml:space="preserve">
-    <value>窗体置前(&amp;T)</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>退出(&amp;E)</value>
-  </data>
-  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 24</value>
-  </data>
-  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
-    <value>查看(&amp;V)</value>
-  </data>
-  <data name="horizontalVerticalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 26</value>
-  </data>
-  <data name="horizontalVerticalToolStripMenuItem.Text" xml:space="preserve">
-    <value>水平 &lt;-&gt; 垂直</value>
-  </data>
-  <data name="refreshToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 26</value>
-  </data>
-  <data name="refreshToolStripMenuItem.Text" xml:space="preserve">
-    <value>刷新(&amp;R)</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 6</value>
-  </data>
-  <data name="clearEntriesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 26</value>
-  </data>
-  <data name="clearEntriesToolStripMenuItem.Text" xml:space="preserve">
-    <value>清空记录(&amp;C)</value>
-  </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 6</value>
-  </data>
-  <data name="showTextContents.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 26</value>
-  </data>
-  <data name="showTextContents.Text" xml:space="preserve">
-    <value>显示 "文字"</value>
-  </data>
-  <data name="showImageContents.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 26</value>
-  </data>
-  <data name="showImageContents.Text" xml:space="preserve">
-    <value>显示 "图片"</value>
-  </data>
-  <data name="showHTMLContents.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 26</value>
-  </data>
-  <data name="showHTMLContents.Text" xml:space="preserve">
-    <value>显示 "HTML"</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 6</value>
-  </data>
-  <data name="openDatabaseLocationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 26</value>
-  </data>
-  <data name="openDatabaseLocationToolStripMenuItem.Text" xml:space="preserve">
-    <value>打开数据库所在目录(&amp;D)</value>
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
