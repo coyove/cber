@@ -15,6 +15,7 @@ namespace Clipboarder
         public class Page
         {
             public int Current;
+            public string Where = "";
         }
 
         [DllImport("user32.dll")]
@@ -140,13 +141,18 @@ namespace Clipboarder
                 where.Append("AND type != " + (int)Database.ContentType.Image);
             if (!showHTMLContents.Checked)
                 where.Append("AND type != " + (int)Database.ContentType.HTML);
+            where.Append((mainData.Tag as Page).Where);
             return where.ToString();
         }
 
+        private int mLastIndex = -1;
         private void RefreshDataMainView()
         {
             mainData.Rows.Clear();
-            panelNav.Controls.Clear();
+            for (int i = toolStripNav.Items.Count - 1; i >= 0; i--)
+                if ((toolStripNav.Items[i] as ToolStripButton)?.Name.StartsWith("nav") == true)
+                    toolStripNav.Items.RemoveAt(i);
+
             ClearPanel2();
 
             string where = CalcWhere();
@@ -155,6 +161,7 @@ namespace Clipboarder
             int totalEntries = mDB.TotalEntries(where);
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
+            buttonClearWhere.Visible = (mainData.Tag as Page).Where != "";
             statusTotalEntries.Text = string.Format("{0}P / {1}E", pages, totalEntries);
             statusDbPath.Text = mDB.Path + 
                 " (" + ((double) new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00") + "MB)";
@@ -212,42 +219,25 @@ namespace Clipboarder
                     if (img.Size.Width > mainData.RowTemplate.MinimumHeight || img.Size.Height > mainData.RowTemplate.MinimumHeight)
                         mainData.Rows[index].Height = mainData.RowTemplate.MinimumHeight * 2;
                 }
+                mainData.Rows[index].Selected = false;
             }
 
-            var size = TextRenderer.MeasureText("A", panelNav.Font, new Size(0, 0));
-            var buttonSize = new Size(size.Width * 3, size.Height * 2);
-            panelNav.Height = size.Height * 2 + 10;
-            Button btnFirst = new Button();
-            btnFirst.Size = buttonSize;
-            btnFirst.Location = new Point(5, 5);
-            btnFirst.Text = "<<";
-            btnFirst.Tag = 1;
-            btnFirst.Click += NavBtn_Click;
-            panelNav.Controls.Add(btnFirst); ;
-            int left = 5 + buttonSize.Width + 5;
+            buttonFirstPage.Tag = 1;
             var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
             for (int i = startEnd.Item1; i <= startEnd.Item2; i++)
             {
                 if (i < 1 || i > pages) continue;
-                Button btn = new Button();
-                btn.Size = buttonSize;
-                btn.Location = new Point(left, 5);
-                btn.Text = i.ToString();
-                btn.Tag = i;
-                btn.Click += NavBtn_Click;
-                btn.Enabled = i != currentPage;
-                panelNav.Controls.Add(btn);
-                left += 5 + buttonSize.Width;
+                ToolStripButton button = new ToolStripButton();
+                button.Text = " " + i.ToString() + " ";
+                button.Enabled = i != currentPage;
+                button.Name = "nav" + i.ToString();
+                button.Tag = i;
+                button.Click += NavBtn_Click;
+                toolStripNav.Items.Insert(toolStripNav.Items.IndexOf(buttonLastPage), button);
             }
-            Button btnLast = new Button();
-            btnLast.Size = buttonSize;
-            btnLast.Location = new Point(left, 5);
-            btnLast.Text = ">>";
-            btnLast.Tag = pages;
-            btnLast.Click += NavBtn_Click;
-            panelNav.Controls.Add(btnLast);
-            panelNav.Visible = true;
+            buttonLastPage.Tag = pages;
 
+            mainData_CellClick(mainData, new DataGridViewCellEventArgs(0, mLastIndex));
         }
     }
 }

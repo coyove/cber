@@ -319,7 +319,7 @@ namespace Clipboarder
 		}
 	}
 
-class Database
+    public class Database
     {
         public class Entry
         {
@@ -371,7 +371,7 @@ class Database
 
             if (newlyCreated)
             {
-                IntPtr stmt = SQLite3.Prepare2(db.mDB, @";
+                IntPtr stmt = SQLite3.Prepare2(db.mDB, @"
 CREATE TABLE IF NOT EXISTS data_table (
    id INTEGER PRIMARY KEY AUTOINCREMENT,
    ts INTEGER NOT NULL,
@@ -392,6 +392,10 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                 SQLite3.Step(stmt);
                 SQLite3.Finalize(stmt);
             }
+
+            IntPtr likeCase = SQLite3.Prepare2(db.mDB, "PRAGMA case_sensitive_like = ON;");
+            SQLite3.Step(likeCase);
+            SQLite3.Finalize(likeCase);
 
             db.mPath = path;
             return db;
@@ -549,6 +553,16 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
+        public SQLite3.Result UpdateContent(int id, ContentType ct)
+        {
+            IntPtr stmt = SQLite3.Prepare2(mDB, "UPDATE data_table SET type = ? WHERE id = ?");
+            SQLite3.BindInt(stmt, 1, (int)ct);
+            SQLite3.BindInt(stmt, 2, id);
+            var res = SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            return res;
+        }
+
         public SQLite3.Result Delete(int id)
         {
             IntPtr stmt = SQLite3.Prepare2(mDB, id == -1 ?
@@ -611,6 +625,33 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             }
             SQLite3.Finalize(stmt);
             return entries.ToArray();
+        }
+
+        public string[] Urls()
+        {
+            List<string> entries = new List<string>();
+            IntPtr stmt = SQLite3.Prepare2(mDB,
+               "SELECT MAX(source_url) FROM data_table WHERE source_url != \"\" AND source_url IS NOT NULL GROUP BY source_url;");
+            while (SQLite3.Step(stmt) == SQLite3.Result.Row)
+            {
+                entries.Add(SQLite3.ColumnString(stmt, 0));
+            }
+            SQLite3.Finalize(stmt);
+            return entries.ToArray();
+        }
+
+        public Tuple<DateTime, DateTime> TimeRange()
+        {
+            DateTime lastest = default(DateTime), oldest = default(DateTime);
+            IntPtr stmt = SQLite3.Prepare2(mDB, "SELECT ts FROM data_table ORDER BY ts DESC LIMIT 1");
+            if (SQLite3.Step(stmt) == SQLite3.Result.Row)
+                lastest = new DateTime(1970, 1, 1).AddSeconds(SQLite3.ColumnInt(stmt, 0)).ToLocalTime();
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(mDB, "SELECT ts FROM data_table ORDER BY ts ASC LIMIT 1");
+            if (SQLite3.Step(stmt) == SQLite3.Result.Row)
+                oldest = new DateTime(1970, 1, 1).AddSeconds(SQLite3.ColumnInt(stmt, 0)).ToLocalTime();
+            SQLite3.Finalize(stmt);
+            return new Tuple<DateTime, DateTime>(oldest, lastest);
         }
     }
 }

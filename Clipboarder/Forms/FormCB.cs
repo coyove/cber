@@ -19,7 +19,7 @@ namespace Clipboarder
 {
     public partial class FormCB : Form
     {
-        private Database mDB;
+        public static Database mDB;
 
         private IntPtr mNextClipboardViewer;
 
@@ -134,7 +134,7 @@ namespace Clipboarder
 
         private void NavBtn_Click(object sender, EventArgs e)
         {
-            int p = (int)(sender as Button).Tag;
+            int p = (int)(sender as ToolStripButton).Tag;
             (mainData.Tag as Page).Current = p;
             RefreshDataMainView();
         }
@@ -247,7 +247,7 @@ namespace Clipboarder
                 var ctrlp = splitContainer.Panel2.Controls[i];
                 if (ctrlp != toolbarEdit) splitContainer.Panel2.Controls.Remove(ctrlp);
             }
-            buttonCodeDropdown.Enabled = buttonSaveChange.Enabled = buttonEdit.Enabled = false;
+            buttonHTMLToText.Enabled = buttonCodeDropdown.Enabled = buttonSaveChange.Enabled = buttonEdit.Enabled = false;
             if (!preview) return;
             Label lbl = new Label();
             lbl.Dock = DockStyle.Fill;
@@ -262,6 +262,7 @@ namespace Clipboarder
 
             ClearPanel2(false);
             var entry = mainData.Rows[e.RowIndex].Tag as Database.Entry;
+            mLastIndex = e.RowIndex;
             Control ctrl;
             switch (entry.Type)
             {
@@ -296,6 +297,9 @@ namespace Clipboarder
                     webText.ScrollBars = ScrollBars.Vertical;
                     webText.Font = mainData.DefaultCellStyle.Font;
                     inner.Panel2.Controls.Add(webText);
+
+                    buttonHTMLToText.Enabled = true;
+                    buttonHTMLToText.Tag = entry;
 
                     splitContainer.Panel2.Controls.Add(inner);
                     inner.SplitterDistance = inner.Width / 2;
@@ -525,7 +529,9 @@ namespace Clipboarder
         private void shortcutsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormSettings frm = new FormSettings();
-            frm.Show();
+            mListenDeactivated = true;
+            frm.ShowDialog();
+            mListenDeactivated = false;
         }
 
         private void plainTextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -546,6 +552,39 @@ namespace Clipboarder
                     break;
                 }
             }
+        }
+
+        private void buttonUrls_Click(object sender, EventArgs e)
+        {
+            FormSearch frm = new FormSearch();
+            mListenDeactivated = true;
+            frm.SwitchTab((sender as ToolStripButton).Tag as string);
+            frm.ShowDialog();
+            mListenDeactivated = false;
+            (mainData.Tag as Page).Where = frm.WhereClause;
+            RefreshDataMainView();
+        }
+
+        private void buttonClearWhere_Click(object sender, EventArgs e)
+        {
+            (mainData.Tag as Page).Where = "";
+            RefreshDataMainView();
+        }
+
+        private void mainData_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+        }
+
+        private void mainData_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            if (mainData.SelectedRows.Count == 0)
+            RefreshDataMainView();
+        }
+
+        private void buttonHTMLToText_Click(object sender, EventArgs e)
+        {
+            mDB.UpdateContent((buttonHTMLToText.Tag as Database.Entry).Id, Database.ContentType.RawText);
+            RefreshDataMainView();
         }
     }
 }

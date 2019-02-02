@@ -33,9 +33,18 @@
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.mainData = new System.Windows.Forms.DataGridView();
             this.entryUse = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.panelNav = new System.Windows.Forms.Panel();
+            this.toolStripNav = new System.Windows.Forms.ToolStrip();
+            this.buttonFirstPage = new System.Windows.Forms.ToolStripButton();
+            this.buttonLastPage = new System.Windows.Forms.ToolStripButton();
+            this.buttonClearWhere = new System.Windows.Forms.ToolStripButton();
+            this.toolStripMain = new System.Windows.Forms.ToolStrip();
+            this.buttonSearchName = new System.Windows.Forms.ToolStripButton();
+            this.buttonSearchTimespan = new System.Windows.Forms.ToolStripButton();
+            this.buttonSearchUrls = new System.Windows.Forms.ToolStripButton();
             this.toolbarEdit = new System.Windows.Forms.ToolStrip();
             this.buttonSaveChange = new System.Windows.Forms.ToolStripButton();
+            this.buttonCodeDropdown = new System.Windows.Forms.ToolStripDropDownButton();
+            this.plainTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonEdit = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
             this.statusTotalEntries = new System.Windows.Forms.ToolStripStatusLabel();
@@ -67,8 +76,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.openDatabaseLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.buttonCodeDropdown = new System.Windows.Forms.ToolStripDropDownButton();
-            this.plainTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonHTMLToText = new System.Windows.Forms.ToolStripButton();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.entryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,6 +86,8 @@
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).BeginInit();
+            this.toolStripNav.SuspendLayout();
+            this.toolStripMain.SuspendLayout();
             this.toolbarEdit.SuspendLayout();
             this.statusInfo.SuspendLayout();
             this.menuMain.SuspendLayout();
@@ -92,7 +102,8 @@
             // splitContainer.Panel1
             // 
             this.splitContainer.Panel1.Controls.Add(this.mainData);
-            this.splitContainer.Panel1.Controls.Add(this.panelNav);
+            this.splitContainer.Panel1.Controls.Add(this.toolStripNav);
+            this.splitContainer.Panel1.Controls.Add(this.toolStripMain);
             this.splitContainer.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
             // 
             // splitContainer.Panel2
@@ -117,6 +128,8 @@
             this.mainData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellClick);
             this.mainData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellContentClick);
             this.mainData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellEndEdit);
+            this.mainData.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.mainData_RowsRemoved);
+            this.mainData.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.mainData_UserDeletedRow);
             this.mainData.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.mainData_UserDeletingRow);
             // 
             // entryUse
@@ -126,10 +139,66 @@
             this.entryUse.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.entryUse.Text = "Copy";
             // 
-            // panelNav
+            // toolStripNav
             // 
-            resources.ApplyResources(this.panelNav, "panelNav");
-            this.panelNav.Name = "panelNav";
+            resources.ApplyResources(this.toolStripNav, "toolStripNav");
+            this.toolStripNav.ImageScalingSize = new System.Drawing.Size(22, 22);
+            this.toolStripNav.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonFirstPage,
+            this.buttonLastPage,
+            this.buttonClearWhere});
+            this.toolStripNav.Name = "toolStripNav";
+            // 
+            // buttonFirstPage
+            // 
+            this.buttonFirstPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.buttonFirstPage, "buttonFirstPage");
+            this.buttonFirstPage.Name = "buttonFirstPage";
+            this.buttonFirstPage.Click += new System.EventHandler(this.NavBtn_Click);
+            // 
+            // buttonLastPage
+            // 
+            this.buttonLastPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.buttonLastPage, "buttonLastPage");
+            this.buttonLastPage.Name = "buttonLastPage";
+            this.buttonLastPage.Click += new System.EventHandler(this.NavBtn_Click);
+            // 
+            // buttonClearWhere
+            // 
+            resources.ApplyResources(this.buttonClearWhere, "buttonClearWhere");
+            this.buttonClearWhere.Name = "buttonClearWhere";
+            this.buttonClearWhere.Click += new System.EventHandler(this.buttonClearWhere_Click);
+            // 
+            // toolStripMain
+            // 
+            resources.ApplyResources(this.toolStripMain, "toolStripMain");
+            this.toolStripMain.ImageScalingSize = new System.Drawing.Size(22, 22);
+            this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonSearchName,
+            this.buttonSearchTimespan,
+            this.buttonSearchUrls});
+            this.toolStripMain.Name = "toolStripMain";
+            // 
+            // buttonSearchName
+            // 
+            resources.ApplyResources(this.buttonSearchName, "buttonSearchName");
+            this.buttonSearchName.Name = "buttonSearchName";
+            this.buttonSearchName.Tag = "name";
+            this.buttonSearchName.Click += new System.EventHandler(this.buttonUrls_Click);
+            // 
+            // buttonSearchTimespan
+            // 
+            resources.ApplyResources(this.buttonSearchTimespan, "buttonSearchTimespan");
+            this.buttonSearchTimespan.Name = "buttonSearchTimespan";
+            this.buttonSearchTimespan.Tag = "time";
+            this.buttonSearchTimespan.Click += new System.EventHandler(this.buttonUrls_Click);
+            // 
+            // buttonSearchUrls
+            // 
+            resources.ApplyResources(this.buttonSearchUrls, "buttonSearchUrls");
+            this.buttonSearchUrls.Name = "buttonSearchUrls";
+            this.buttonSearchUrls.Tag = "url";
+            this.buttonSearchUrls.Click += new System.EventHandler(this.buttonUrls_Click);
             // 
             // toolbarEdit
             // 
@@ -138,7 +207,8 @@
             this.toolbarEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonSaveChange,
             this.buttonCodeDropdown,
-            this.buttonEdit});
+            this.buttonEdit,
+            this.buttonHTMLToText});
             this.toolbarEdit.Name = "toolbarEdit";
             // 
             // buttonSaveChange
@@ -146,6 +216,23 @@
             resources.ApplyResources(this.buttonSaveChange, "buttonSaveChange");
             this.buttonSaveChange.Name = "buttonSaveChange";
             this.buttonSaveChange.Click += new System.EventHandler(this.buttonSaveChange_Click);
+            // 
+            // buttonCodeDropdown
+            // 
+            this.buttonCodeDropdown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plainTextToolStripMenuItem});
+            resources.ApplyResources(this.buttonCodeDropdown, "buttonCodeDropdown");
+            this.buttonCodeDropdown.Name = "buttonCodeDropdown";
+            // 
+            // plainTextToolStripMenuItem
+            // 
+            this.plainTextToolStripMenuItem.Checked = true;
+            this.plainTextToolStripMenuItem.CheckOnClick = true;
+            this.plainTextToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.plainTextToolStripMenuItem.Name = "plainTextToolStripMenuItem";
+            resources.ApplyResources(this.plainTextToolStripMenuItem, "plainTextToolStripMenuItem");
+            this.plainTextToolStripMenuItem.Tag = "Plain";
+            this.plainTextToolStripMenuItem.Click += new System.EventHandler(this.plainTextToolStripMenuItem_Click);
             // 
             // buttonEdit
             // 
@@ -389,22 +476,11 @@
             resources.ApplyResources(this.notifyIcon, "notifyIcon");
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
-            // buttonCodeDropdown
+            // buttonHTMLToText
             // 
-            this.buttonCodeDropdown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.plainTextToolStripMenuItem});
-            resources.ApplyResources(this.buttonCodeDropdown, "buttonCodeDropdown");
-            this.buttonCodeDropdown.Name = "buttonCodeDropdown";
-            // 
-            // plainTextToolStripMenuItem
-            // 
-            this.plainTextToolStripMenuItem.Checked = true;
-            this.plainTextToolStripMenuItem.CheckOnClick = true;
-            this.plainTextToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.plainTextToolStripMenuItem.Name = "plainTextToolStripMenuItem";
-            resources.ApplyResources(this.plainTextToolStripMenuItem, "plainTextToolStripMenuItem");
-            this.plainTextToolStripMenuItem.Tag = "Plain";
-            this.plainTextToolStripMenuItem.Click += new System.EventHandler(this.plainTextToolStripMenuItem_Click);
+            resources.ApplyResources(this.buttonHTMLToText, "buttonHTMLToText");
+            this.buttonHTMLToText.Name = "buttonHTMLToText";
+            this.buttonHTMLToText.Click += new System.EventHandler(this.buttonHTMLToText_Click);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -453,6 +529,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainData)).EndInit();
+            this.toolStripNav.ResumeLayout(false);
+            this.toolStripNav.PerformLayout();
+            this.toolStripMain.ResumeLayout(false);
+            this.toolStripMain.PerformLayout();
             this.toolbarEdit.ResumeLayout(false);
             this.toolbarEdit.PerformLayout();
             this.statusInfo.ResumeLayout(false);
@@ -470,7 +550,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.StatusStrip statusInfo;
         private System.Windows.Forms.DataGridView mainData;
-        private System.Windows.Forms.Panel panelNav;
         private System.Windows.Forms.DataGridViewTextBoxColumn entryName;
         private System.Windows.Forms.DataGridViewButtonColumn entryUse;
         private System.Windows.Forms.DataGridViewTextBoxColumn entryContent;
@@ -508,6 +587,15 @@
         private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton buttonCodeDropdown;
         private System.Windows.Forms.ToolStripMenuItem plainTextToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStripMain;
+        private System.Windows.Forms.ToolStripButton buttonSearchUrls;
+        private System.Windows.Forms.ToolStrip toolStripNav;
+        private System.Windows.Forms.ToolStripButton buttonFirstPage;
+        private System.Windows.Forms.ToolStripButton buttonLastPage;
+        private System.Windows.Forms.ToolStripButton buttonClearWhere;
+        private System.Windows.Forms.ToolStripButton buttonSearchTimespan;
+        private System.Windows.Forms.ToolStripButton buttonSearchName;
+        private System.Windows.Forms.ToolStripButton buttonHTMLToText;
     }
 }
 
