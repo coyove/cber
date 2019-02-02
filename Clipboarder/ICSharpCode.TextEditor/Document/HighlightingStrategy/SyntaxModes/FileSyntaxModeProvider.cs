@@ -32,14 +32,14 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public void UpdateSyntaxModeList()
 		{
-			string syntaxModeFile = Path.Combine(directory, "SyntaxModes.xml");
-			if (File.Exists(syntaxModeFile)) {
-				Stream s = File.OpenRead(syntaxModeFile);
-				syntaxModes = SyntaxMode.GetSyntaxModes(s);
-				s.Close();
-			} else {
-				syntaxModes = ScanDirectory(directory);
-			}
+			//string syntaxModeFile = Path.Combine(directory, "SyntaxModes.xml");
+			//if (File.Exists(syntaxModeFile)) {
+			//	Stream s = File.OpenRead(syntaxModeFile);
+			//	syntaxModes = SyntaxMode.GetSyntaxModes(s);
+			//	s.Close();
+			//} else {
+			//	syntaxModes = ScanDirectory(directory);
+			//}
 		}
 		
 		public XmlTextReader GetSyntaxModeFile(SyntaxMode syntaxMode)

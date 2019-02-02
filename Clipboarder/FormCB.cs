@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -89,8 +91,17 @@ namespace Clipboarder
                 }
                 else
                 {
-                    finished = Dot(() =>
-                        mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url));
+                    bool plainScript = false;
+                    try
+                    {
+                        Uri uri = new Uri(url);
+                        plainScript = (uri.AbsolutePath.EndsWith(".js") || uri.AbsolutePath.EndsWith(".css"));
+                    }
+                    catch (Exception) { }
+
+                    finished = plainScript ?
+                        Dot(() => mDB.Insert(null, data.GetData(typeof(string))?.ToString(), url)) :
+                        Dot(() => mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url));
                 }
             }
             else if (Clipboard.ContainsText())
@@ -162,6 +173,20 @@ namespace Clipboarder
                 new MenuItem(exitToolStripMenuItem.Text, exitToolStripMenuItem_Click),
             });
 
+            
+            foreach (DictionaryEntry res in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, false, true))
+            {
+                if (res.Key.ToString().EndsWith("_Mode"))
+                {
+                    ToolStripMenuItem code = new ToolStripMenuItem();
+                    code.CheckOnClick = true;
+                    code.Text = res.Key.ToString();
+                    code.Text = code.Text.Substring(0, code.Text.Length - 5);
+                    code.Click += plainTextToolStripMenuItem_Click;
+                    buttonCodeDropdown.DropDownItems.Add(code);
+                }
+            }
+
             string dbPath = Properties.Settings.Default.DbPath == "." ?
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "cber.db") :
                 Properties.Settings.Default.DbPath;
@@ -188,7 +213,8 @@ namespace Clipboarder
 
             listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
 
-            RegisterShortcut("Alt+Oemtilde", () => notifyIcon_MouseDoubleClick(null, null));
+            RegisterShortcut(Properties.Settings.Default.GSShow, 
+                () => notifyIcon_MouseDoubleClick(null, null));
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -221,8 +247,7 @@ namespace Clipboarder
                 var ctrlp = splitContainer.Panel2.Controls[i];
                 if (ctrlp != toolbarEdit) splitContainer.Panel2.Controls.Remove(ctrlp);
             }
-            buttonSaveChange.Enabled = false;
-            buttonEdit.Enabled = false;
+            buttonCodeDropdown.Enabled = buttonSaveChange.Enabled = buttonEdit.Enabled = false;
             if (!preview) return;
             Label lbl = new Label();
             lbl.Dock = DockStyle.Fill;
@@ -273,7 +298,7 @@ namespace Clipboarder
                     inner.Panel2.Controls.Add(webText);
 
                     splitContainer.Panel2.Controls.Add(inner);
-                    inner.SplitterDistance = inner.Width * 3 / 4;
+                    inner.SplitterDistance = inner.Width / 2;
                     ctrl = inner;
                     break;
                 default:
@@ -284,6 +309,10 @@ namespace Clipboarder
                     ctrl = text;
                     buttonSaveChange.Enabled = true;
                     buttonSaveChange.Tag = new object[] { entry, text };
+                    buttonCodeDropdown.Enabled = true;
+                    foreach (var item in buttonCodeDropdown.DropDownItems)
+                        if ((item as ToolStripMenuItem).Checked)
+                            plainTextToolStripMenuItem_Click(item, null); 
                     break;
             }
             ctrl.BringToFront();
@@ -495,8 +524,28 @@ namespace Clipboarder
 
         private void shortcutsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormShortcuts frm = new FormShortcuts();
+            FormSettings frm = new FormSettings();
             frm.Show();
+        }
+
+        private void plainTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (var item in buttonCodeDropdown.DropDownItems)
+                (item as ToolStripMenuItem).Checked = false;
+
+            var m = (sender as ToolStripMenuItem);
+            m.Checked = true;
+
+            foreach (var ctrl in splitContainer.Panel2.Controls)
+            {
+                if (ctrl is ICSharpCode.TextEditor.TextEditorControl)
+                {
+                    (ctrl as ICSharpCode.TextEditor.TextEditorControl).SetHighlighting(
+                        m.Tag?.ToString() == "Plain" ? "" : m.Text
+                    );
+                    break;
+                }
+            }
         }
     }
 }

@@ -128,4 +128,55 @@
     <value>Database {0} is not available.
 Exiting now...</value>
   </data>
+  <data name="ASPX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\ASPX.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BAT_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\BAT-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Boo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\Boo.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Coco_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\Coco-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CPP_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\CPP-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CSharp_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\CSharp-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="HTML_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\HTML-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="JavaScript_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\JavaScript-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Java_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\Java-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ModeXSD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\Mode.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="Patch_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\Patch-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PHP_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\PHP-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SyntaxModes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\SyntaxModes.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="TextEditorControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\TextEditorControl.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tex_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\Tex-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="VBNET_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\VBNET-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="XML_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICModes\XML-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

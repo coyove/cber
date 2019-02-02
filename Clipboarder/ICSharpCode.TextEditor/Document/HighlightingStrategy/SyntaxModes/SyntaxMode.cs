@@ -60,7 +60,7 @@ namespace ICSharpCode.TextEditor.Document
 			this.extensions = extensions;
 		}
 		
-		public static List<SyntaxMode> GetSyntaxModes(Stream xmlSyntaxModeStream)
+		public static List<SyntaxMode> GetSyntaxModes(TextReader xmlSyntaxModeStream)
 		{
 			XmlTextReader reader = new XmlTextReader(xmlSyntaxModeStream);
 			List<SyntaxMode> syntaxModes = new List<SyntaxMode>();

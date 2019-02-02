@@ -91,4 +91,80 @@ namespace Clipboarder
             pe.Graphics.EndContainer(container);
         }
     }
+
+    class Shortcut : Panel
+    {
+        private CheckBox cbShift; 
+        private CheckBox cbAlt; 
+        private CheckBox cbCtrl;
+        private TextBox box;
+        
+        public Shortcut() : base()
+        {
+            box = new TextBox();
+            this.Controls.Add(box);
+
+            cbCtrl = new CheckBox();
+            cbCtrl.Text = "Ctrl";
+            cbCtrl.AutoSize = true;
+            this.Controls.Add(cbCtrl);
+            cbCtrl.Top = (box.Height - cbCtrl.Height) / 2;
+
+            cbAlt = new CheckBox();
+            cbAlt.Text = "Alt";
+            cbAlt.Location = new Point(cbCtrl.Location.X + cbCtrl.Width, cbCtrl.Location.Y);
+            cbAlt.AutoSize = true;
+            this.Controls.Add(cbAlt);
+
+            cbShift = new CheckBox();
+            cbShift.Text = "Shift";
+            cbShift.Location = new Point(cbAlt.Location.X + cbAlt.Width, cbCtrl.Location.Y);
+            cbShift.AutoSize = true;
+            this.Controls.Add(cbShift);
+
+            box.Left = cbShift.Location.X + cbShift.Width;
+            box.Width = 75;
+            box.TextAlign = HorizontalAlignment.Center;
+            box.ReadOnly = true;
+            box.KeyDown += (s, e) =>
+            {
+                box.Text = e.KeyCode.ToString();
+            };
+        }
+
+        public override string Text
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(box.Text)) return "";
+                List<string> res = new List<string>(4);
+                if (cbCtrl.Checked) res.Add("Ctrl");
+                if (cbAlt.Checked) res.Add("Alt");
+                if (cbShift.Checked) res.Add("Shift");
+                res.Add(box.Text);
+                return string.Join("+", res);
+            }
+            set
+            {
+                foreach (string key in value.Split(new char[] { '+' }))
+                {
+                    switch (key.ToLower())
+                    {
+                        case "alt":
+                            cbAlt.Checked = true;
+                            break;
+                        case "ctrl":
+                            cbCtrl.Checked = true;
+                            break;
+                        case "shift":
+                            cbShift.Checked = true;
+                            break;
+                        default:
+                            try { box.Text = ((Keys)Enum.Parse(typeof(Keys), key)).ToString(); } catch (Exception) { }
+                            break;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -31,7 +31,7 @@ namespace ICSharpCode.TextEditor.Document
 			try {
 				List<ValidationEventArgs> errors = null;
 				XmlReaderSettings settings = new XmlReaderSettings();
-				Stream shemaStream = typeof(HighlightingDefinitionParser).Assembly.GetManifestResourceStream("ICSharpCode.TextEditor.Resources.Mode.xsd");
+                var shemaStream = new StringReader(Clipboarder.Properties.Resources.ModeXSD);
 				settings.Schemas.Add("", new XmlTextReader(shemaStream));
 				settings.Schemas.ValidationEventHandler += delegate(object sender, ValidationEventArgs args) {
 					if (errors == null) {

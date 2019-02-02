@@ -26,18 +26,19 @@ namespace ICSharpCode.TextEditor.Document
 		public ResourceSyntaxModeProvider()
 		{
 			Assembly assembly = typeof(SyntaxMode).Assembly;
-			Stream syntaxModeStream = assembly.GetManifestResourceStream("ICSharpCode.TextEditor.Resources.SyntaxModes.xml");
-			if (syntaxModeStream != null) {
-				syntaxModes = SyntaxMode.GetSyntaxModes(syntaxModeStream);
-			} else {
-				syntaxModes = new List<SyntaxMode>();
-			}
+            //Stream syntaxModeStream = assembly.GetManifestResourceStream("ICSharpCode.TextEditor.Resources.SyntaxModes.xml");
+
+            //if (syntaxModeStream != null) {
+            syntaxModes = SyntaxMode.GetSyntaxModes(new StringReader(Clipboarder.Properties.Resources.SyntaxModes));
+			//} else {
+			//	syntaxModes = new List<SyntaxMode>();
+			//}
 		}
 		
 		public XmlTextReader GetSyntaxModeFile(SyntaxMode syntaxMode)
 		{
-			Assembly assembly = typeof(SyntaxMode).Assembly;
-			return new XmlTextReader(assembly.GetManifestResourceStream("ICSharpCode.TextEditor.Resources." + syntaxMode.FileName));
+            var s = new MemoryStream(Clipboarder.Properties.Resources.ResourceManager.GetObject(syntaxMode.FileName) as byte[]);
+			return new XmlTextReader(s);
 		}
 		
 		public void UpdateSyntaxModeList()
