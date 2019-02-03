@@ -15,6 +15,7 @@ namespace Clipboarder
         public int Hits;
         public Size Size;
         public bool IsHtml;
+        public object Content;
 
         private string url;
         public string Url {

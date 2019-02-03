@@ -128,7 +128,7 @@ namespace Clipboarder
             }
             else
             {
-                statusMessage.Text = Properties.Resources.statusOperationTimedout;
+                statusMessage.Text = Properties.Resources.StatusOperationTimedout;
             }
         }
 
@@ -203,12 +203,14 @@ namespace Clipboarder
             }
             if (mDB == null)
             {
-                MessageBox.Show(string.Format(Properties.Resources.databaseNotAvailable, dbPath), 
+                MessageBox.Show(string.Format(Properties.Resources.DatabaseNotAvailable, dbPath), 
                     Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 exitToolStripMenuItem_Click(null, null);
                 return;
             }
 
+            entries.mDB = mDB;
+            entries.EditImageCallback = EditImage;
             RefreshDataMainView();
 
             listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
@@ -356,13 +358,12 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
-        private void buttonEdit_Click(object sender, EventArgs e)
+        private Image EditImage(Image img)
         {
             try
             {
                 mListenDeactivated = true;
 
-                var img = (buttonEdit.Tag as Database.Entry).Content as Image;
                 string fn = (Path.GetTempFileName()) + ".png";
                 img.Save(fn);
 
@@ -373,11 +374,6 @@ namespace Clipboarder
                 p.WaitForExit();
 
                 img = Image.FromFile(fn);
-                (splitContainer.Panel2.Tag as PictureBox).Image = img;
-                (buttonEdit.Tag as Database.Entry).Content = img;
-                mDB.UpdateContent((buttonEdit.Tag as Database.Entry).Id, img);
-
-                RefreshDataMainView();
             }
             catch (Exception ex)
             {
@@ -387,6 +383,7 @@ namespace Clipboarder
             {
                 mListenDeactivated = false;
             }
+            return img;
         }
 
         private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -483,6 +480,9 @@ namespace Clipboarder
 
         private void clearEntriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show(Properties.Resources.DeleteAllConfirm, 
+                Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
             mDB.Delete(-1);
             RefreshDataMainView();
         }
@@ -510,7 +510,7 @@ namespace Clipboarder
                 }
                 if (mDB == null)
                 {
-                    MessageBox.Show(string.Format(Properties.Resources.databaseNotAvailable, openDb.FileName),
+                    MessageBox.Show(string.Format(Properties.Resources.DatabaseNotAvailable, openDb.FileName),
                         Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }

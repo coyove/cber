@@ -149,6 +149,8 @@ namespace Clipboarder
         private void RefreshDataMainView()
         {
             mainData.Rows.Clear();
+            entries.Clear();
+
             for (int i = toolStripNav.Items.Count - 1; i >= 0; i--)
                 if ((toolStripNav.Items[i] as ToolStripButton)?.Name.StartsWith("nav") == true)
                     toolStripNav.Items.RemoveAt(i);
@@ -192,6 +194,7 @@ namespace Clipboarder
                         Url = e.SourceUrl,
                         IsHtml = e.Type == Database.ContentType.HTML,
                     };
+                    entries.Add(e);
                     var text = e.Content.ToString();
                     if (e.Type == Database.ContentType.HTML)
                     {
@@ -215,13 +218,14 @@ namespace Clipboarder
                     mainData.Rows[index].Cells["entryContent"] = cell;
                     Image img = (Image)e.Content;
                     cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Size = img.Size, Url = e.SourceUrl };
+                    entries.Add(e);
                     cell.Value = e.Content;
                     if (img.Size.Width > mainData.RowTemplate.MinimumHeight || img.Size.Height > mainData.RowTemplate.MinimumHeight)
                         mainData.Rows[index].Height = mainData.RowTemplate.MinimumHeight * 2;
                 }
                 mainData.Rows[index].Selected = false;
             }
-
+            entries.Invalidate();
             buttonFirstPage.Tag = 1;
             var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
             for (int i = startEnd.Item1; i <= startEnd.Item2; i++)

@@ -124,9 +124,28 @@ namespace Clipboarder.Properties {
         ///   查找类似 Database {0} is not available.
         ///Exiting now... 的本地化字符串。
         /// </summary>
-        internal static string databaseNotAvailable {
+        internal static string DatabaseNotAvailable {
             get {
-                return ResourceManager.GetString("databaseNotAvailable", resourceCulture);
+                return ResourceManager.GetString("DatabaseNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Are you sure of deleting all entries? 的本地化字符串。
+        /// </summary>
+        internal static string DeleteAllConfirm {
+            get {
+                return ResourceManager.GetString("DeleteAllConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap document_save {
+            get {
+                object obj = ResourceManager.GetObject("document_save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -137,6 +156,16 @@ namespace Clipboarder.Properties {
             get {
                 object obj = ResourceManager.GetObject("HTML_Mode", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap image_x_generic {
+            get {
+                object obj = ResourceManager.GetObject("image_x_generic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -200,11 +229,21 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap process_stop {
+            get {
+                object obj = ResourceManager.GetObject("process_stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 System is busy, try pressing F5 to refresh 的本地化字符串。
         /// </summary>
-        internal static string statusOperationTimedout {
+        internal static string StatusOperationTimedout {
             get {
-                return ResourceManager.GetString("statusOperationTimedout", resourceCulture);
+                return ResourceManager.GetString("StatusOperationTimedout", resourceCulture);
             }
         }
         
@@ -253,6 +292,26 @@ namespace Clipboarder.Properties {
             get {
                 object obj = ResourceManager.GetObject("Tex_Mode", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap text_html {
+            get {
+                object obj = ResourceManager.GetObject("text_html", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap text_x_script {
+            get {
+                object obj = ResourceManager.GetObject("text_x_script", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

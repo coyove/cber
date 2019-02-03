@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -95,7 +96,8 @@ namespace Clipboarder
 
         public static string GetDefaultName()
         {
-            return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+            //return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+            return "<U>";
         }
 
         static Helper()
@@ -140,6 +142,25 @@ namespace Clipboarder
                     Clipboard.SetData(DataFormats.StringFormat, entry.Content);
                     break;
             }
+        }
+
+        public static double CalcFitZoom(Image img, int width, int height)
+        {
+            int w = img.Width, h = img.Height;
+            int pw = width, ph = height;
+
+            if (w <= pw && h <= ph) return 1;
+            if (w > pw && h <= ph) return (double)pw / w;
+            if (w <= pw && h > ph) return (double)ph / h;
+            if (w > pw && h > ph)
+            {
+                double mZoom = (double)ph / h;
+                if (w * mZoom > pw)
+                    mZoom = (double)pw  / w;
+                return mZoom;
+            }
+
+            throw new InvalidOperationException("not possible");
         }
     }
 }

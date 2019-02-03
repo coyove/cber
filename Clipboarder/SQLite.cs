@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -330,7 +331,6 @@ namespace Clipboarder
             public string SourceUrl { get; set; }
             public DateTime Time { get; set; }
             public object Content { get; set; }
-
             public string Html { get; set; }
         }
 

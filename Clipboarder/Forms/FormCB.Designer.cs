@@ -46,6 +46,7 @@
             this.buttonCodeDropdown = new System.Windows.Forms.ToolStripDropDownButton();
             this.plainTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonEdit = new System.Windows.Forms.ToolStripButton();
+            this.buttonHTMLToText = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
             this.statusTotalEntries = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -76,11 +77,11 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.openDatabaseLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.buttonHTMLToText = new System.Windows.Forms.ToolStripButton();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.entryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.entryContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.entries = new Clipboarder.EntryPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -238,7 +239,12 @@
             // 
             resources.ApplyResources(this.buttonEdit, "buttonEdit");
             this.buttonEdit.Name = "buttonEdit";
-            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+            // 
+            // buttonHTMLToText
+            // 
+            resources.ApplyResources(this.buttonHTMLToText, "buttonHTMLToText");
+            this.buttonHTMLToText.Name = "buttonHTMLToText";
+            this.buttonHTMLToText.Click += new System.EventHandler(this.buttonHTMLToText_Click);
             // 
             // statusInfo
             // 
@@ -476,12 +482,6 @@
             resources.ApplyResources(this.notifyIcon, "notifyIcon");
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
-            // buttonHTMLToText
-            // 
-            resources.ApplyResources(this.buttonHTMLToText, "buttonHTMLToText");
-            this.buttonHTMLToText.Name = "buttonHTMLToText";
-            this.buttonHTMLToText.Click += new System.EventHandler(this.buttonHTMLToText_Click);
-            // 
             // dataGridViewTextBoxColumn1
             // 
             resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
@@ -508,10 +508,16 @@
             this.entryContent.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.entryContent.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // entries
+            // 
+            resources.ApplyResources(this.entries, "entries");
+            this.entries.Name = "entries";
+            // 
             // FormCB
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.entries);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuMain);
             this.Controls.Add(this.statusInfo);
@@ -596,6 +602,7 @@
         private System.Windows.Forms.ToolStripButton buttonSearchTimespan;
         private System.Windows.Forms.ToolStripButton buttonSearchName;
         private System.Windows.Forms.ToolStripButton buttonHTMLToText;
+        private EntryPanel entries;
     }
 }
 

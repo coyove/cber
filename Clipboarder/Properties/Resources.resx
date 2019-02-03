@@ -121,10 +121,10 @@
   <data name="SystrayIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystrayIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="statusOperationTimedout" xml:space="preserve">
+  <data name="StatusOperationTimedout" xml:space="preserve">
     <value>System is busy, try pressing F5 to refresh</value>
   </data>
-  <data name="databaseNotAvailable" xml:space="preserve">
+  <data name="DatabaseNotAvailable" xml:space="preserve">
     <value>Database {0} is not available.
 Exiting now...</value>
   </data>
@@ -178,5 +178,23 @@ Exiting now...</value>
   </data>
   <data name="XML_Mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ICModes\XML-Mode.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DeleteAllConfirm" xml:space="preserve">
+    <value>Are you sure of deleting all entries?</value>
+  </data>
+  <data name="document_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\document-save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="image_x_generic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\image-x-generic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="process_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\process-stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text-html.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_x_script" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text-x-script.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

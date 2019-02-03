@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
+    <Compile Include="EntryPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\FormCB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -288,6 +291,11 @@
     <Content Include="ICModes\TextEditorControl.bmp" />
     <None Include="Resources\SystrayIcon.ico" />
     <None Include="Resources\icon.ico" />
+    <None Include="Resources\document-save.png" />
+    <None Include="Resources\process-stop.png" />
+    <None Include="Resources\text-x-script.png" />
+    <None Include="Resources\text-html.png" />
+    <None Include="Resources\image-x-generic.png" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
