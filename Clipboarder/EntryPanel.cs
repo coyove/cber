@@ -367,6 +367,7 @@ namespace Clipboarder
                 graphics.DrawString(sizeText, font, Brushes.Black, 0, top + size.Height);
             }
 
+            graphics.DrawImage(Properties.Resources.shadow, 0, top + size.Height, this.Width, 16);
             return hotarea;
         }
 
