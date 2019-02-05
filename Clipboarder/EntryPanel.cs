@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -19,6 +20,10 @@ namespace Clipboarder
 
         private Dictionary<Database.Entry, Rectangle> mUrlHotarea = new Dictionary<Database.Entry, Rectangle>();
 
+        private Dictionary<Database.Entry, Rectangle> mCopyHotarea = new Dictionary<Database.Entry, Rectangle>();
+
+        private Database.Entry mCurrentHoverEntry;
+
         private ToolStripDropDownButton mCodeMenu = new ToolStripDropDownButton();
 
         private Panel mPanel;
@@ -29,18 +34,38 @@ namespace Clipboarder
 
         public Func<Image, Image> EditImageCallback;
 
+        public Action<Database.Entry> CopyCallback;
+
         static int TextEntryHeight = 200;
         static int ImageEntryHeight = 200;
+        static int ButtonSize = 32;
         static int ScrollbarWidth = 15;
         static int MinimalScrollbarHeight = 25;
         static Brush ScrollbarBrush = Brushes.Gray;
+        static Brush ZebraBrush = new SolidBrush(Color.FromArgb(240, 240, 240));
         static Font Monospace = new Font("Consolas", 12);
         static Size MonospaceSize = TextRenderer.MeasureText("A", Monospace);
+        static ImageAttributes ButtonIA = new ImageAttributes();
+
+        static EntryPanel()
+        {
+            ButtonIA.SetColorMatrix(new ColorMatrix(new float[][]
+{
+  new float[] {1, 0, 0, 0, 0},
+  new float[] {0, 1, 0, 0, 0},
+  new float[] {0, 0, 1, 0, 0},
+  new float[] {0, 0, 0, 0.6f, 0},
+  new float[] {0, 0, 0, 0, 1},
+}
+));
+        }
 
         public EntryPanel() : base()
         {
             this.Padding = new Padding(0);
             this.DoubleBuffered = true;
+            this.TabStop = false;
+
             ToolStripMenuItem plainText = new ToolStripMenuItem();
             plainText.CheckOnClick = true;
             plainText.Checked = true;
@@ -127,6 +152,17 @@ namespace Clipboarder
                 return;
             }
 
+            mCurrentHoverEntry = null;
+            foreach (var kv in mCopyHotarea)
+            {
+                if (kv.Value.Contains(e.Location))
+                {
+                    mCurrentHoverEntry = kv.Key;
+                    Invalidate();
+                    return;
+                }
+            }
+
             foreach (var kv in mUrlHotarea)
             {
                 if (kv.Value.Contains(e.Location))
@@ -144,9 +180,11 @@ namespace Clipboarder
                     mPanel = new Panel();
                     mPanel.Location = kv.Value.Location;
                     mPanel.Size = kv.Value.Size;
+                    mPanel.TabStop = false;
 
                     var toolbar = new ToolStrip();
                         toolbar.Dock = DockStyle.Top;
+                    toolbar.TabStop = false;
 
                     switch (kv.Key.Type)
                     {
@@ -154,6 +192,7 @@ namespace Clipboarder
                             var editor = new ICSharpCode.TextEditor.TextEditorControl();
                             editor.Text = kv.Key.Content as string;
                             editor.Dock = DockStyle.Fill;
+                            editor.TabStop = false;
                             mPanel.Controls.Add(editor);
 
                             toolbar.Items.Add(new ToolStripButton("Save",
@@ -176,6 +215,7 @@ namespace Clipboarder
                             browser.DocumentText = Helper.ExtractHTMLFromClipboard(kv.Key.Content.ToString());
                             browser.Navigating += (v1, v2) => { v2.Cancel = true; };
                             browser.ScriptErrorsSuppressed = true;
+                            browser.TabStop = false;
                             mPanel.Controls.Add(browser);
 
                             toolbar.Items.Add(new ToolStripButton("HTML to Text",
@@ -226,6 +266,15 @@ namespace Clipboarder
                 if (Value < 0) Value = 0;
                 Invalidate();
             }
+
+            foreach (var kv in mCopyHotarea)
+            {
+                if (kv.Value.Contains(e.Location))
+                {
+                    Cursor.Current = Cursors.Hand;
+                    return;
+                }
+            }
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -243,6 +292,12 @@ namespace Clipboarder
         {
             base.OnMouseUp(e);
             sbMove = false;
+            if (mCurrentHoverEntry != null)
+            {
+                CopyCallback(mCurrentHoverEntry);
+                mCurrentHoverEntry = null;
+                Invalidate();
+            }
         }
 
         public Rectangle DrawTitle(Graphics graphics, Database.Entry e, Font font, int top, Brush color)
@@ -299,22 +354,32 @@ namespace Clipboarder
             return hotarea;
         }
 
+        protected override void OnResize(EventArgs eventargs)
+        {
+            base.OnResize(eventargs);
+            Invalidate();
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             // System.Diagnostics.Debug.Print(e.ClipRectangle.ToString());
             var container = e.Graphics.BeginContainer();
             e.Graphics.Clip = new Region(e.ClipRectangle);
-            e.Graphics.FillRectangle(Brushes.White, e.ClipRectangle);
+            //e.Graphics.FillRectangle(Brushes.White, e.ClipRectangle);
 
             mHotarea.Clear();
             mUrlHotarea.Clear();
+            mCopyHotarea.Clear();
             this.Controls.Clear();
 
             int top = -(int)(Value * mK);
+            bool zebra = true;
             foreach (Database.Entry datum in mData)
             {
-                //e.Graphics.DrawString(datum.No.ToString(), Monospace, Brushes.Black, new Point(0, top));
+                zebra = !zebra;
+                e.Graphics.FillRectangle(zebra ? Brushes.White : ZebraBrush, 0, top, this.Width, ImageEntryHeight);
+
                 int drawTop = top + MonospaceSize.Height;
                 int drawHeight = ImageEntryHeight - MonospaceSize.Height;
                 if (drawTop >= 0 && drawTop <= this.Height)
@@ -324,6 +389,7 @@ namespace Clipboarder
                         mUrlHotarea[datum] = new Rectangle(0, top + MonospaceSize.Height,
                             this.Width - ScrollbarWidth, MonospaceSize.Height);
                 }
+
                 switch (datum.Type)
                 {
                     case Database.ContentType.Image:
@@ -344,7 +410,7 @@ namespace Clipboarder
                             drawHeight2 -= MonospaceSize.Height;
                         }
                         e.Graphics.DrawString(content, Monospace, Brushes.Black,
-                            new Rectangle(0, drawTop, this.Width, drawHeight2));
+                            new Rectangle(5, drawTop + 5, this.Width - 10, drawHeight2 - 10));
                         break;
                 }
                 switch (datum.Type)
@@ -360,8 +426,33 @@ namespace Clipboarder
                         break;
                 }
 
+                var copyButtonRect = new Rectangle( 
+                    this.Width - ButtonSize -ScrollbarWidth - 10,
+                    top + ImageEntryHeight - ButtonSize - 10,
+                    ButtonSize, ButtonSize);
+
+                if (mCurrentHoverEntry == datum)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.edit_copy, copyButtonRect, 0, 0, 48,48, GraphicsUnit.Pixel, ButtonIA);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(Properties.Resources.edit_copy, copyButtonRect);
+                }
+                mCopyHotarea[datum] = copyButtonRect;
 
                 top += datum.Content is Image ? ImageEntryHeight : TextEntryHeight;
+            }
+
+            if (mData.Count == 0)
+            {
+                e.Graphics.DrawString(Properties.Resources.EmptyResults,
+                    Monospace, Brushes.Black,
+                    new Rectangle(0, 0, this.Width - ScrollbarWidth, this.Height), new StringFormat()
+                    {
+                        Alignment = StringAlignment.Center,
+                        LineAlignment = StringAlignment.Center,
+                    });
             }
 
             int diff = RealHeight - this.Height;

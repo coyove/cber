@@ -76,8 +76,9 @@ namespace Clipboarder
             if (html != null)
             {
                 if (!listenHTMLContents.Checked) return;
-                byte[] buf = Encoding.Default.GetBytes(html.ToString());
-                string content = Encoding.UTF8.GetString(buf);
+                //byte[] buf = Encoding.Default.GetBytes(html.ToString());
+                //string content = Encoding.UTF8.GetString(buf);
+                string content = html.ToString();
                 if (content == "") return;
                 string url = Helper.ExtractFieldFromHTMLClipboard(content, "SourceURL");
 
@@ -149,7 +150,6 @@ namespace Clipboarder
             mTimer.Enabled = true;
             mTimer.Elapsed += (v1, v2) =>
             {
-                mainData.Invalidate();
                 foreach (var t in mPendingThreads)
                 {
                     DateTime dummy;
@@ -159,33 +159,13 @@ namespace Clipboarder
                         t.Key.Abort();
                 }
             };
-            mainData.RowTemplate.MinimumHeight = 100;
-            mainData.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(mainData, true, null);
-            mainData.ShowCellToolTips = false;
             mainData.Tag = new Page() { Current = 1 };
-            entryName.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            entryContent.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            entryContent.DefaultCellStyle.Font = new Font("Consolas", 12);
             notifyIcon.Icon = Properties.Resources.SystrayIcon;
             notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {
                 new MenuItem(listenToolStripMenuItem.Text, listenToolStripMenuItem_Click),
                 new MenuItem("Open", (v1, v2) => notifyIcon_MouseDoubleClick(v1, null)),
                 new MenuItem(exitToolStripMenuItem.Text, exitToolStripMenuItem_Click),
             });
-
-            
-            foreach (DictionaryEntry res in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, false, true))
-            {
-                if (res.Key.ToString().EndsWith("_Mode"))
-                {
-                    ToolStripMenuItem code = new ToolStripMenuItem();
-                    code.CheckOnClick = true;
-                    code.Text = res.Key.ToString();
-                    code.Text = code.Text.Substring(0, code.Text.Length - 5);
-                    code.Click += plainTextToolStripMenuItem_Click;
-                    buttonCodeDropdown.DropDownItems.Add(code);
-                }
-            }
 
             string dbPath = Properties.Settings.Default.DbPath == "." ?
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "cber.db") :
@@ -209,8 +189,15 @@ namespace Clipboarder
                 return;
             }
 
-            entries.mDB = mDB;
-            entries.EditImageCallback = EditImage;
+            mainData.mDB = mDB;
+            mainData.EditImageCallback = EditImage;
+            mainData.CopyCallback = (ce) =>
+            {
+                mListenDeactivated = true;
+                Helper.SetClipboard(ce);
+                mListenDeactivated = false;
+                if (hideAfterCopyToolStripMenuItem.Checked) Hide();
+            };
             RefreshDataMainView();
 
             listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
@@ -227,135 +214,6 @@ namespace Clipboarder
             mTimer.Stop();
             mTimer.Dispose();
             SaveSettings();
-        }
-
-        private void Form1_Activated(object sender, EventArgs e)
-        {
-        }
-
-        private void Form1_Deactivate(object sender, EventArgs e)
-        {
-        }
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void ClearPanel2(bool preview = true)
-        {
-            for (int i = splitContainer.Panel2.Controls.Count - 1; i >= 0; i--)
-            {
-                var ctrlp = splitContainer.Panel2.Controls[i];
-                if (ctrlp != toolbarEdit) splitContainer.Panel2.Controls.Remove(ctrlp);
-            }
-            buttonHTMLToText.Enabled = buttonCodeDropdown.Enabled = buttonSaveChange.Enabled = buttonEdit.Enabled = false;
-            if (!preview) return;
-            Label lbl = new Label();
-            lbl.Dock = DockStyle.Fill;
-            lbl.Text = "Preview";
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            splitContainer.Panel2.Controls.Add(lbl);
-        }
-
-        private void mainData_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= mainData.Rows.Count || e.RowIndex < 0) return;
-
-            ClearPanel2(false);
-            var entry = mainData.Rows[e.RowIndex].Tag as Database.Entry;
-            mLastIndex = e.RowIndex;
-            Control ctrl;
-            switch (entry.Type)
-            {
-                case Database.ContentType.Image:
-                    var viewer = new ImageViewer();
-                    viewer.Dock = DockStyle.Fill;
-                    viewer.Image = entry.Content as Image;
-                    viewer.SizeMode = PictureBoxSizeMode.Zoom;
-                    splitContainer.Panel2.Controls.Add(viewer);
-                    viewer.CalcFitZoom();
-                    buttonEdit.Enabled = true;
-                    buttonEdit.Tag = entry;
-                    ctrl = viewer;
-                    break;
-                case Database.ContentType.HTML:
-                    SplitContainer inner = new SplitContainer();
-                    inner.Orientation = (Orientation)Math.Abs((int)splitContainer.Orientation - 1);
-                    inner.Dock = DockStyle.Fill;
-
-                    WebBrowser web = new WebBrowser();
-                    web.Dock = DockStyle.Fill;
-                    web.DocumentText = Helper.ExtractHTMLFromClipboard(entry.Content.ToString());
-                    web.Navigating += (v1, v2) => { v2.Cancel = true; };
-                    inner.Panel1.Controls.Add(web);
-
-                    TextBox webText = new TextBox();
-                    webText.BorderStyle = BorderStyle.None;
-                    webText.ReadOnly = true;
-                    webText.Multiline = true;
-                    webText.Text = entry.Html;
-                    webText.Dock = DockStyle.Fill;
-                    webText.ScrollBars = ScrollBars.Vertical;
-                    webText.Font = mainData.DefaultCellStyle.Font;
-                    inner.Panel2.Controls.Add(webText);
-
-                    buttonHTMLToText.Enabled = true;
-                    buttonHTMLToText.Tag = entry;
-
-                    splitContainer.Panel2.Controls.Add(inner);
-                    inner.SplitterDistance = inner.Width / 2;
-                    ctrl = inner;
-                    break;
-                default:
-                    var text = new ICSharpCode.TextEditor.TextEditorControl();
-                    text.Dock = DockStyle.Fill;
-                    text.Text = entry.Content.ToString();
-                    splitContainer.Panel2.Controls.Add(text);
-                    ctrl = text;
-                    buttonSaveChange.Enabled = true;
-                    buttonSaveChange.Tag = new object[] { entry, text };
-                    buttonCodeDropdown.Enabled = true;
-                    foreach (var item in buttonCodeDropdown.DropDownItems)
-                        if ((item as ToolStripMenuItem).Checked)
-                            plainTextToolStripMenuItem_Click(item, null); 
-                    break;
-            }
-            ctrl.BringToFront();
-            splitContainer.Panel2.Tag = ctrl;
-
-            if (!(mainData.Columns[e.ColumnIndex] is DataGridViewButtonColumn)) return;
-
-            mListenDeactivated = true;
-            Helper.SetClipboard(entry);
-            mListenDeactivated = false;
-
-            if (hideAfterCopyToolStripMenuItem.Checked)
-                Hide();
-        }
-
-        private void mainData_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void mainData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= mainData.Rows.Count || e.RowIndex < 0) return;
-            string newName = mainData.Rows[e.RowIndex].Cells["entryName"].Value.ToString();
-            mDB.Rename((mainData.Rows[e.RowIndex].Tag as Database.Entry).Id, newName);
-        }
-
-        private void mainData_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
-        {
-            mDB.Delete((e.Row.Tag as Database.Entry).Id);
-        }
-
-        private void buttonSaveChange_Click(object sender, EventArgs e)
-        {
-            var tags = buttonSaveChange.Tag as object[];
-            mDB.UpdateContent((tags[0] as Database.Entry).Id, (tags[1] as ICSharpCode.TextEditor.TextEditorControl).Text);
-            RefreshDataMainView();
         }
 
         private Image EditImage(Image img)
@@ -384,22 +242,6 @@ namespace Clipboarder
                 mListenDeactivated = false;
             }
             return img;
-        }
-
-        private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            splitContainer.Orientation = splitContainer.Orientation == Orientation.Vertical ?
-                Orientation.Horizontal :
-                Orientation.Vertical;
-            foreach (var ctrl in splitContainer.Panel2.Controls)
-            {
-                if (ctrl is SplitContainer)
-                {
-                    var sc = (ctrl as SplitContainer);
-                    sc.Orientation = (Orientation)Math.Abs((int)splitContainer.Orientation - 1);
-                    sc.SplitterDistance = sc.Width / 2;
-                }
-            }
         }
 
         private void stayOnTopToolStripMenuItem_Click(object sender, EventArgs e)
@@ -534,26 +376,6 @@ namespace Clipboarder
             mListenDeactivated = false;
         }
 
-        private void plainTextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (var item in buttonCodeDropdown.DropDownItems)
-                (item as ToolStripMenuItem).Checked = false;
-
-            var m = (sender as ToolStripMenuItem);
-            m.Checked = true;
-
-            foreach (var ctrl in splitContainer.Panel2.Controls)
-            {
-                if (ctrl is ICSharpCode.TextEditor.TextEditorControl)
-                {
-                    (ctrl as ICSharpCode.TextEditor.TextEditorControl).SetHighlighting(
-                        m.Tag?.ToString() == "Plain" ? "" : m.Text
-                    );
-                    break;
-                }
-            }
-        }
-
         private void buttonUrls_Click(object sender, EventArgs e)
         {
             FormSearch frm = new FormSearch();
@@ -562,28 +384,14 @@ namespace Clipboarder
             frm.ShowDialog();
             mListenDeactivated = false;
             (mainData.Tag as Page).Where = frm.WhereClause;
+            (mainData.Tag as Page).BruteSearch = frm.BruteSearch;
             RefreshDataMainView();
         }
 
         private void buttonClearWhere_Click(object sender, EventArgs e)
         {
             (mainData.Tag as Page).Where = "";
-            RefreshDataMainView();
-        }
-
-        private void mainData_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-        }
-
-        private void mainData_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
-        {
-            if (mainData.SelectedRows.Count == 0)
-            RefreshDataMainView();
-        }
-
-        private void buttonHTMLToText_Click(object sender, EventArgs e)
-        {
-            mDB.UpdateContent((buttonHTMLToText.Tag as Database.Entry).Id, Database.ContentType.RawText);
+            (mainData.Tag as Page).BruteSearch = false;
             RefreshDataMainView();
         }
     }

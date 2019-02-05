@@ -575,9 +575,12 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
-        public int TotalEntries(string where = "AND 1 = 1")
+        public int TotalEntries(string where, bool bruteSearch)
         {
-            IntPtr stmt = SQLite3.Prepare2(mDB, "SELECT COUNT(id) FROM data_table WHERE 1 = 1 " + where + ";");
+            IntPtr stmt = SQLite3.Prepare2(mDB, 
+                bruteSearch ?
+                "SELECT COUNT(id) FROM data_table;" :
+                "SELECT COUNT(id) FROM data_table WHERE 1 = 1 " + where + ";");
             int count = 0;
             if (SQLite3.Step(stmt) == SQLite3.Result.Row)
                 count = SQLite3.ColumnInt(stmt, 0);
@@ -585,7 +588,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return count;
         }
 
-        public Entry[] Paging(string where, string orderByFields, int start, int length)
+        public Entry[] Paging(string where, string orderByFields, int start, int length, bool bruteSearch = false)
         {
             if (string.IsNullOrWhiteSpace(where))
                 where = "AND 1 = 1";
@@ -593,37 +596,59 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                 orderByFields = "ts DESC, id DESC";
 
             List<Entry> entries = new List<Entry>(length);
-            IntPtr stmt = SQLite3.Prepare2(mDB, string.Format(
-               "SELECT id, ts, name, type, text_content, binary_content, hits, source_url, html_content FROM data_table WHERE 1 = 1 {0} ORDER BY {1} LIMIT {2}, {3};",
-               where, orderByFields, start, length));
-            while (SQLite3.Step(stmt) == SQLite3.Result.Row)
+
+            while (true)
             {
-                Entry e = new Entry();
-                e.Id = SQLite3.ColumnInt(stmt, 0);
-                e.Time = new DateTime(1970, 1, 1).AddSeconds(SQLite3.ColumnInt(stmt, 1)).ToLocalTime();
-                e.Name = SQLite3.ColumnString(stmt, 2);
-                e.Type = (ContentType)(SQLite3.ColumnInt(stmt, 3));
-                switch (e.Type)
+                string query = bruteSearch ?
+                string.Format(
+                   "SELECT id, ts, name, type, text_content, binary_content, hits, source_url, html_content FROM data_table ORDER BY {0} LIMIT {1}, {2};",
+                   orderByFields, start, length) :
+                string.Format(
+                   "SELECT id, ts, name, type, text_content, binary_content, hits, source_url, html_content FROM data_table WHERE 1 = 1 {0} ORDER BY {1} LIMIT {2}, {3};",
+                   where, orderByFields, start, length);
+                IntPtr stmt = SQLite3.Prepare2(mDB, query);
+                bool gotResults = false;
+                while (SQLite3.Step(stmt) == SQLite3.Result.Row)
                 {
-                    case ContentType.RawText:
-                    case ContentType.HTML:
-                        e.Content = SQLite3.ColumnString(stmt, 4);
-                        break;
-                    case ContentType.RawBinary:
-                        e.Content = SQLite3.ColumnByteArray(stmt, 5);
-                        break;
-                    case ContentType.Image:
-                        MemoryStream s = new MemoryStream(SQLite3.ColumnByteArray(stmt, 5));
-                        e.Content = System.Drawing.Image.FromStream(s);
-                        s.Dispose();
-                        break;
+                    gotResults = true;
+                    Entry e = new Entry();
+                    e.Id = SQLite3.ColumnInt(stmt, 0);
+                    e.Time = new DateTime(1970, 1, 1).AddSeconds(SQLite3.ColumnInt(stmt, 1)).ToLocalTime();
+                    e.Name = SQLite3.ColumnString(stmt, 2);
+                    e.Type = (ContentType)(SQLite3.ColumnInt(stmt, 3));
+                    switch (e.Type)
+                    {
+                        case ContentType.RawText:
+                        case ContentType.HTML:
+                            string text = SQLite3.ColumnString(stmt, 4);
+                            if (bruteSearch && !text.Contains(where))
+                                continue;
+                            e.Content = text;
+                            break;
+                        case ContentType.RawBinary:
+                            if (bruteSearch) continue;
+                            e.Content = SQLite3.ColumnByteArray(stmt, 5);
+                            break;
+                        case ContentType.Image:
+                            if (bruteSearch) continue;
+                            MemoryStream s = new MemoryStream(SQLite3.ColumnByteArray(stmt, 5));
+                            e.Content = System.Drawing.Image.FromStream(s);
+                            s.Dispose();
+                            break;
+                    }
+                    e.Hits = SQLite3.ColumnInt(stmt, 6);
+                    e.SourceUrl = SQLite3.ColumnString(stmt, 7);
+                    e.Html = SQLite3.ColumnString(stmt, 8);
+                    entries.Add(e);
                 }
-                e.Hits = SQLite3.ColumnInt(stmt, 6);
-                e.SourceUrl = SQLite3.ColumnString(stmt, 7);
-                e.Html = SQLite3.ColumnString(stmt, 8);
-                entries.Add(e);
+                SQLite3.Finalize(stmt);
+                if (bruteSearch && gotResults && entries.Count < length)
+                {
+                    start += length;
+                    continue;
+                }
+                break;
             }
-            SQLite3.Finalize(stmt);
             return entries.ToArray();
         }
 

@@ -16,6 +16,7 @@ namespace Clipboarder
         {
             public int Current;
             public string Where = "";
+            public bool BruteSearch = false;
         }
 
         [DllImport("user32.dll")]
@@ -148,19 +149,16 @@ namespace Clipboarder
         private int mLastIndex = -1;
         private void RefreshDataMainView()
         {
-            mainData.Rows.Clear();
-            entries.Clear();
+            mainData.Clear();
 
             for (int i = toolStripNav.Items.Count - 1; i >= 0; i--)
                 if ((toolStripNav.Items[i] as ToolStripButton)?.Name.StartsWith("nav") == true)
                     toolStripNav.Items.RemoveAt(i);
 
-            ClearPanel2();
-
             string where = CalcWhere();
             int epp = Properties.Settings.Default.EntriesPerPage;
             int currentPage = (mainData.Tag as Page).Current;
-            int totalEntries = mDB.TotalEntries(where);
+            int totalEntries = mDB.TotalEntries(where, (mainData.Tag as Page).BruteSearch);
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
             buttonClearWhere.Visible = (mainData.Tag as Page).Where != "";
@@ -175,57 +173,15 @@ namespace Clipboarder
                 (mainData.Tag as Page).Current = currentPage;
             }
 
-            foreach (Database.Entry e in mDB.Paging(where.ToString(), null, (currentPage - 1) * epp, epp))
+            foreach (Database.Entry e in mDB.Paging(where.ToString(), 
+                null, 
+                (currentPage - 1) * epp, 
+                epp,
+                (mainData.Tag as Page).BruteSearch))
             {
-                int index = mainData.Rows.Add();
-                mainData.Rows[index].Tag = e;
-                mainData.Rows[index].Cells["entryName"].Value = e.Name;
-                mainData.Rows[index].Cells["entryUse"].Value = "Copy";
-
-                if (e.Content is string)
-                {
-                    var cell = new TextTitleCell();
-                    mainData.Rows[index].Cells["entryContent"] = cell;
-                    cell.ReadOnly = true;
-                    cell.Title = new Title {
-                        No = e.Id,
-                        Hits = e.Hits,
-                        Time = e.Time,
-                        Url = e.SourceUrl,
-                        IsHtml = e.Type == Database.ContentType.HTML,
-                    };
-                    entries.Add(e);
-                    var text = e.Content.ToString();
-                    if (e.Type == Database.ContentType.HTML)
-                    {
-                        if (!string.IsNullOrWhiteSpace(e.Html))
-                        {
-                            text = e.Html;
-                        }
-                        else
-                        {
-                            text = Helper.ExtractHTMLFromClipboard(text);
-                            text = Helper.ExtractTextFromHTML(text);
-                        }
-                    }
-                    if (text.Length > 1024)
-                        text = text.Substring(0, 1024) + "...";
-                    cell.Value = text;
-                }
-                else
-                {
-                    var cell = new ImageTitleCell();
-                    mainData.Rows[index].Cells["entryContent"] = cell;
-                    Image img = (Image)e.Content;
-                    cell.Title = new Title { No = e.Id, Hits = e.Hits, Time = e.Time, Size = img.Size, Url = e.SourceUrl };
-                    entries.Add(e);
-                    cell.Value = e.Content;
-                    if (img.Size.Width > mainData.RowTemplate.MinimumHeight || img.Size.Height > mainData.RowTemplate.MinimumHeight)
-                        mainData.Rows[index].Height = mainData.RowTemplate.MinimumHeight * 2;
-                }
-                mainData.Rows[index].Selected = false;
+                mainData.Add(e);
             }
-            entries.Invalidate();
+            mainData.Invalidate();
             buttonFirstPage.Tag = 1;
             var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
             for (int i = startEnd.Item1; i <= startEnd.Item2; i++)
@@ -240,8 +196,6 @@ namespace Clipboarder
                 toolStripNav.Items.Insert(toolStripNav.Items.IndexOf(buttonLastPage), button);
             }
             buttonLastPage.Tag = pages;
-
-            mainData_CellClick(mainData, new DataGridViewCellEventArgs(0, mLastIndex));
         }
     }
 }

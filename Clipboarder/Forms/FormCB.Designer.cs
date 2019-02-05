@@ -30,9 +30,6 @@
       {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCB));
-            this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.mainData = new System.Windows.Forms.DataGridView();
-            this.entryUse = new System.Windows.Forms.DataGridViewButtonColumn();
             this.toolStripNav = new System.Windows.Forms.ToolStrip();
             this.buttonFirstPage = new System.Windows.Forms.ToolStripButton();
             this.buttonLastPage = new System.Windows.Forms.ToolStripButton();
@@ -41,12 +38,6 @@
             this.buttonSearchName = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchTimespan = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchUrls = new System.Windows.Forms.ToolStripButton();
-            this.toolbarEdit = new System.Windows.Forms.ToolStrip();
-            this.buttonSaveChange = new System.Windows.Forms.ToolStripButton();
-            this.buttonCodeDropdown = new System.Windows.Forms.ToolStripDropDownButton();
-            this.plainTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonEdit = new System.Windows.Forms.ToolStripButton();
-            this.buttonHTMLToText = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
             this.statusTotalEntries = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -66,7 +57,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.horizontalVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,68 +67,14 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.openDatabaseLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.mainData = new Clipboarder.EntryPanel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.entryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.entryContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.entries = new Clipboarder.EntryPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
-            this.splitContainer.Panel1.SuspendLayout();
-            this.splitContainer.Panel2.SuspendLayout();
-            this.splitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainData)).BeginInit();
             this.toolStripNav.SuspendLayout();
             this.toolStripMain.SuspendLayout();
-            this.toolbarEdit.SuspendLayout();
             this.statusInfo.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // splitContainer
-            // 
-            this.splitContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            resources.ApplyResources(this.splitContainer, "splitContainer");
-            this.splitContainer.Name = "splitContainer";
-            // 
-            // splitContainer.Panel1
-            // 
-            this.splitContainer.Panel1.Controls.Add(this.mainData);
-            this.splitContainer.Panel1.Controls.Add(this.toolStripNav);
-            this.splitContainer.Panel1.Controls.Add(this.toolStripMain);
-            this.splitContainer.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
-            // 
-            // splitContainer.Panel2
-            // 
-            this.splitContainer.Panel2.Controls.Add(this.toolbarEdit);
-            // 
-            // mainData
-            // 
-            this.mainData.AllowUserToAddRows = false;
-            this.mainData.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.mainData.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.mainData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.mainData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.entryName,
-            this.entryUse,
-            this.entryContent});
-            resources.ApplyResources(this.mainData, "mainData");
-            this.mainData.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.mainData.Name = "mainData";
-            this.mainData.RowHeadersVisible = false;
-            this.mainData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.mainData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellClick);
-            this.mainData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellContentClick);
-            this.mainData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainData_CellEndEdit);
-            this.mainData.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.mainData_RowsRemoved);
-            this.mainData.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.mainData_UserDeletedRow);
-            this.mainData.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.mainData_UserDeletingRow);
-            // 
-            // entryUse
-            // 
-            resources.ApplyResources(this.entryUse, "entryUse");
-            this.entryUse.Name = "entryUse";
-            this.entryUse.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.entryUse.Text = "Copy";
             // 
             // toolStripNav
             // 
@@ -200,51 +136,6 @@
             this.buttonSearchUrls.Name = "buttonSearchUrls";
             this.buttonSearchUrls.Tag = "url";
             this.buttonSearchUrls.Click += new System.EventHandler(this.buttonUrls_Click);
-            // 
-            // toolbarEdit
-            // 
-            resources.ApplyResources(this.toolbarEdit, "toolbarEdit");
-            this.toolbarEdit.ImageScalingSize = new System.Drawing.Size(22, 22);
-            this.toolbarEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonSaveChange,
-            this.buttonCodeDropdown,
-            this.buttonEdit,
-            this.buttonHTMLToText});
-            this.toolbarEdit.Name = "toolbarEdit";
-            // 
-            // buttonSaveChange
-            // 
-            resources.ApplyResources(this.buttonSaveChange, "buttonSaveChange");
-            this.buttonSaveChange.Name = "buttonSaveChange";
-            this.buttonSaveChange.Click += new System.EventHandler(this.buttonSaveChange_Click);
-            // 
-            // buttonCodeDropdown
-            // 
-            this.buttonCodeDropdown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.plainTextToolStripMenuItem});
-            resources.ApplyResources(this.buttonCodeDropdown, "buttonCodeDropdown");
-            this.buttonCodeDropdown.Name = "buttonCodeDropdown";
-            // 
-            // plainTextToolStripMenuItem
-            // 
-            this.plainTextToolStripMenuItem.Checked = true;
-            this.plainTextToolStripMenuItem.CheckOnClick = true;
-            this.plainTextToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.plainTextToolStripMenuItem.Name = "plainTextToolStripMenuItem";
-            resources.ApplyResources(this.plainTextToolStripMenuItem, "plainTextToolStripMenuItem");
-            this.plainTextToolStripMenuItem.Tag = "Plain";
-            this.plainTextToolStripMenuItem.Click += new System.EventHandler(this.plainTextToolStripMenuItem_Click);
-            // 
-            // buttonEdit
-            // 
-            resources.ApplyResources(this.buttonEdit, "buttonEdit");
-            this.buttonEdit.Name = "buttonEdit";
-            // 
-            // buttonHTMLToText
-            // 
-            resources.ApplyResources(this.buttonHTMLToText, "buttonHTMLToText");
-            this.buttonHTMLToText.Name = "buttonHTMLToText";
-            this.buttonHTMLToText.Click += new System.EventHandler(this.buttonHTMLToText_Click);
             // 
             // statusInfo
             // 
@@ -398,7 +289,6 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.horizontalVerticalToolStripMenuItem,
             this.refreshToolStripMenuItem,
             this.toolStripSeparator2,
             this.clearEntriesToolStripMenuItem,
@@ -410,12 +300,6 @@
             this.openDatabaseLocationToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(this.viewToolStripMenuItem, "viewToolStripMenuItem");
-            // 
-            // horizontalVerticalToolStripMenuItem
-            // 
-            this.horizontalVerticalToolStripMenuItem.Name = "horizontalVerticalToolStripMenuItem";
-            resources.ApplyResources(this.horizontalVerticalToolStripMenuItem, "horizontalVerticalToolStripMenuItem");
-            this.horizontalVerticalToolStripMenuItem.Click += new System.EventHandler(this.horizontalVerticalToolStripMenuItem_Click);
             // 
             // refreshToolStripMenuItem
             // 
@@ -482,6 +366,11 @@
             resources.ApplyResources(this.notifyIcon, "notifyIcon");
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
+            // mainData
+            // 
+            resources.ApplyResources(this.mainData, "mainData");
+            this.mainData.Name = "mainData";
+            // 
             // dataGridViewTextBoxColumn1
             // 
             resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
@@ -495,52 +384,26 @@
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // entryName
-            // 
-            resources.ApplyResources(this.entryName, "entryName");
-            this.entryName.Name = "entryName";
-            // 
-            // entryContent
-            // 
-            this.entryContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.entryContent, "entryContent");
-            this.entryContent.Name = "entryContent";
-            this.entryContent.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.entryContent.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // entries
-            // 
-            resources.ApplyResources(this.entries, "entries");
-            this.entries.Name = "entries";
-            // 
             // FormCB
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.entries);
-            this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.mainData);
+            this.Controls.Add(this.toolStripMain);
+            this.Controls.Add(this.toolStripNav);
             this.Controls.Add(this.menuMain);
             this.Controls.Add(this.statusInfo);
             this.Name = "FormCB";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Activated += new System.EventHandler(this.Form1_Activated);
-            this.Deactivate += new System.EventHandler(this.Form1_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCB_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.FormCB_Resize);
-            this.splitContainer.Panel1.ResumeLayout(false);
-            this.splitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
-            this.splitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mainData)).EndInit();
             this.toolStripNav.ResumeLayout(false);
             this.toolStripNav.PerformLayout();
             this.toolStripMain.ResumeLayout(false);
             this.toolStripMain.PerformLayout();
-            this.toolbarEdit.ResumeLayout(false);
-            this.toolbarEdit.PerformLayout();
             this.statusInfo.ResumeLayout(false);
             this.statusInfo.PerformLayout();
             this.menuMain.ResumeLayout(false);
@@ -551,30 +414,21 @@
       }
 
       #endregion
-        private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.StatusStrip statusInfo;
-        private System.Windows.Forms.DataGridView mainData;
-        private System.Windows.Forms.DataGridViewTextBoxColumn entryName;
-        private System.Windows.Forms.DataGridViewButtonColumn entryUse;
-        private System.Windows.Forms.DataGridViewTextBoxColumn entryContent;
         private System.Windows.Forms.ToolStripStatusLabel statusTotalEntries;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
         private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stayOnTopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem horizontalVerticalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideAfterCopyToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolbarEdit;
-        private System.Windows.Forms.ToolStripButton buttonSaveChange;
-        private System.Windows.Forms.ToolStripButton buttonEdit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem clearEntriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -591,8 +445,6 @@
         private System.Windows.Forms.ToolStripMenuItem openDatabaseLocationToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripDropDownButton buttonCodeDropdown;
-        private System.Windows.Forms.ToolStripMenuItem plainTextToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStripMain;
         private System.Windows.Forms.ToolStripButton buttonSearchUrls;
         private System.Windows.Forms.ToolStrip toolStripNav;
@@ -601,8 +453,7 @@
         private System.Windows.Forms.ToolStripButton buttonClearWhere;
         private System.Windows.Forms.ToolStripButton buttonSearchTimespan;
         private System.Windows.Forms.ToolStripButton buttonSearchName;
-        private System.Windows.Forms.ToolStripButton buttonHTMLToText;
-        private EntryPanel entries;
+        private EntryPanel mainData;
     }
 }
 

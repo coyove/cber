@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Clipboarder
@@ -14,6 +15,10 @@ namespace Clipboarder
         private List<string> mHosts = new List<string>();
 
         public string WhereClause { get; private set; }
+
+        public bool BruteSearch { get; private set; }
+
+        static Regex mReChinese = new Regex("[\u4e00-\u9fa5]");
 
         public FormSearch()
         {
@@ -129,8 +134,17 @@ namespace Clipboarder
                     return;
                 }
 
-                string name = textSearchName.Text.Replace("'", "''");
-                res.AppendFormat("AND name LIKE '%{0}%'", name);
+                if (mReChinese.IsMatch(textSearchName.Text))
+                {
+                    res.Append(textSearchName.Text);
+                    BruteSearch = true;
+                }
+                else
+                {
+                    string name = textSearchName.Text.Replace("'", "''");
+                    res.AppendFormat("AND text_content LIKE '%{0}%'", name);
+                }
+                //res.Append(textSearchName.Text);
             }
             WhereClause = (res.ToString());
             Close();
@@ -166,6 +180,11 @@ namespace Clipboarder
         private void button5_Click(object sender, EventArgs e)
         {
             dateTimeEndPicker.Value = (DateTime)dateTimeEndPicker.Tag;
+        }
+
+        private void textSearchName_TextChanged(object sender, EventArgs e)
+        {
+            labelSearchChinese.Visible = (mReChinese.IsMatch(textSearchName.Text));
         }
     }
 }

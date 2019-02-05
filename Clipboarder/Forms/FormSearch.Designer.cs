@@ -33,23 +33,24 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textUrlSearch = new System.Windows.Forms.TextBox();
             this.tab = new System.Windows.Forms.TabControl();
+            this.tabPageName = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textSearchName = new System.Windows.Forms.TextBox();
             this.tabPageTime = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dateTimeEndPicker = new System.Windows.Forms.DateTimePicker();
             this.dateTimeStartPicker = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPageURL = new System.Windows.Forms.TabPage();
             this.buttonSearch = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.tabPageName = new System.Windows.Forms.TabPage();
-            this.textSearchName = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelSearchChinese = new System.Windows.Forms.Label();
             this.tab.SuspendLayout();
+            this.tabPageName.SuspendLayout();
             this.tabPageTime.SuspendLayout();
             this.tabPageURL.SuspendLayout();
-            this.tabPageName.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -102,6 +103,35 @@
             this.tab.TabIndex = 9;
             this.tab.SelectedIndexChanged += new System.EventHandler(this.tab_SelectedIndexChanged);
             // 
+            // tabPageName
+            // 
+            this.tabPageName.Controls.Add(this.labelSearchChinese);
+            this.tabPageName.Controls.Add(this.label4);
+            this.tabPageName.Controls.Add(this.textSearchName);
+            this.tabPageName.Location = new System.Drawing.Point(4, 25);
+            this.tabPageName.Name = "tabPageName";
+            this.tabPageName.Size = new System.Drawing.Size(561, 245);
+            this.tabPageName.TabIndex = 2;
+            this.tabPageName.Text = "Content";
+            this.tabPageName.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 15);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Query:";
+            // 
+            // textSearchName
+            // 
+            this.textSearchName.Location = new System.Drawing.Point(3, 42);
+            this.textSearchName.Name = "textSearchName";
+            this.textSearchName.Size = new System.Drawing.Size(553, 25);
+            this.textSearchName.TabIndex = 0;
+            this.textSearchName.TextChanged += new System.EventHandler(this.textSearchName_TextChanged);
+            // 
             // tabPageTime
             // 
             this.tabPageTime.Controls.Add(this.button5);
@@ -118,6 +148,39 @@
             this.tabPageTime.TabIndex = 1;
             this.tabPageTime.Text = "Timespan";
             this.tabPageTime.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.button5.Location = new System.Drawing.Point(430, 79);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(125, 37);
+            this.button5.TabIndex = 13;
+            this.button5.Text = "Latest Entry";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.button4.Location = new System.Drawing.Point(140, 79);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(125, 37);
+            this.button4.TabIndex = 12;
+            this.button4.Text = "Today";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.button3.Location = new System.Drawing.Point(9, 79);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(125, 37);
+            this.button3.TabIndex = 11;
+            this.button3.Text = "Last 24h";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // label3
             // 
@@ -179,65 +242,15 @@
             this.buttonSearch.UseVisualStyleBackColor = true;
             this.buttonSearch.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
+            // labelSearchChinese
             // 
-            this.button3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button3.Location = new System.Drawing.Point(9, 79);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(125, 37);
-            this.button3.TabIndex = 11;
-            this.button3.Text = "Last 24h";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button4.Location = new System.Drawing.Point(140, 79);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(125, 37);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "Today";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button5.Location = new System.Drawing.Point(430, 79);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(125, 37);
-            this.button5.TabIndex = 13;
-            this.button5.Text = "Latest Entry";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // tabPageName
-            // 
-            this.tabPageName.Controls.Add(this.label4);
-            this.tabPageName.Controls.Add(this.textSearchName);
-            this.tabPageName.Location = new System.Drawing.Point(4, 25);
-            this.tabPageName.Name = "tabPageName";
-            this.tabPageName.Size = new System.Drawing.Size(561, 245);
-            this.tabPageName.TabIndex = 2;
-            this.tabPageName.Text = "Name";
-            this.tabPageName.UseVisualStyleBackColor = true;
-            // 
-            // textSearchName
-            // 
-            this.textSearchName.Location = new System.Drawing.Point(3, 42);
-            this.textSearchName.Name = "textSearchName";
-            this.textSearchName.Size = new System.Drawing.Size(553, 25);
-            this.textSearchName.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 14);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 15);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Query:";
+            this.labelSearchChinese.AutoSize = true;
+            this.labelSearchChinese.Location = new System.Drawing.Point(3, 83);
+            this.labelSearchChinese.Name = "labelSearchChinese";
+            this.labelSearchChinese.Size = new System.Drawing.Size(232, 15);
+            this.labelSearchChinese.TabIndex = 2;
+            this.labelSearchChinese.Text = "搜索中文字符功能不可靠，且很慢";
+            this.labelSearchChinese.Visible = false;
             // 
             // FormSearch
             // 
@@ -249,17 +262,18 @@
             this.Controls.Add(this.buttonSearch);
             this.Controls.Add(this.tab);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Search";
             this.Load += new System.EventHandler(this.FormUrls_Load);
             this.tab.ResumeLayout(false);
+            this.tabPageName.ResumeLayout(false);
+            this.tabPageName.PerformLayout();
             this.tabPageTime.ResumeLayout(false);
             this.tabPageTime.PerformLayout();
             this.tabPageURL.ResumeLayout(false);
             this.tabPageURL.PerformLayout();
-            this.tabPageName.ResumeLayout(false);
-            this.tabPageName.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -283,5 +297,6 @@
         private System.Windows.Forms.TabPage tabPageName;
         private System.Windows.Forms.TextBox textSearchName;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelSearchChinese;
     }
 }
