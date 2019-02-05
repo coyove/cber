@@ -305,6 +305,8 @@
     <None Include="Resources\edit-copy.png" />
     <None Include="Resources\mail-mark-not-junk.png" />
     <None Include="Resources\shadow.png" />
+    <None Include="Resources\favorite.png" />
+    <None Include="Resources\unfavorite.png" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

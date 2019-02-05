@@ -58,10 +58,9 @@ namespace Clipboarder
                     UInt64 k64 = ((UInt64)modifier << 32) | (UInt64)key;
                     if (mShortcutsMap.ContainsKey(k64)) mShortcutsMap[k64]();
                     break;
-                default:
-                    base.WndProc(ref m);
-                    break;
             }
+            base.WndProc(ref m);
+            System.Diagnostics.Debug.Print(m.Msg.ToString("x"));
         }
 
         private void OnClipboardChanged()
@@ -138,9 +137,16 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            System.Diagnostics.Debug.Print(keyData.ToString());
+            return base.ProcessDialogKey(keyData);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadSettings();
+
             mRealExit = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
             mTimer = new System.Timers.Timer(2000);
@@ -397,6 +403,7 @@ namespace Clipboarder
         {
             (mainData.Tag as Page).Where = "";
             (mainData.Tag as Page).BruteSearch = false;
+            buttonFavorites.Checked = false;
             RefreshDataMainView();
         }
 
@@ -415,6 +422,14 @@ namespace Clipboarder
             }
             if (string.IsNullOrWhiteSpace(frm.WhereClause)) return;
             mDB.Delete(frm.WhereClause);
+            RefreshDataMainView();
+        }
+
+        private void buttonFavorites_Click(object sender, EventArgs e)
+        {
+            var p = mainData.Tag as Page;
+            p.Where = buttonFavorites.Checked ? "AND favorited = 1" : "";
+            p.BruteSearch = false;
             RefreshDataMainView();
         }
     }

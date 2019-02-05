@@ -332,6 +332,17 @@ namespace Clipboarder
             public DateTime Time { get; set; }
             public object Content { get; set; }
             public string Html { get; set; }
+            public bool IsFavorited { get; set; }
+            public bool IsBig
+            {
+                get
+                {
+                    if (Type == ContentType.Image)
+                        return (Content as Image).Size.Height > 800;
+
+                    return (Content.ToString()).Length > 1000;
+                }
+            }
         }
 
         public enum ContentType
@@ -375,7 +386,7 @@ namespace Clipboarder
 CREATE TABLE IF NOT EXISTS data_table (
    id INTEGER PRIMARY KEY AUTOINCREMENT,
    ts INTEGER NOT NULL,
-   name TEXT NOT NULL,
+   favorited INTEGER DEFAULT 0,
    source_url TEXT,
    type INTEGER NOT NULL,
    hash INTEGER NOT NULL,
@@ -384,7 +395,6 @@ CREATE TABLE IF NOT EXISTS data_table (
    html_content TEXT,
    binary_content BLOB
 );
-CREATE INDEX data_table_name_idx ON data_table (name);
 CREATE INDEX data_table_url_idx ON data_table (source_url);
 CREATE INDEX data_table_type_idx ON data_table (type);
 CREATE INDEX data_table_hash_idx ON data_table (hash);
@@ -424,7 +434,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             int id = FindIDByHash(content.GetHashCode());
             IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
                "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
-               "INSERT INTO data_table (ts, name, type, hash, html_content, text_content, source_url) VALUES (?, ?, ?, ?, ?, ?, ?);");
+               "INSERT INTO data_table (ts, type, hash, html_content, text_content, source_url) VALUES (?, ?, ?, ?, ?, ?);");
 
             if (string.IsNullOrWhiteSpace(name))
                 name = Helper.GetDefaultName();
@@ -439,12 +449,11 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             }
             else
             {
-                SQLite3.BindText(stmt, 2, name);
-                SQLite3.BindInt(stmt, 3, (int)ContentType.HTML);
-                SQLite3.BindInt(stmt, 4, content.GetHashCode());
-                SQLite3.BindText(stmt, 5, contentHtml);
-                SQLite3.BindText(stmt, 6, content);
-                SQLite3.BindText(stmt, 7, sourceUrl);
+                SQLite3.BindInt(stmt, 2, (int)ContentType.HTML);
+                SQLite3.BindInt(stmt, 3, content.GetHashCode());
+                SQLite3.BindText(stmt, 4, contentHtml);
+                SQLite3.BindText(stmt, 5, content);
+                SQLite3.BindText(stmt, 6, sourceUrl);
             }
 
             var res = SQLite3.Step(stmt);
@@ -457,7 +466,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             int id = FindIDByHash(content.GetHashCode());
             IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
                "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
-               "INSERT INTO data_table (ts, name, type, hash, text_content, source_url) VALUES (?, ?, ?, ?, ?, ?);");
+               "INSERT INTO data_table (ts, type, hash, text_content, source_url) VALUES (?, ?, ?, ?, ?);");
 
             if (string.IsNullOrWhiteSpace(name))
                 name = Helper.GetDefaultName();
@@ -469,11 +478,10 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             }
             else
             {
-                SQLite3.BindText(stmt, 2, name);
-                SQLite3.BindInt(stmt, 3, (int)ct);
-                SQLite3.BindInt(stmt, 4, content.GetHashCode());
-                SQLite3.BindText(stmt, 5, content);
-                SQLite3.BindText(stmt, 6, sourceUrl);
+                SQLite3.BindInt(stmt, 2, (int)ct);
+                SQLite3.BindInt(stmt, 3, content.GetHashCode());
+                SQLite3.BindText(stmt, 4, content);
+                SQLite3.BindText(stmt, 5, sourceUrl);
             }
 
             var res = SQLite3.Step(stmt);
@@ -495,7 +503,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             int id = FindIDByHash(hash);
             IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
                "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
-               "INSERT INTO data_table (ts, name, type, hash, binary_content, source_url) VALUES (?, ?, ?, ?, ?, ?);");
+               "INSERT INTO data_table (ts, type, hash, binary_content, source_url) VALUES (?, ?, ?, ?, ?);");
             if (string.IsNullOrWhiteSpace(name))
                 name = Helper.GetDefaultName();
 
@@ -507,11 +515,10 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             }
             else
             {
-                SQLite3.BindText(stmt, 2, name);
-                SQLite3.BindInt(stmt, 3, (int)contentType);
-                SQLite3.BindInt(stmt, 4, hash);
-                SQLite3.BindBlob(stmt, 5, content, content.Length, (IntPtr)(-1));
-                SQLite3.BindText(stmt, 6, sourceUrl);
+                SQLite3.BindInt(stmt, 2, (int)contentType);
+                SQLite3.BindInt(stmt, 3, hash);
+                SQLite3.BindBlob(stmt, 4, content, content.Length, (IntPtr)(-1));
+                SQLite3.BindText(stmt, 5, sourceUrl);
             }
 
             var res = SQLite3.Step(stmt);
@@ -519,10 +526,10 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
-        public SQLite3.Result Rename(int id, string newName)
+        public SQLite3.Result Favorite(int id, bool fav)
         {
-            IntPtr stmt = SQLite3.Prepare2(mDB, "UPDATE data_table SET name = ? WHERE id = ?");
-            SQLite3.BindText(stmt, 1, newName);
+            IntPtr stmt = SQLite3.Prepare2(mDB, "UPDATE data_table SET favorited = ? WHERE id = ?");
+            SQLite3.BindInt(stmt, 1, fav ? 1 : 0);
             SQLite3.BindInt(stmt, 2, id);
             var res = SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
@@ -609,10 +616,10 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             {
                 string query = bruteSearch ?
                 string.Format(
-                   "SELECT id, ts, name, type, text_content, binary_content, hits, source_url, html_content FROM data_table ORDER BY {0} LIMIT {1}, {2};",
+                   "SELECT id, ts, type, text_content, binary_content, hits, source_url, html_content, favorited FROM data_table ORDER BY {0} LIMIT {1}, {2};",
                    orderByFields, start, length) :
                 string.Format(
-                   "SELECT id, ts, name, type, text_content, binary_content, hits, source_url, html_content FROM data_table WHERE 1 = 1 {0} ORDER BY {1} LIMIT {2}, {3};",
+                   "SELECT id, ts, type, text_content, binary_content, hits, source_url, html_content, favorited FROM data_table WHERE 1 = 1 {0} ORDER BY {1} LIMIT {2}, {3};",
                    where, orderByFields, start, length);
                 IntPtr stmt = SQLite3.Prepare2(mDB, query);
                 bool gotResults = false;
@@ -622,31 +629,31 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                     Entry e = new Entry();
                     e.Id = SQLite3.ColumnInt(stmt, 0);
                     e.Time = new DateTime(1970, 1, 1).AddSeconds(SQLite3.ColumnInt(stmt, 1)).ToLocalTime();
-                    e.Name = SQLite3.ColumnString(stmt, 2);
-                    e.Type = (ContentType)(SQLite3.ColumnInt(stmt, 3));
+                    e.Type = (ContentType)(SQLite3.ColumnInt(stmt, 2));
                     switch (e.Type)
                     {
                         case ContentType.RawText:
                         case ContentType.HTML:
-                            string text = SQLite3.ColumnString(stmt, 4);
+                            string text = SQLite3.ColumnString(stmt, 3);
                             if (bruteSearch && !text.Contains(where))
                                 continue;
                             e.Content = text;
                             break;
                         case ContentType.RawBinary:
                             if (bruteSearch) continue;
-                            e.Content = SQLite3.ColumnByteArray(stmt, 5);
+                            e.Content = SQLite3.ColumnByteArray(stmt, 4);
                             break;
                         case ContentType.Image:
                             if (bruteSearch) continue;
-                            MemoryStream s = new MemoryStream(SQLite3.ColumnByteArray(stmt, 5));
+                            MemoryStream s = new MemoryStream(SQLite3.ColumnByteArray(stmt, 4));
                             e.Content = System.Drawing.Image.FromStream(s);
                             s.Dispose();
                             break;
                     }
-                    e.Hits = SQLite3.ColumnInt(stmt, 6);
-                    e.SourceUrl = SQLite3.ColumnString(stmt, 7);
-                    e.Html = SQLite3.ColumnString(stmt, 8);
+                    e.Hits = SQLite3.ColumnInt(stmt, 5);
+                    e.SourceUrl = SQLite3.ColumnString(stmt, 6);
+                    e.Html = SQLite3.ColumnString(stmt, 7);
+                    e.IsFavorited = SQLite3.ColumnInt(stmt, 8) == 1;
                     entries.Add(e);
                 }
                 SQLite3.Finalize(stmt);

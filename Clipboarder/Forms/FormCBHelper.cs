@@ -161,10 +161,10 @@ namespace Clipboarder
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
             buttonClearWhere.Visible = (mainData.Tag as Page).Where != "";
-            statusTotalEntries.Text = string.Format("{0}P / {1}E", pages, totalEntries);
-            statusDbPath.Text = mDB.Path + 
-                " (" + ((double) new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00") + "MB)";
+            statusDbPath.Text = string.Format("{0} ({2}/{1}MB)", mDB.Path,
+                ((double)new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00"), totalEntries);
 
+            buttonLastPage.Text = string.Format(Properties.Resources.Pages, pages);
             if (pages == 0) return;
             if (currentPage < 1) currentPage = 1;
             if (currentPage > pages) currentPage = pages;

@@ -169,6 +169,16 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap favorite {
+            get {
+                object obj = ResourceManager.GetObject("favorite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
         internal static byte[] HTML_Mode {
@@ -234,6 +244,15 @@ namespace Clipboarder.Properties {
         internal static string ModeXSD {
             get {
                 return ResourceManager.GetString("ModeXSD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Last Page ({0}) 的本地化字符串。
+        /// </summary>
+        internal static string Pages {
+            get {
+                return ResourceManager.GetString("Pages", resourceCulture);
             }
         }
         
@@ -369,6 +388,16 @@ namespace Clipboarder.Properties {
         internal static System.Drawing.Bitmap TextEditorControl {
             get {
                 object obj = ResourceManager.GetObject("TextEditorControl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap unfavorite {
+            get {
+                object obj = ResourceManager.GetObject("unfavorite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

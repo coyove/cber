@@ -35,11 +35,11 @@
             this.buttonLastPage = new System.Windows.Forms.ToolStripButton();
             this.buttonClearWhere = new System.Windows.Forms.ToolStripButton();
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
+            this.buttonFavorites = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchName = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchTimespan = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchUrls = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
-            this.statusTotalEntries = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusDbPath = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuMain = new System.Windows.Forms.MenuStrip();
@@ -60,6 +60,7 @@
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.showTextContents = new System.Windows.Forms.ToolStripMenuItem();
             this.showImageContents = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +71,6 @@
             this.mainData = new Clipboarder.EntryPanel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.searchDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripNav.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusInfo.SuspendLayout();
@@ -96,7 +96,6 @@
             // 
             // buttonLastPage
             // 
-            this.buttonLastPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.buttonLastPage, "buttonLastPage");
             this.buttonLastPage.Name = "buttonLastPage";
             this.buttonLastPage.Click += new System.EventHandler(this.NavBtn_Click);
@@ -112,10 +111,19 @@
             resources.ApplyResources(this.toolStripMain, "toolStripMain");
             this.toolStripMain.ImageScalingSize = new System.Drawing.Size(22, 22);
             this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonFavorites,
             this.buttonSearchName,
             this.buttonSearchTimespan,
             this.buttonSearchUrls});
             this.toolStripMain.Name = "toolStripMain";
+            // 
+            // buttonFavorites
+            // 
+            this.buttonFavorites.CheckOnClick = true;
+            resources.ApplyResources(this.buttonFavorites, "buttonFavorites");
+            this.buttonFavorites.Name = "buttonFavorites";
+            this.buttonFavorites.Tag = "name";
+            this.buttonFavorites.Click += new System.EventHandler(this.buttonFavorites_Click);
             // 
             // buttonSearchName
             // 
@@ -142,21 +150,10 @@
             // 
             this.statusInfo.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusInfo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusTotalEntries,
             this.statusMessage,
             this.statusDbPath});
             resources.ApplyResources(this.statusInfo, "statusInfo");
             this.statusInfo.Name = "statusInfo";
-            // 
-            // statusTotalEntries
-            // 
-            this.statusTotalEntries.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.statusTotalEntries.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-            this.statusTotalEntries.Name = "statusTotalEntries";
-            this.statusTotalEntries.Padding = new System.Windows.Forms.Padding(2);
-            resources.ApplyResources(this.statusTotalEntries, "statusTotalEntries");
             // 
             // statusMessage
             // 
@@ -320,6 +317,12 @@
             resources.ApplyResources(this.clearEntriesToolStripMenuItem, "clearEntriesToolStripMenuItem");
             this.clearEntriesToolStripMenuItem.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
             // 
+            // searchDeleteToolStripMenuItem
+            // 
+            this.searchDeleteToolStripMenuItem.Name = "searchDeleteToolStripMenuItem";
+            resources.ApplyResources(this.searchDeleteToolStripMenuItem, "searchDeleteToolStripMenuItem");
+            this.searchDeleteToolStripMenuItem.Click += new System.EventHandler(this.searchDeleteToolStripMenuItem_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -386,12 +389,6 @@
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // searchDeleteToolStripMenuItem
-            // 
-            this.searchDeleteToolStripMenuItem.Name = "searchDeleteToolStripMenuItem";
-            resources.ApplyResources(this.searchDeleteToolStripMenuItem, "searchDeleteToolStripMenuItem");
-            this.searchDeleteToolStripMenuItem.Click += new System.EventHandler(this.searchDeleteToolStripMenuItem_Click);
-            // 
             // FormCB
             // 
             resources.ApplyResources(this, "$this");
@@ -425,7 +422,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.StatusStrip statusInfo;
-        private System.Windows.Forms.ToolStripStatusLabel statusTotalEntries;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
         private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem;
@@ -463,6 +459,7 @@
         private System.Windows.Forms.ToolStripButton buttonSearchName;
         private EntryPanel mainData;
         private System.Windows.Forms.ToolStripMenuItem searchDeleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton buttonFavorites;
     }
 }
 
