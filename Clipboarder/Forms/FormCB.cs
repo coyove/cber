@@ -76,9 +76,7 @@ namespace Clipboarder
             if (html != null)
             {
                 if (!listenHTMLContents.Checked) return;
-                //byte[] buf = Encoding.Default.GetBytes(html.ToString());
-                //string content = Encoding.UTF8.GetString(buf);
-                string content = html.ToString();
+                string content = ClipboardWorkaround.GetHtml();
                 if (content == "") return;
                 string url = Helper.ExtractFieldFromHTMLClipboard(content, "SourceURL");
 
@@ -135,7 +133,7 @@ namespace Clipboarder
 
         private void NavBtn_Click(object sender, EventArgs e)
         {
-            int p = (int)(sender as ToolStripButton).Tag;
+            int p = (int)((sender as ToolStripButton).Tag ?? 0);
             (mainData.Tag as Page).Current = p;
             RefreshDataMainView();
         }
@@ -197,6 +195,13 @@ namespace Clipboarder
                 Helper.SetClipboard(ce);
                 mListenDeactivated = false;
                 if (hideAfterCopyToolStripMenuItem.Checked) Hide();
+            };
+            mainData.DeleteCallback = (de) =>
+            {
+                int old = mainData.Value;
+                mDB.Delete(de.Id);
+                RefreshDataMainView();
+                mainData.TryScrollTo(old);
             };
             RefreshDataMainView();
 
@@ -392,6 +397,24 @@ namespace Clipboarder
         {
             (mainData.Tag as Page).Where = "";
             (mainData.Tag as Page).BruteSearch = false;
+            RefreshDataMainView();
+        }
+
+        private void searchDeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormSearch frm = new FormSearch();
+            mListenDeactivated = true;
+            frm.SwitchTab("time");
+            frm.SearchAndDelete = true;
+            frm.ShowDialog();
+            mListenDeactivated = false;
+            if (frm.BruteSearch)
+            {
+                MessageBox.Show("Not supported");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(frm.WhereClause)) return;
+            mDB.Delete(frm.WhereClause);
             RefreshDataMainView();
         }
     }

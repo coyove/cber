@@ -18,6 +18,8 @@ namespace Clipboarder
 
         public bool BruteSearch { get; private set; }
 
+        public bool SearchAndDelete = false;
+
         static Regex mReChinese = new Regex("[\u4e00-\u9fa5]");
 
         public FormSearch()
@@ -33,6 +35,7 @@ namespace Clipboarder
         private void FormUrls_Load(object sender, EventArgs e)
         {
             WhereClause = "";
+            if (SearchAndDelete) this.Text = Properties.Resources.SearchAndDeleteTitle;
         }
 
         public void SwitchTab(string name)
@@ -152,17 +155,24 @@ namespace Clipboarder
 
         private void tab_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tab.SelectedTab == tabPageURL)
+            try
             {
-                LoadUrlHosts();
-                textUrlSearch.Focus();
+                if (tab.SelectedTab == tabPageURL)
+                {
+                    LoadUrlHosts();
+                    textUrlSearch.Select();
+                }
+                if (tab.SelectedTab == tabPageName)
+                {
+                    textSearchName.Select();
+                }
+                if (tab.SelectedTab == tabPageTime)
+                {
+                    LoadTimeRange();
+                    dateTimeEndPicker.Select();
+                }
             }
-            if (tab.SelectedTab == tabPageName)
-            {
-                textSearchName.Focus();
-            }
-            if (tab.SelectedTab == tabPageTime)
-                LoadTimeRange();
+            catch (Exception) { }
         }
 
         private void button3_Click(object sender, EventArgs e)

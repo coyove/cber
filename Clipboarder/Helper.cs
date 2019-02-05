@@ -131,7 +131,8 @@ namespace Clipboarder
             {
                 case Database.ContentType.HTML:
                     DataObject obj = new DataObject();
-                    obj.SetData(DataFormats.Html, entry.Content);
+                    //obj.SetData(DataFormats.Html, entry.Content);
+                    ClipboardWorkaround.SetHtml(entry.Content as string);
                     obj.SetData(DataFormats.StringFormat, entry.Html);
                     Clipboard.SetDataObject(obj, true);
                     break;

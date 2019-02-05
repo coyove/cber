@@ -70,6 +70,7 @@
             this.mainData = new Clipboarder.EntryPanel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.searchDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripNav.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusInfo.SuspendLayout();
@@ -292,6 +293,7 @@
             this.refreshToolStripMenuItem,
             this.toolStripSeparator2,
             this.clearEntriesToolStripMenuItem,
+            this.searchDeleteToolStripMenuItem,
             this.toolStripSeparator3,
             this.showTextContents,
             this.showImageContents,
@@ -384,6 +386,12 @@
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // searchDeleteToolStripMenuItem
+            // 
+            this.searchDeleteToolStripMenuItem.Name = "searchDeleteToolStripMenuItem";
+            resources.ApplyResources(this.searchDeleteToolStripMenuItem, "searchDeleteToolStripMenuItem");
+            this.searchDeleteToolStripMenuItem.Click += new System.EventHandler(this.searchDeleteToolStripMenuItem_Click);
+            // 
             // FormCB
             // 
             resources.ApplyResources(this, "$this");
@@ -454,6 +462,7 @@
         private System.Windows.Forms.ToolStripButton buttonSearchTimespan;
         private System.Windows.Forms.ToolStripButton buttonSearchName;
         private EntryPanel mainData;
+        private System.Windows.Forms.ToolStripMenuItem searchDeleteToolStripMenuItem;
     }
 }
 

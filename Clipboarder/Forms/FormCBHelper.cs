@@ -146,7 +146,6 @@ namespace Clipboarder
             return where.ToString();
         }
 
-        private int mLastIndex = -1;
         private void RefreshDataMainView()
         {
             mainData.Clear();
@@ -167,11 +166,9 @@ namespace Clipboarder
                 " (" + ((double) new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00") + "MB)";
 
             if (pages == 0) return;
-            if (currentPage > pages)
-            {
-                currentPage = pages;
-                (mainData.Tag as Page).Current = currentPage;
-            }
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > pages) currentPage = pages;
+            (mainData.Tag as Page).Current = currentPage;
 
             foreach (Database.Entry e in mDB.Paging(where.ToString(), 
                 null, 
@@ -181,7 +178,8 @@ namespace Clipboarder
             {
                 mainData.Add(e);
             }
-            mainData.Invalidate();
+            mainData.Refresh();
+
             buttonFirstPage.Tag = 1;
             var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
             for (int i = startEnd.Item1; i <= startEnd.Item2; i++)

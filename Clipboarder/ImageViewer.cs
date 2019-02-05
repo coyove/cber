@@ -7,13 +7,15 @@ using System.Windows.Forms;
 
 namespace Clipboarder
 {
-    class ImageViewer : PictureBox
+    class ImageViewer : Panel
     {
         private int mZoom = 100;
 
         private Point mOffset = default(Point);
 
         public int Step = 10;
+
+        public Image Image;
 
         public ImageViewer() : base()
         {
@@ -27,6 +29,8 @@ namespace Clipboarder
             };
 
             Cursor = Cursors.SizeAll;
+            DoubleBuffered = true;
+            TabStop = false;
 
             bool grab = false;
             Point grabBegin = default(Point), oldOffset = mOffset;

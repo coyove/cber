@@ -575,6 +575,14 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
+        public SQLite3.Result Delete(string where)
+        {
+            IntPtr stmt = SQLite3.Prepare2(mDB, "DELETE FROM data_table WHERE 1 = 1 " + where);
+            var res = SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            return res;
+        }
+
         public int TotalEntries(string where, bool bruteSearch)
         {
             IntPtr stmt = SQLite3.Prepare2(mDB, 

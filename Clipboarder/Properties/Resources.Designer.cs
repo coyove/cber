@@ -209,6 +209,16 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap mail_mark_not_junk {
+            get {
+                object obj = ResourceManager.GetObject("mail_mark_not_junk", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;xsd:schema xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; &gt;
         ///	&lt;xsd:annotation&gt;
@@ -254,6 +264,15 @@ namespace Clipboarder.Properties {
             get {
                 object obj = ResourceManager.GetObject("process_stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Search &amp; Delete 的本地化字符串。
+        /// </summary>
+        internal static string SearchAndDeleteTitle {
+            get {
+                return ResourceManager.GetString("SearchAndDeleteTitle", resourceCulture);
             }
         }
         

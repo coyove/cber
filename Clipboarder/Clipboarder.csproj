@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Clipboarder</RootNamespace>
     <AssemblyName>Clipboarder</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
+    <Compile Include="Clipboard.cs" />
     <Compile Include="EntryPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -302,6 +303,7 @@
     <None Include="Resources\text-html.png" />
     <None Include="Resources\image-x-generic.png" />
     <None Include="Resources\edit-copy.png" />
+    <None Include="Resources\mail-mark-not-junk.png" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

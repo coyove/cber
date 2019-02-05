@@ -36,6 +36,8 @@ namespace Clipboarder
 
         public Action<Database.Entry> CopyCallback;
 
+        public Action<Database.Entry> DeleteCallback;
+
         static int TextEntryHeight = 200;
         static int ImageEntryHeight = 200;
         static int ButtonSize = 32;
@@ -183,7 +185,7 @@ namespace Clipboarder
                     mPanel.TabStop = false;
 
                     var toolbar = new ToolStrip();
-                        toolbar.Dock = DockStyle.Top;
+                    toolbar.Dock = DockStyle.Top;
                     toolbar.TabStop = false;
 
                     switch (kv.Key.Type)
@@ -246,9 +248,16 @@ namespace Clipboarder
                             break;
                     }
 
-                    toolbar.Items.Add(new ToolStripButton("Cancel", 
+                    toolbar.Items.Add(new ToolStripButton("Delete", 
+                        Properties.Resources.mail_mark_not_junk,
+                        (cv1, cv2) => DeleteCallback(kv.Key)));
+
+                    toolbar.Items.Add(new ToolStripButton("Cancel",
                         Properties.Resources.process_stop,
-                        (cv1, cv2) => this.Controls.Clear()));
+                        (cv1, cv2) => this.Controls.Clear())
+                    {
+                        Alignment = ToolStripItemAlignment.Right,
+                    });
                     mPanel.Controls.Add(toolbar);
                     this.Controls.Add(mPanel);
                     break;
@@ -275,6 +284,15 @@ namespace Clipboarder
                     return;
                 }
             }
+        }
+
+        public void TryScrollTo(int value)
+        {
+            Invalidate();
+            Value = value;
+            if (Value > MaxValue) Value = MaxValue;
+            if (Value < 0) Value = 0;
+            Invalidate();
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -315,8 +333,6 @@ namespace Clipboarder
 
             if (e.Hits > 1)
                 now += " (" + e.Hits.ToString() + ")";
-
-            now = e.Name + " " + now;
 
             var size = TextRenderer.MeasureText(no, font, new Size(0, 0), TextFormatFlags.SingleLine);
             var width = this.Width - ScrollbarWidth;
