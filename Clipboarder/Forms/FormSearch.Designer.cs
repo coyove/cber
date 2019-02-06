@@ -34,6 +34,7 @@
             this.textUrlSearch = new System.Windows.Forms.TextBox();
             this.tab = new System.Windows.Forms.TabControl();
             this.tabPageName = new System.Windows.Forms.TabPage();
+            this.labelSearchChinese = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textSearchName = new System.Windows.Forms.TextBox();
             this.tabPageTime = new System.Windows.Forms.TabPage();
@@ -46,7 +47,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tabPageURL = new System.Windows.Forms.TabPage();
             this.buttonSearch = new System.Windows.Forms.Button();
-            this.labelSearchChinese = new System.Windows.Forms.Label();
+            this.checkSearchInFavs = new System.Windows.Forms.CheckBox();
             this.tab.SuspendLayout();
             this.tabPageName.SuspendLayout();
             this.tabPageTime.SuspendLayout();
@@ -114,6 +115,16 @@
             this.tabPageName.TabIndex = 2;
             this.tabPageName.Text = "Content";
             this.tabPageName.UseVisualStyleBackColor = true;
+            // 
+            // labelSearchChinese
+            // 
+            this.labelSearchChinese.AutoSize = true;
+            this.labelSearchChinese.Location = new System.Drawing.Point(3, 83);
+            this.labelSearchChinese.Name = "labelSearchChinese";
+            this.labelSearchChinese.Size = new System.Drawing.Size(232, 15);
+            this.labelSearchChinese.TabIndex = 2;
+            this.labelSearchChinese.Text = "搜索中文字符功能不可靠，且很慢";
+            this.labelSearchChinese.Visible = false;
             // 
             // label4
             // 
@@ -242,15 +253,15 @@
             this.buttonSearch.UseVisualStyleBackColor = true;
             this.buttonSearch.Click += new System.EventHandler(this.button2_Click);
             // 
-            // labelSearchChinese
+            // checkSearchInFavs
             // 
-            this.labelSearchChinese.AutoSize = true;
-            this.labelSearchChinese.Location = new System.Drawing.Point(3, 83);
-            this.labelSearchChinese.Name = "labelSearchChinese";
-            this.labelSearchChinese.Size = new System.Drawing.Size(232, 15);
-            this.labelSearchChinese.TabIndex = 2;
-            this.labelSearchChinese.Text = "搜索中文字符功能不可靠，且很慢";
-            this.labelSearchChinese.Visible = false;
+            this.checkSearchInFavs.AutoSize = true;
+            this.checkSearchInFavs.Location = new System.Drawing.Point(12, 298);
+            this.checkSearchInFavs.Name = "checkSearchInFavs";
+            this.checkSearchInFavs.Size = new System.Drawing.Size(221, 19);
+            this.checkSearchInFavs.TabIndex = 11;
+            this.checkSearchInFavs.Text = "Search in favorites only";
+            this.checkSearchInFavs.UseVisualStyleBackColor = true;
             // 
             // FormSearch
             // 
@@ -259,6 +270,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 334);
             this.ControlBox = false;
+            this.Controls.Add(this.checkSearchInFavs);
             this.Controls.Add(this.buttonSearch);
             this.Controls.Add(this.tab);
             this.Controls.Add(this.button1);
@@ -275,6 +287,7 @@
             this.tabPageURL.ResumeLayout(false);
             this.tabPageURL.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -298,5 +311,6 @@
         private System.Windows.Forms.TextBox textSearchName;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelSearchChinese;
+        private System.Windows.Forms.CheckBox checkSearchInFavs;
     }
 }

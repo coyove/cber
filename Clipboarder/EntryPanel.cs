@@ -284,8 +284,7 @@ namespace Clipboarder
             if (sbMove)
             {
                 Value = sbValue + (e.Y - sbDown.Y);
-                if (Value  > MaxValue) Value = MaxValue;
-                if (Value < 0) Value = 0;
+                LimitValue();
                 Invalidate();
             }
 
@@ -312,9 +311,14 @@ namespace Clipboarder
         {
             Invalidate();
             Value = value;
+            LimitValue();
+            Invalidate();
+        }
+
+        private void LimitValue()
+        {
             if (Value > MaxValue) Value = MaxValue;
             if (Value < 0) Value = 0;
-            Invalidate();
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -516,6 +520,7 @@ namespace Clipboarder
                     mK = (double)this.Height / scrollbarHeight;
                 }
                 MaxValue = (int)(diff / mK);
+                LimitValue();
 
                 e.Graphics.FillRectangle(ScrollbarBrush, new Rectangle(this.Width - ScrollbarWidth, 
                     (int)(Value), ScrollbarWidth, scrollbarHeight));

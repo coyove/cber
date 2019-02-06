@@ -149,6 +149,8 @@ namespace Clipboarder
                 }
                 //res.Append(textSearchName.Text);
             }
+            if (!BruteSearch && checkSearchInFavs.Checked)
+                res.Append(" AND favorited = 1");
             WhereClause = (res.ToString());
             Close();
         }

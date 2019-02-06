@@ -89,7 +89,6 @@
             // 
             // buttonFirstPage
             // 
-            this.buttonFirstPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.buttonFirstPage, "buttonFirstPage");
             this.buttonFirstPage.Name = "buttonFirstPage";
             this.buttonFirstPage.Click += new System.EventHandler(this.NavBtn_Click);
