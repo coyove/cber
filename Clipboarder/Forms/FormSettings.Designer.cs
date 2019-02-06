@@ -40,9 +40,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textDbOpTimeout = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textGSShow = new Clipboarder.Shortcut();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonBrowseIE = new System.Windows.Forms.Button();
+            this.textGSShow = new Clipboarder.Shortcut();
             ((System.ComponentModel.ISupportInitialize)(this.textEntriesPerPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textDbOpTimeout)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -136,12 +136,6 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // textGSShow
-            // 
-            resources.ApplyResources(this.textGSShow, "textGSShow");
-            this.textGSShow.Name = "textGSShow";
-            this.textGSShow.Paint += new System.Windows.Forms.PaintEventHandler(this.textGSShow_Paint);
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.buttonBrowseIE);
@@ -161,6 +155,12 @@
             this.buttonBrowseIE.Name = "buttonBrowseIE";
             this.buttonBrowseIE.UseVisualStyleBackColor = true;
             this.buttonBrowseIE.Click += new System.EventHandler(this.buttonBrowseIE_Click);
+            // 
+            // textGSShow
+            // 
+            resources.ApplyResources(this.textGSShow, "textGSShow");
+            this.textGSShow.Name = "textGSShow";
+            this.textGSShow.Paint += new System.Windows.Forms.PaintEventHandler(this.textGSShow_Paint);
             // 
             // FormSettings
             // 

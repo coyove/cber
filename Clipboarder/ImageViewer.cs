@@ -101,11 +101,11 @@ namespace Clipboarder
         private CheckBox cbShift; 
         private CheckBox cbAlt; 
         private CheckBox cbCtrl;
-        private TextBox box;
+        private ComboBox box;
         
         public Shortcut() : base()
         {
-            box = new TextBox();
+            box = new ComboBox();
             this.Controls.Add(box);
 
             cbCtrl = new CheckBox();
@@ -127,13 +127,27 @@ namespace Clipboarder
             this.Controls.Add(cbShift);
 
             box.Left = cbShift.Location.X + cbShift.Width;
-            box.Width = 75;
-            box.TextAlign = HorizontalAlignment.Center;
-            box.ReadOnly = true;
-            box.KeyDown += (s, e) =>
+            box.Width = 100;
+            box.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            //box.TextAlign = HorizontalAlignment.Center;
+            //box.ReadOnly = true;
+            //box.KeyDown += (s, e) =>
+            //{
+            //    if (!e.KeyCode.HasFlag(Keys.ShiftKey) &&
+            //    !e.KeyCode.HasFlag(Keys.ControlKey) &&
+            //    !e.KeyCode.HasFlag(Keys.Alt))
+            //    {
+            //        box.Text = e.KeyCode.ToString();
+            //    }
+            //    else
+            //    {
+            //        box.Text = "";
+            //    }
+            //};
+            foreach (string name in Enum.GetNames(typeof(Keys)))
             {
-                box.Text = e.KeyCode.ToString();
-            };
+                box.Items.Add(name);
+            }
         }
 
         public override string Text
@@ -145,7 +159,11 @@ namespace Clipboarder
                 if (cbCtrl.Checked) res.Add("Ctrl");
                 if (cbAlt.Checked) res.Add("Alt");
                 if (cbShift.Checked) res.Add("Shift");
-                res.Add(box.Text);
+
+                string key = null;
+                try { key = ((Keys)Enum.Parse(typeof(Keys), box.Text)).ToString(); } catch (Exception) { }
+                if (string.IsNullOrWhiteSpace(key)) return "";
+                res.Add(key);
                 return string.Join("+", res);
             }
             set
