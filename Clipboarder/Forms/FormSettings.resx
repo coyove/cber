@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>361, 407</value>
+    <value>361, 354</value>
   </data>
   <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 37</value>
@@ -184,7 +184,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 380</value>
+    <value>18, 324</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>287, 15</value>
@@ -211,7 +211,7 @@
     <value>NoControl</value>
   </data>
   <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 407</value>
+    <value>230, 354</value>
   </data>
   <data name="button2.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 37</value>
@@ -483,36 +483,6 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>320, 111</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 15</value>
-  </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>X:</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>groupXPurge</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="autoPurge0.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -541,13 +511,13 @@
     <value>groupXPurge</value>
   </data>
   <data name="&gt;&gt;autoPurge0.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="textAutoPurgeX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>349, 109</value>
+    <value>386, 49</value>
   </data>
   <data name="textAutoPurgeX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 25</value>
+    <value>82, 25</value>
   </data>
   <data name="textAutoPurgeX.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -562,7 +532,7 @@
     <value>groupXPurge</value>
   </data>
   <data name="&gt;&gt;textAutoPurgeX.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="autoPurge2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -574,13 +544,13 @@
     <value>9, 74</value>
   </data>
   <data name="autoPurge2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>308, 19</value>
+    <value>292, 19</value>
   </data>
   <data name="autoPurge2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="autoPurge2.Text" xml:space="preserve">
-    <value>Delete entries older than X seconds</value>
+    <value>Delete entries older than X hours</value>
   </data>
   <data name="&gt;&gt;autoPurge2.Name" xml:space="preserve">
     <value>autoPurge2</value>
@@ -592,7 +562,7 @@
     <value>groupXPurge</value>
   </data>
   <data name="&gt;&gt;autoPurge2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="autoPurge1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -622,13 +592,13 @@
     <value>groupXPurge</value>
   </data>
   <data name="&gt;&gt;autoPurge1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="groupXPurge.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 212</value>
   </data>
   <data name="groupXPurge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 143</value>
+    <value>474, 109</value>
   </data>
   <data name="groupXPurge.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -655,10 +625,7 @@
     <value>8, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>497, 458</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+    <value>497, 404</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>

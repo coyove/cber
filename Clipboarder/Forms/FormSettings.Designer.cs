@@ -47,7 +47,6 @@
             this.autoPurge2 = new System.Windows.Forms.RadioButton();
             this.textAutoPurgeX = new System.Windows.Forms.NumericUpDown();
             this.autoPurge0 = new System.Windows.Forms.RadioButton();
-            this.label6 = new System.Windows.Forms.Label();
             this.textGSShow = new Clipboarder.Shortcut();
             ((System.ComponentModel.ISupportInitialize)(this.textEntriesPerPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textDbOpTimeout)).BeginInit();
@@ -166,7 +165,6 @@
             // 
             // groupXPurge
             // 
-            this.groupXPurge.Controls.Add(this.label6);
             this.groupXPurge.Controls.Add(this.autoPurge0);
             this.groupXPurge.Controls.Add(this.textAutoPurgeX);
             this.groupXPurge.Controls.Add(this.autoPurge2);
@@ -180,14 +178,18 @@
             resources.ApplyResources(this.autoPurge1, "autoPurge1");
             this.autoPurge1.Name = "autoPurge1";
             this.autoPurge1.TabStop = true;
+            this.autoPurge1.Tag = "1";
             this.autoPurge1.UseVisualStyleBackColor = true;
+            this.autoPurge1.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
             // 
             // autoPurge2
             // 
             resources.ApplyResources(this.autoPurge2, "autoPurge2");
             this.autoPurge2.Name = "autoPurge2";
             this.autoPurge2.TabStop = true;
+            this.autoPurge2.Tag = "2";
             this.autoPurge2.UseVisualStyleBackColor = true;
+            this.autoPurge2.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
             // 
             // textAutoPurgeX
             // 
@@ -209,12 +211,9 @@
             resources.ApplyResources(this.autoPurge0, "autoPurge0");
             this.autoPurge0.Name = "autoPurge0";
             this.autoPurge0.TabStop = true;
+            this.autoPurge0.Tag = "0";
             this.autoPurge0.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
+            this.autoPurge0.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
             // 
             // textGSShow
             // 
@@ -273,6 +272,5 @@
         private System.Windows.Forms.NumericUpDown textAutoPurgeX;
         private System.Windows.Forms.RadioButton autoPurge2;
         private System.Windows.Forms.RadioButton autoPurge0;
-        private System.Windows.Forms.Label label6;
     }
 }

@@ -40,7 +40,6 @@
             this.buttonSearchTimespan = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchUrls = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
-            this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusDbPath = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.clipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,12 +64,14 @@
             this.showTextContents = new System.Windows.Forms.ToolStripMenuItem();
             this.showImageContents = new System.Windows.Forms.ToolStripMenuItem();
             this.showHTMLContents = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.openDatabaseLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.statusPagesInfo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.mainData = new Clipboarder.EntryPanel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripNav.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusInfo.SuspendLayout();
@@ -84,17 +85,20 @@
             this.toolStripNav.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonFirstPage,
             this.buttonLastPage,
-            this.buttonClearWhere});
+            this.buttonClearWhere,
+            this.statusPagesInfo});
             this.toolStripNav.Name = "toolStripNav";
             // 
             // buttonFirstPage
             // 
+            this.buttonFirstPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.buttonFirstPage, "buttonFirstPage");
             this.buttonFirstPage.Name = "buttonFirstPage";
             this.buttonFirstPage.Click += new System.EventHandler(this.NavBtn_Click);
             // 
             // buttonLastPage
             // 
+            this.buttonLastPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.buttonLastPage, "buttonLastPage");
             this.buttonLastPage.Name = "buttonLastPage";
             this.buttonLastPage.Click += new System.EventHandler(this.NavBtn_Click);
@@ -149,33 +153,17 @@
             // 
             this.statusInfo.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusInfo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusMessage,
+            this.toolStripDropDownButton1,
             this.statusDbPath});
             resources.ApplyResources(this.statusInfo, "statusInfo");
             this.statusInfo.Name = "statusInfo";
             // 
-            // statusMessage
-            // 
-            this.statusMessage.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.statusMessage.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-            this.statusMessage.Name = "statusMessage";
-            this.statusMessage.Padding = new System.Windows.Forms.Padding(2);
-            resources.ApplyResources(this.statusMessage, "statusMessage");
-            // 
             // statusDbPath
             // 
-            this.statusDbPath.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.statusDbPath.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-            this.statusDbPath.IsLink = true;
             this.statusDbPath.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.statusDbPath.Name = "statusDbPath";
             this.statusDbPath.Padding = new System.Windows.Forms.Padding(2);
             resources.ApplyResources(this.statusDbPath, "statusDbPath");
-            this.statusDbPath.Click += new System.EventHandler(this.statusDbPath_Click);
             // 
             // menuMain
             // 
@@ -293,9 +281,7 @@
             this.toolStripSeparator3,
             this.showTextContents,
             this.showImageContents,
-            this.showHTMLContents,
-            this.toolStripSeparator5,
-            this.openDatabaseLocationToolStripMenuItem});
+            this.showHTMLContents});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             resources.ApplyResources(this.viewToolStripMenuItem, "viewToolStripMenuItem");
             // 
@@ -354,21 +340,26 @@
             resources.ApplyResources(this.showHTMLContents, "showHTMLContents");
             this.showHTMLContents.Click += new System.EventHandler(this.showTextContentsToolStripMenuItem_Click);
             // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
-            // 
-            // openDatabaseLocationToolStripMenuItem
-            // 
-            this.openDatabaseLocationToolStripMenuItem.Name = "openDatabaseLocationToolStripMenuItem";
-            resources.ApplyResources(this.openDatabaseLocationToolStripMenuItem, "openDatabaseLocationToolStripMenuItem");
-            this.openDatabaseLocationToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
-            // 
             // notifyIcon
             // 
             resources.ApplyResources(this.notifyIcon, "notifyIcon");
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // statusPagesInfo
+            // 
+            this.statusPagesInfo.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.statusPagesInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            resources.ApplyResources(this.statusPagesInfo, "statusPagesInfo");
+            this.statusPagesInfo.Name = "statusPagesInfo";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.selectToolStripMenuItem});
+            resources.ApplyResources(this.toolStripDropDownButton1, "toolStripDropDownButton1");
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             // 
             // mainData
             // 
@@ -387,6 +378,18 @@
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
+            // 
+            // selectToolStripMenuItem
+            // 
+            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
+            resources.ApplyResources(this.selectToolStripMenuItem, "selectToolStripMenuItem");
+            this.selectToolStripMenuItem.Click += new System.EventHandler(this.statusDbPath_Click);
             // 
             // FormCB
             // 
@@ -421,7 +424,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.StatusStrip statusInfo;
-        private System.Windows.Forms.ToolStripStatusLabel statusMessage;
         private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stayOnTopToolStripMenuItem;
@@ -444,8 +446,6 @@
         private System.Windows.Forms.ToolStripMenuItem listenImageContents;
         private System.Windows.Forms.ToolStripMenuItem listenHTMLContents;
         private System.Windows.Forms.ToolStripStatusLabel statusDbPath;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem openDatabaseLocationToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStripMain;
@@ -459,6 +459,10 @@
         private EntryPanel mainData;
         private System.Windows.Forms.ToolStripMenuItem searchDeleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton buttonFavorites;
+        private System.Windows.Forms.ToolStripButton statusPagesInfo;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectToolStripMenuItem;
     }
 }
 

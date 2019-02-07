@@ -27,7 +27,12 @@ namespace Clipboarder
             textExImageEditor.Text = Properties.Settings.Default.ExternalImageEditor;
             textEntriesPerPage.Value = Properties.Settings.Default.EntriesPerPage;
             textDbOpTimeout.Value = Properties.Settings.Default.DbOpTimeout;
-            (groupXPurge.Controls.Find("autoPurge" + Properties.Settings.Default.XPurge.ToString(), false).First() as RadioButton).Checked = true;
+
+            int xpurge = Properties.Settings.Default.XPurge;
+            var xpurgeButton = (groupXPurge.Controls.Find("autoPurge" + xpurge, false).First() as RadioButton);
+            xpurgeButton.Checked = true;
+            textAutoPurgeX.Visible = xpurge > 0;
+            textAutoPurgeX.Top = xpurgeButton.Top;
             textAutoPurgeX.Value = Properties.Settings.Default.XPurgeValue;
         }
 
@@ -62,6 +67,13 @@ namespace Clipboarder
         private void textGSShow_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void autoPurge0_CheckedChanged(object sender, EventArgs e)
+        {
+            int xpurge = int.Parse((sender as Control).Tag.ToString());
+            textAutoPurgeX.Visible = xpurge > 0;
+            textAutoPurgeX.Top = (sender as Control).Top;
         }
     }
 }

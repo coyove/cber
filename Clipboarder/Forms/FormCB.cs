@@ -19,6 +19,8 @@ namespace Clipboarder
 {
     public partial class FormCB : Form
     {
+        public static Action<string> Log = (msg) => File.AppendAllText("cber.log", msg + Environment.NewLine);
+
         public static Database mDB;
 
         private IntPtr mNextClipboardViewer;
@@ -41,7 +43,14 @@ namespace Clipboarder
             switch (m.Msg)
             {
                 case WM_DRAWCLIPBOARD:
-                    OnClipboardChanged();
+                    try
+                    {
+                        OnClipboardChanged();
+                    }
+                    catch (Exception e)
+                    {
+                        Log(e.ToString());
+                    }
                     SendMessage(mNextClipboardViewer, m.Msg, m.WParam, m.LParam);
                     break;
                 case WM_CHANGECBCHAIN:
@@ -216,7 +225,7 @@ namespace Clipboarder
             }
             catch (Exception ex)
             {
-                statusMessage.Text = ex.Message;
+                Log(ex.ToString());
             }
             finally
             {

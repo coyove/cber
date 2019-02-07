@@ -35,6 +35,9 @@ namespace Clipboarder
         [DllImport("kernel32.dll")]
         private static extern IntPtr GlobalAlloc(uint uFlags, uint dwBytes);
 
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GlobalFree(IntPtr hMem);
+
         private static uint HtmlFormat = RegisterClipboardFormatW(DataFormats.Html);
 
         private static string GetHtmlNET()
@@ -93,6 +96,7 @@ namespace Clipboarder
                 return;
             SetClipboardData(HtmlFormat, ptr);
             CloseClipboard();
+            GlobalFree(ptr);
         }
     }
 }
