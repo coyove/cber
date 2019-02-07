@@ -337,10 +337,15 @@ namespace Clipboarder
             {
                 get
                 {
-                    if (Type == ContentType.Image)
-                        return (Content as Image).Size.Height > 800;
-
-                    return (Content.ToString()).Length > 1000;
+                    switch (Type)
+                    {
+                        case ContentType.Image:
+                            return (Content as Image).Size.Height > 800;
+                        case ContentType.HTML:
+                            return Html.Length > 1000;
+                        default:
+                            return (Content.ToString()).Length > 1000;
+                    }
                 }
             }
         }

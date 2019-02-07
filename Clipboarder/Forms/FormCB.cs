@@ -25,7 +25,7 @@ namespace Clipboarder
 
         private IntPtr mNextClipboardViewer;
 
-        private bool mListenDeactivated;
+        private int mListenDeactivated = 0;
 
         private bool mRealExit;
 
@@ -45,7 +45,20 @@ namespace Clipboarder
                 case WM_DRAWCLIPBOARD:
                     try
                     {
-                        OnClipboardChanged();
+                        Thread t = new Thread(() =>
+                        {
+                            if (Interlocked.CompareExchange(ref mListenDeactivated, 1, 0) == 1) return;
+                            this.Invoke(new Action(() =>
+                                                {
+                                                    this.Enabled = false;
+                                                    this.Text += " (Busy)";
+                                                    OnClipboardChanged();
+                                                    this.Enabled = true;
+                                                    this.Text = this.Text.Substring(0, this.Text.Length - 7);
+                                                }));
+                            mListenDeactivated = 0;
+                        });
+                        t.Start();
                     }
                     catch (Exception e)
                     {
@@ -67,12 +80,12 @@ namespace Clipboarder
                     break;
             }
             base.WndProc(ref m);
-            System.Diagnostics.Debug.Print(m.Msg.ToString("x"));
+            //System.Diagnostics.Debug.Print(m.Msg.ToString("x"));
         }
 
         private void OnClipboardChanged()
         {
-            if (mListenDeactivated || IsTopWindow()) return;
+            if (IsTopWindow() && !stayOnTopToolStripMenuItem.Checked) return;
 
             IDataObject data = Clipboard.GetDataObject();
             if (mDB == null || data == null) return;
@@ -90,7 +103,7 @@ namespace Clipboarder
                     // Copy an image in browser?
                     if (string.IsNullOrWhiteSpace(url))
                         url = Helper.ExtractImgUrlFromHTML(content);
-                    Dot(() => mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url));
+                    mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url);
                 }
                 else
                 {
@@ -103,9 +116,9 @@ namespace Clipboarder
                     catch (Exception) { }
 
                     if (plainScript)
-                        Dot(() => mDB.Insert(null, data.GetData(typeof(string))?.ToString(), url));
+                        mDB.Insert(null, data.GetData(typeof(string))?.ToString(), url);
                     else
-                        Dot(() => mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url));
+                        mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url);
                 }
             }
             else if (Clipboard.ContainsText())
@@ -116,13 +129,17 @@ namespace Clipboarder
                 //content = Encoding.UTF8.GetString(Encoding.Default.GetBytes(content));
                 string url = Helper.GetHostFromUri(content) != "" ? content : "";
                 if (content == "") return;
-                Dot(() => mDB.Insert(null, content, url));
+                mDB.Insert(null, content, url);
             }
             else if (Clipboard.ContainsImage())
             {
                 if (!listenImageContents.Checked) return;
-                Dot(() => mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image));
+                mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image);
             }
+            this.Invoke(new Action(() => RefreshDataMainView()));
+            mDB.KeepEntriesUnder(
+                (Database.AutoDeletionPolicy)Properties.Settings.Default.XPurge,
+                Properties.Settings.Default.XPurgeValue);
         }
 
         private void NavBtn_Click(object sender, EventArgs e)
@@ -168,7 +185,7 @@ namespace Clipboarder
             }
             if (mDB == null)
             {
-                MessageBox.Show(string.Format(Properties.Resources.DatabaseNotAvailable, dbPath), 
+                MessageBox.Show(string.Format(Properties.Resources.DatabaseNotAvailable, dbPath),
                     Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 exitToolStripMenuItem_Click(null, null);
                 return;
@@ -178,9 +195,9 @@ namespace Clipboarder
             mainData.EditImageCallback = EditImage;
             mainData.CopyCallback = (ce) =>
             {
-                mListenDeactivated = true;
+                mListenDeactivated = 1;
                 Helper.SetClipboard(ce);
-                mListenDeactivated = false;
+                mListenDeactivated = 0;
                 if (hideAfterCopyToolStripMenuItem.Checked) Hide();
             };
             mainData.DeleteCallback = (de) =>
@@ -194,7 +211,7 @@ namespace Clipboarder
 
             listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
 
-            RegisterShortcut(Properties.Settings.Default.GSShow, 
+            RegisterShortcut(Properties.Settings.Default.GSShow,
                 () => notifyIcon_MouseDoubleClick(null, null));
         }
 
@@ -210,7 +227,7 @@ namespace Clipboarder
         {
             try
             {
-                mListenDeactivated = true;
+                mListenDeactivated = 1;
 
                 string fn = (Path.GetTempFileName()) + ".png";
                 img.Save(fn);
@@ -229,7 +246,7 @@ namespace Clipboarder
             }
             finally
             {
-                mListenDeactivated = false;
+                mListenDeactivated = 0;
             }
             return img;
         }
@@ -243,8 +260,8 @@ namespace Clipboarder
         {
             if (sender != listenToolStripMenuItem)
                 listenToolStripMenuItem.Checked = !listenToolStripMenuItem.Checked;
-            mListenDeactivated = !listenToolStripMenuItem.Checked;
-            notifyIcon.ContextMenu.MenuItems[0].Checked = !mListenDeactivated;
+            mListenDeactivated = listenToolStripMenuItem.Checked ? 0 : 1;
+            notifyIcon.ContextMenu.MenuItems[0].Checked = mListenDeactivated == 0;
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
@@ -312,7 +329,7 @@ namespace Clipboarder
 
         private void clearEntriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(Properties.Resources.DeleteAllConfirm, 
+            if (MessageBox.Show(Properties.Resources.DeleteAllConfirm,
                 Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
             mDB.Delete(-1);
@@ -361,18 +378,18 @@ namespace Clipboarder
         private void shortcutsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormSettings frm = new FormSettings();
-            mListenDeactivated = true;
+            mListenDeactivated = 1;
             frm.ShowDialog();
-            mListenDeactivated = false;
+            mListenDeactivated = 0;
         }
 
         private void buttonUrls_Click(object sender, EventArgs e)
         {
             FormSearch frm = new FormSearch();
-            mListenDeactivated = true;
+            mListenDeactivated = 1;
             frm.SwitchTab((sender as ToolStripButton).Tag as string);
             frm.ShowDialog();
-            mListenDeactivated = false;
+            mListenDeactivated = 0;
             (mainData.Tag as Page).Where = frm.WhereClause;
             (mainData.Tag as Page).BruteSearch = frm.BruteSearch;
             RefreshDataMainView();
@@ -389,11 +406,11 @@ namespace Clipboarder
         private void searchDeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormSearch frm = new FormSearch();
-            mListenDeactivated = true;
+            mListenDeactivated = 1;
             frm.SwitchTab("time");
             frm.SearchAndDelete = true;
             frm.ShowDialog();
-            mListenDeactivated = false;
+            mListenDeactivated = 0;
             if (frm.BruteSearch)
             {
                 MessageBox.Show("Not supported");

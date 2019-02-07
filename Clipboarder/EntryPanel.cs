@@ -46,10 +46,21 @@ namespace Clipboarder
         static int ScrollbarWidth = 15;
         static int MinimalScrollbarHeight = 25;
         static Brush ScrollbarBrush = Brushes.Gray;
-        static Brush ZebraBrush = new SolidBrush(Color.FromArgb(240, 240, 240));
+        static Brush BgBrush = new SolidBrush(Color.FromArgb(0xFF, 0xfC, 0xe3));
         static Font Monospace = new Font("Consolas", 12);
         static Size MonospaceSize = TextRenderer.MeasureText("A", Monospace);
         static ImageAttributes ButtonIA = new ImageAttributes();
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int GetSystemMetrics(int nIndex);
+
+        private static bool IsTouchEnabled()
+        {
+            int MAXTOUCHES_INDEX = 95;
+            int maxTouches = GetSystemMetrics(MAXTOUCHES_INDEX);
+
+            return maxTouches > 0;
+        }
 
         static EntryPanel()
         {
@@ -62,6 +73,7 @@ namespace Clipboarder
   new float[] {0, 0, 0, 0, 1},
 }
 ));
+            if (IsTouchEnabled()) ScrollbarWidth = 25;
         }
 
         public EntryPanel() : base()
@@ -265,7 +277,7 @@ namespace Clipboarder
                         Properties.Resources.mail_mark_not_junk,
                         (cv1, cv2) => DeleteCallback(kv.Key)));
 
-                    toolbar.Items.Add(new ToolStripButton("Cancel",
+                    toolbar.Items.Add(new ToolStripButton("Close",
                         Properties.Resources.process_stop,
                         (cv1, cv2) => this.Controls.Clear())
                     {
@@ -276,6 +288,17 @@ namespace Clipboarder
                     break;
                 }
             }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_GESTURE = 0x119;
+            if (m.Msg == WM_GESTURE)
+            {
+            System.Diagnostics.Debug.Print(m.LParam.ToString("X"));
+                return;
+            }
+            base.WndProc(ref m);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -432,7 +455,7 @@ namespace Clipboarder
                 int entryHeight = datum.IsBig ? BigEntryHeight : SmallEntryHeight;
                 int drawTop = top + MonospaceSize.Height;
                 int drawHeight = entryHeight - MonospaceSize.Height;
-                e.Graphics.FillRectangle(Brushes.White, 0, top, this.Width, entryHeight);
+                e.Graphics.FillRectangle(BgBrush, 0, top, this.Width, entryHeight);
 
                 if (drawTop + entryHeight >= 0 && drawTop <= this.Height)
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -162,6 +163,29 @@ namespace Clipboarder
             }
 
             throw new InvalidOperationException("not possible");
+        }
+
+        public struct GESTUREINFO
+        {
+            public uint cbSize;
+            public uint dwFlags;
+            public uint dwID;
+            public IntPtr hwndTarget;
+            public Point ptsLocation;
+            public uint dwInstanceID;
+            public uint dwSequenceID;
+            public ulong ullArguments;
+            public uint cbExtraArgs;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern bool GetGestureInfo(IntPtr hGestureInfo, ref GESTUREINFO pGestureInfo);
+
+        public static GESTUREINFO GetGestureInfo(IntPtr hGestureInfo)
+        {
+            GESTUREINFO info = new GESTUREINFO();
+            GetGestureInfo(hGestureInfo, ref info);
+            return info;
         }
     }
 }

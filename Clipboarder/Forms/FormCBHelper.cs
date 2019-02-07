@@ -78,42 +78,6 @@ namespace Clipboarder
             }
         }
 
-        private void Dot(Action a)
-        {
-            bool finished = false;
-            Thread t = new Thread(new ThreadStart(() =>
-            {
-                a.Invoke();
-                this.Invoke(new Action(() => RefreshDataMainView()));
-                mDB.KeepEntriesUnder(
-                    (Database.AutoDeletionPolicy)Properties.Settings.Default.XPurge,
-                    Properties.Settings.Default.XPurgeValue);
-                finished = true;
-            }));
-            t.Start();
-            if (!t.Join(Properties.Settings.Default.DbOpTimeout))
-            {
-                // The operation takes longer time to finish than usual,
-                // which may indicate that system is busy, so we temporarily disable listening
-                new Thread(new ThreadStart(() =>
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        this.Enabled = false;
-                        this.Text += " (Busy)";
-                    }));
-                    mListenDeactivated = true;
-                    SpinWait.SpinUntil(() => finished);
-                    mListenDeactivated = false;
-                    this.Invoke(new Action(() =>
-                    {
-                        this.Enabled = true;
-                        this.Text = this.Text.Substring(0, this.Text.Length - 7);
-                    }));
-                })).Start();
-            }
-        }
-
         private void UnregisterShortcuts()
         {
             for (int i = mShortcutsMap.Count; i > 0; i--)
@@ -139,6 +103,8 @@ namespace Clipboarder
             hideAfterCopyToolStripMenuItem.Checked = Properties.Settings.Default.HideAfterCopy;
             stayOnTopToolStripMenuItem.Checked = Properties.Settings.Default.StayOnTop;
             stayOnTopToolStripMenuItem_Click(null, null);
+            this.Location = Properties.Settings.Default.FormLocation;
+            this.Size = Properties.Settings.Default.FormSize;
         }
 
         private void SaveSettings()
@@ -154,6 +120,8 @@ namespace Clipboarder
                 if ((menuMain.Items.Find("listen" + show + "Contents", true).First() as ToolStripMenuItem).Checked)
                     Properties.Settings.Default.ListenContents += show + ",";
             }
+            Properties.Settings.Default.FormLocation = this.Location;
+            Properties.Settings.Default.FormSize = this.Size;
             Properties.Settings.Default.Save();
         }
 
