@@ -27,6 +27,8 @@ namespace Clipboarder
             textExImageEditor.Text = Properties.Settings.Default.ExternalImageEditor;
             textEntriesPerPage.Value = Properties.Settings.Default.EntriesPerPage;
             textDbOpTimeout.Value = Properties.Settings.Default.DbOpTimeout;
+            (groupXPurge.Controls.Find("autoPurge" + Properties.Settings.Default.XPurge.ToString(), false).First() as RadioButton).Checked = true;
+            textAutoPurgeX.Value = Properties.Settings.Default.XPurgeValue;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -37,6 +39,11 @@ namespace Clipboarder
             Properties.Settings.Default.ExternalImageEditor = textExImageEditor.Text;
             Properties.Settings.Default.EntriesPerPage = (int)textEntriesPerPage.Value;
             Properties.Settings.Default.DbOpTimeout = (int)textDbOpTimeout.Value;
+            Properties.Settings.Default.XPurgeValue = (int)textAutoPurgeX.Value;
+            for (int i = 0; i < 3; i++)
+                if ((groupXPurge.Controls.Find("autoPurge" + i, false).First() as RadioButton).Checked)
+                    Properties.Settings.Default.XPurge = i;
+
             Properties.Settings.Default.Save();
             Close();
         }

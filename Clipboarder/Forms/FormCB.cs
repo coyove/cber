@@ -23,8 +23,6 @@ namespace Clipboarder
 
         private IntPtr mNextClipboardViewer;
 
-        private System.Timers.Timer mTimer;
-
         private bool mListenDeactivated;
 
         private bool mRealExit;
@@ -71,7 +69,6 @@ namespace Clipboarder
             if (mDB == null || data == null) return;
 
             object html = Clipboard.GetData(DataFormats.Html);
-            bool finished = false;
             if (html != null)
             {
                 if (!listenHTMLContents.Checked) return;
@@ -84,8 +81,7 @@ namespace Clipboarder
                     // Copy an image in browser?
                     if (string.IsNullOrWhiteSpace(url))
                         url = Helper.ExtractImgUrlFromHTML(content);
-                    finished = Dot(() =>
-                        mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url));
+                    Dot(() => mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url));
                 }
                 else
                 {
@@ -97,8 +93,9 @@ namespace Clipboarder
                     }
                     catch (Exception) { }
 
-                    finished = plainScript ?
-                        Dot(() => mDB.Insert(null, data.GetData(typeof(string))?.ToString(), url)) :
+                    if (plainScript)
+                        Dot(() => mDB.Insert(null, data.GetData(typeof(string))?.ToString(), url));
+                    else
                         Dot(() => mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url));
                 }
             }
@@ -110,23 +107,12 @@ namespace Clipboarder
                 //content = Encoding.UTF8.GetString(Encoding.Default.GetBytes(content));
                 string url = Helper.GetHostFromUri(content) != "" ? content : "";
                 if (content == "") return;
-                finished = Dot(() =>
-                    mDB.Insert(null, content, url));
+                Dot(() => mDB.Insert(null, content, url));
             }
             else if (Clipboard.ContainsImage())
             {
                 if (!listenImageContents.Checked) return;
-                finished = Dot(() =>
-                    mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image));
-            }
-
-            if (finished)
-            {
-                RefreshDataMainView();
-            }
-            else
-            {
-                statusMessage.Text = Properties.Resources.StatusOperationTimedout;
+                Dot(() => mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image));
             }
         }
 
@@ -149,20 +135,6 @@ namespace Clipboarder
 
             mRealExit = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
-            mTimer = new System.Timers.Timer(2000);
-            mTimer.AutoReset = true;
-            mTimer.Enabled = true;
-            mTimer.Elapsed += (v1, v2) =>
-            {
-                foreach (var t in mPendingThreads)
-                {
-                    DateTime dummy;
-                    if (!t.Key.IsAlive)
-                        mPendingThreads.TryRemove(t.Key, out dummy);
-                    else if (DateTime.Now.Subtract(t.Value).TotalSeconds > 2)
-                        t.Key.Abort();
-                }
-            };
             mainData.Tag = new Page() { Current = 1 };
             notifyIcon.Icon = Properties.Resources.SystrayIcon;
             notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {
@@ -222,8 +194,6 @@ namespace Clipboarder
             if (mDB != null)
                 mDB.Close();
 
-            mTimer.Stop();
-            mTimer.Dispose();
             SaveSettings();
         }
 

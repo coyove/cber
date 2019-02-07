@@ -590,6 +590,34 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
+        public enum AutoDeletionPolicy
+        {
+            None,
+            IdBefore,
+            TimeBefore,
+        }
+
+        public void KeepEntriesUnder(AutoDeletionPolicy policy, int flag)
+        {
+            string query = null;
+            switch (policy)
+            {
+                case AutoDeletionPolicy.None:
+                    return;
+                case AutoDeletionPolicy.IdBefore:
+                    query = string.Format("id <= (SELECT id FROM data_table ORDER BY id DESC LIMIT 1) - {0} AND favorited = 0", flag);
+                    break;
+                case AutoDeletionPolicy.TimeBefore:
+                    query = string.Format("ts < (SELECT ts FROM data_table ORDER BY id DESC LIMIT 1) - {0} AND favorited = 0", flag);
+                    break;
+                default:
+                    return;
+            }
+            IntPtr stmt = SQLite3.Prepare2(mDB, "DELETE FROM data_table WHERE " + query);
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+        }
+
         public int TotalEntries(string where, bool bruteSearch)
         {
             IntPtr stmt = SQLite3.Prepare2(mDB, 

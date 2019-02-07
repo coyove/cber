@@ -45,8 +45,6 @@ namespace Clipboarder
 
         private Dictionary<UInt64, Action> mShortcutsMap = new Dictionary<ulong, Action>();
 
-        private ConcurrentDictionary<Thread, DateTime> mPendingThreads = new ConcurrentDictionary<Thread, DateTime>();
-
         private void RegisterShortcut(string keys, Action a)
         {
             uint modifier = 0;
@@ -80,14 +78,40 @@ namespace Clipboarder
             }
         }
 
-        private bool Dot(Action a)
+        private void Dot(Action a)
         {
-            Thread t = new Thread(new ThreadStart(a));
-            var now = mPendingThreads[t] = DateTime.Now;
+            bool finished = false;
+            Thread t = new Thread(new ThreadStart(() =>
+            {
+                a.Invoke();
+                this.Invoke(new Action(() => RefreshDataMainView()));
+                mDB.KeepEntriesUnder(
+                    (Database.AutoDeletionPolicy)Properties.Settings.Default.XPurge,
+                    Properties.Settings.Default.XPurgeValue);
+                finished = true;
+            }));
             t.Start();
-            bool res = t.Join(Properties.Settings.Default.DbOpTimeout);
-            if (res) mPendingThreads.TryRemove(t, out now);
-            return res;
+            if (!t.Join(Properties.Settings.Default.DbOpTimeout))
+            {
+                // The operation takes longer time to finish than usual,
+                // which may indicate that system is busy, so we temporarily disable listening
+                new Thread(new ThreadStart(() =>
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        this.Enabled = false;
+                        this.Text += " (Busy)";
+                    }));
+                    mListenDeactivated = true;
+                    SpinWait.SpinUntil(() => finished);
+                    mListenDeactivated = false;
+                    this.Invoke(new Action(() =>
+                    {
+                        this.Enabled = true;
+                        this.Text = this.Text.Substring(0, this.Text.Length - 7);
+                    }));
+                })).Start();
+            }
         }
 
         private void UnregisterShortcuts()

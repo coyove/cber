@@ -29,5 +29,11 @@
     <Setting Name="GSShow" Type="System.String" Scope="User">
       <Value Profile="(Default)">Alt+Oemtilde</Value>
     </Setting>
+    <Setting Name="XPurge" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="XPurgeValue" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

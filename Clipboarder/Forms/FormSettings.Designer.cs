@@ -42,11 +42,19 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonBrowseIE = new System.Windows.Forms.Button();
+            this.groupXPurge = new System.Windows.Forms.GroupBox();
+            this.autoPurge1 = new System.Windows.Forms.RadioButton();
+            this.autoPurge2 = new System.Windows.Forms.RadioButton();
+            this.textAutoPurgeX = new System.Windows.Forms.NumericUpDown();
+            this.autoPurge0 = new System.Windows.Forms.RadioButton();
+            this.label6 = new System.Windows.Forms.Label();
             this.textGSShow = new Clipboarder.Shortcut();
             ((System.ComponentModel.ISupportInitialize)(this.textEntriesPerPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textDbOpTimeout)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupXPurge.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textAutoPurgeX)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -156,6 +164,58 @@
             this.buttonBrowseIE.UseVisualStyleBackColor = true;
             this.buttonBrowseIE.Click += new System.EventHandler(this.buttonBrowseIE_Click);
             // 
+            // groupXPurge
+            // 
+            this.groupXPurge.Controls.Add(this.label6);
+            this.groupXPurge.Controls.Add(this.autoPurge0);
+            this.groupXPurge.Controls.Add(this.textAutoPurgeX);
+            this.groupXPurge.Controls.Add(this.autoPurge2);
+            this.groupXPurge.Controls.Add(this.autoPurge1);
+            resources.ApplyResources(this.groupXPurge, "groupXPurge");
+            this.groupXPurge.Name = "groupXPurge";
+            this.groupXPurge.TabStop = false;
+            // 
+            // autoPurge1
+            // 
+            resources.ApplyResources(this.autoPurge1, "autoPurge1");
+            this.autoPurge1.Name = "autoPurge1";
+            this.autoPurge1.TabStop = true;
+            this.autoPurge1.UseVisualStyleBackColor = true;
+            // 
+            // autoPurge2
+            // 
+            resources.ApplyResources(this.autoPurge2, "autoPurge2");
+            this.autoPurge2.Name = "autoPurge2";
+            this.autoPurge2.TabStop = true;
+            this.autoPurge2.UseVisualStyleBackColor = true;
+            // 
+            // textAutoPurgeX
+            // 
+            resources.ApplyResources(this.textAutoPurgeX, "textAutoPurgeX");
+            this.textAutoPurgeX.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.textAutoPurgeX.Name = "textAutoPurgeX";
+            this.textAutoPurgeX.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // autoPurge0
+            // 
+            resources.ApplyResources(this.autoPurge0, "autoPurge0");
+            this.autoPurge0.Name = "autoPurge0";
+            this.autoPurge0.TabStop = true;
+            this.autoPurge0.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
             // textGSShow
             // 
             resources.ApplyResources(this.textGSShow, "textGSShow");
@@ -167,6 +227,7 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ControlBox = false;
+            this.Controls.Add(this.groupXPurge);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
@@ -183,6 +244,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupXPurge.ResumeLayout(false);
+            this.groupXPurge.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textAutoPurgeX)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,5 +268,11 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private Shortcut textGSShow;
         private System.Windows.Forms.Button buttonBrowseIE;
+        private System.Windows.Forms.GroupBox groupXPurge;
+        private System.Windows.Forms.RadioButton autoPurge1;
+        private System.Windows.Forms.NumericUpDown textAutoPurgeX;
+        private System.Windows.Forms.RadioButton autoPurge2;
+        private System.Windows.Forms.RadioButton autoPurge0;
+        private System.Windows.Forms.Label label6;
     }
 }
