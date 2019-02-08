@@ -77,10 +77,18 @@ namespace Clipboarder
             return content;
         }
 
-        public static void SetHtml(string content)
+        public static void SetHtml(string content, string pureText)
+        {
+            SetText(HtmlFormat, content);
+            SetText(13 /*UnicodeText*/, pureText);
+        }
+
+        private static void SetText(uint format, string content)
         {
             MemoryStream buf = new MemoryStream();
-            byte[] p = Encoding.UTF8.GetBytes(content);
+            byte[] p = format == HtmlFormat ?
+                Encoding.UTF8.GetBytes(content) :
+                Encoding.Unicode.GetBytes(content);
             buf.Write(p, 0, p.Length);
             buf.WriteByte(0);
 
@@ -94,9 +102,9 @@ namespace Clipboarder
 
             if (!OpenClipboard(IntPtr.Zero))
                 return;
-            SetClipboardData(HtmlFormat, ptr);
+            SetClipboardData(format, ptr);
             CloseClipboard();
-            GlobalFree(ptr);
+            //GlobalFree(ptr);
         }
     }
 }
