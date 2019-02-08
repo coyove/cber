@@ -77,9 +77,9 @@ namespace Clipboarder
             return content;
         }
 
-        public static void SetHtml(string content, string pureText)
+        public static void SetHtml(string htmlContent, string pureText)
         {
-            SetText(HtmlFormat, content);
+            SetText(HtmlFormat, htmlContent);
             SetText(13 /*UnicodeText*/, pureText);
         }
 
@@ -104,6 +104,8 @@ namespace Clipboarder
                 return;
             SetClipboardData(format, ptr);
             CloseClipboard();
+
+            // let system clipboard handles them
             //GlobalFree(ptr);
         }
     }

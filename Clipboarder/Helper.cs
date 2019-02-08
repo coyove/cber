@@ -128,21 +128,28 @@ namespace Clipboarder
 
         public static void SetClipboard(Database.Entry entry)
         {
-            switch (entry.Type)
+            try
             {
-                case Database.ContentType.HTML:
-                    DataObject obj = new DataObject();
-                    //obj.SetData(DataFormats.Html, entry.Content);
-                    ClipboardWorkaround.SetHtml(entry.Content as string, entry.Html);
-                    //obj.SetData(DataFormats.StringFormat, entry.Html);
-                    //Clipboard.SetDataObject(obj, true);
-                    break;
-                case Database.ContentType.Image:
-                    Clipboard.SetData(DataFormats.Bitmap, entry.Content);
-                    break;
-                default:
-                    Clipboard.SetData(DataFormats.StringFormat, entry.Content);
-                    break;
+                switch (entry.Type)
+                {
+                    case Database.ContentType.HTML:
+                        DataObject obj = new DataObject();
+                        //obj.SetData(DataFormats.Html, entry.Content);
+                        ClipboardWorkaround.SetHtml(entry.Content as string, entry.Html);
+                        //obj.SetData(DataFormats.StringFormat, entry.Html);
+                        //Clipboard.SetDataObject(obj, true);
+                        break;
+                    case Database.ContentType.Image:
+                        Clipboard.SetData(DataFormats.Bitmap, entry.Content);
+                        break;
+                    default:
+                        Clipboard.SetData(DataFormats.StringFormat, entry.Content);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                FormCB.Log(e.ToString());
             }
         }
 

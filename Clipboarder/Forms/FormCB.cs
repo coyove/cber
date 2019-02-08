@@ -19,7 +19,7 @@ namespace Clipboarder
 {
     public partial class FormCB : Form
     {
-        public static Action<string> Log = (msg) => File.AppendAllText("cber.log", msg + Environment.NewLine);
+        public static Action<string> Log = (msg) => File.AppendAllText("cber.log", DateTime.Now.ToString() + " " + msg + Environment.NewLine);
 
         public static Database mDB;
 
