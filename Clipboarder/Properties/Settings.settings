@@ -52,5 +52,22 @@ return '\0';
     <Setting Name="RuleEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="PanelShortcutsMap" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;D1&lt;/string&gt;
+  &lt;string&gt;D2&lt;/string&gt;
+  &lt;string&gt;D3&lt;/string&gt;
+  &lt;string&gt;D4&lt;/string&gt;
+  &lt;string&gt;Q&lt;/string&gt;
+  &lt;string&gt;W&lt;/string&gt;
+  &lt;string&gt;E&lt;/string&gt;
+  &lt;string&gt;A&lt;/string&gt;
+  &lt;string&gt;S&lt;/string&gt;
+  &lt;string&gt;D&lt;/string&gt;
+  &lt;string&gt;Z&lt;/string&gt;
+  &lt;string&gt;X&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

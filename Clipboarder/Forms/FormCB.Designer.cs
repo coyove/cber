@@ -34,12 +34,18 @@
             this.buttonFirstPage = new System.Windows.Forms.ToolStripButton();
             this.buttonLastPage = new System.Windows.Forms.ToolStripButton();
             this.buttonClearWhere = new System.Windows.Forms.ToolStripButton();
+            this.statusPagesInfo = new System.Windows.Forms.ToolStripButton();
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.buttonFavorites = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchName = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchTimespan = new System.Windows.Forms.ToolStripButton();
             this.buttonSearchUrls = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.deleteAllEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusDbPath = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.clipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,12 +70,6 @@
             this.showImageContents = new System.Windows.Forms.ToolStripMenuItem();
             this.showHTMLContents = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.statusPagesInfo = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteAllEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mainData = new Clipboarder.EntryPanel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,6 +109,13 @@
             resources.ApplyResources(this.buttonClearWhere, "buttonClearWhere");
             this.buttonClearWhere.Name = "buttonClearWhere";
             this.buttonClearWhere.Click += new System.EventHandler(this.buttonClearWhere_Click);
+            // 
+            // statusPagesInfo
+            // 
+            this.statusPagesInfo.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.statusPagesInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            resources.ApplyResources(this.statusPagesInfo, "statusPagesInfo");
+            this.statusPagesInfo.Name = "statusPagesInfo";
             // 
             // toolStripMain
             // 
@@ -158,6 +165,40 @@
             this.statusDbPath});
             resources.ApplyResources(this.statusInfo, "statusInfo");
             this.statusInfo.Name = "statusInfo";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.selectToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.deleteAllEntriesToolStripMenuItem});
+            resources.ApplyResources(this.toolStripDropDownButton1, "toolStripDropDownButton1");
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
+            // 
+            // selectToolStripMenuItem
+            // 
+            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
+            resources.ApplyResources(this.selectToolStripMenuItem, "selectToolStripMenuItem");
+            this.selectToolStripMenuItem.Click += new System.EventHandler(this.statusDbPath_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            // 
+            // deleteAllEntriesToolStripMenuItem
+            // 
+            this.deleteAllEntriesToolStripMenuItem.Name = "deleteAllEntriesToolStripMenuItem";
+            resources.ApplyResources(this.deleteAllEntriesToolStripMenuItem, "deleteAllEntriesToolStripMenuItem");
+            this.deleteAllEntriesToolStripMenuItem.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
             // 
             // statusDbPath
             // 
@@ -339,47 +380,6 @@
             // 
             resources.ApplyResources(this.notifyIcon, "notifyIcon");
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
-            // 
-            // statusPagesInfo
-            // 
-            this.statusPagesInfo.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.statusPagesInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            resources.ApplyResources(this.statusPagesInfo, "statusPagesInfo");
-            this.statusPagesInfo.Name = "statusPagesInfo";
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.selectToolStripMenuItem,
-            this.toolStripSeparator5,
-            this.deleteAllEntriesToolStripMenuItem});
-            resources.ApplyResources(this.toolStripDropDownButton1, "toolStripDropDownButton1");
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
-            // 
-            // selectToolStripMenuItem
-            // 
-            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
-            resources.ApplyResources(this.selectToolStripMenuItem, "selectToolStripMenuItem");
-            this.selectToolStripMenuItem.Click += new System.EventHandler(this.statusDbPath_Click);
-            // 
-            // deleteAllEntriesToolStripMenuItem
-            // 
-            this.deleteAllEntriesToolStripMenuItem.Name = "deleteAllEntriesToolStripMenuItem";
-            resources.ApplyResources(this.deleteAllEntriesToolStripMenuItem, "deleteAllEntriesToolStripMenuItem");
-            this.deleteAllEntriesToolStripMenuItem.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             // 
             // mainData
             // 

@@ -36,6 +36,14 @@ namespace Clipboarder
             InitializeComponent();
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Down) mainData.ScrollBit(true);
+            if (keyData == Keys.Up) mainData.ScrollBit(false);
+            if (mainData.TryShortcut(keyData)) return true;
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         protected override void WndProc(ref System.Windows.Forms.Message m)
         {
             const int WM_DRAWCLIPBOARD = 0x308;

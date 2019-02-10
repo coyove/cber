@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Clipboarder
@@ -30,6 +31,12 @@ namespace Clipboarder
             public bool Hovered;
             public bool Clicked;
             public Rectangle Hotarea;
+
+            public void Reset()
+            {
+                Hovered = Clicked = false;
+                Entry = null;
+            }
         }
 
         private EntryStatus mCurrentHoverEntry = new EntryStatus();
@@ -57,20 +64,7 @@ namespace Clipboarder
         static Brush BgBrush = new SolidBrush(Color.FromArgb(0xFF, 0xfC, 0xe3));
         static Font Monospace = new Font("Consolas", 12);
         static Size MonospaceSize = TextRenderer.MeasureText("A", Monospace);
-        static ImageAttributes ButtonIA = new ImageAttributes();
-
-        static EntryPanel()
-        {
-            ButtonIA.SetColorMatrix(new ColorMatrix(new float[][]
-{
-  new float[] {1, 0, 0, 0, 0},
-  new float[] {0, 1, 0, 0, 0},
-  new float[] {0, 0, 1, 0, 0},
-  new float[] {0, 0, 0, 0.6f, 0},
-  new float[] {0, 0, 0, 0, 1},
-}
-));
-        }
+        static StringFormat CenterTextFormat = new StringFormat() { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
 
         public EntryPanel() : base()
         {
@@ -143,6 +137,13 @@ namespace Clipboarder
             Invalidate();
         }
 
+        private void ClearControls()
+        {
+            for (int i = this.Controls.Count - 1; i >= 0; i--)
+                this.Controls[i].Dispose();
+            this.Controls.Clear();
+        }
+
         public int Value = 0;
 
         public int MaxValue { get; private set; }
@@ -189,7 +190,7 @@ namespace Clipboarder
                 return;
             }
 
-            this.Controls.Clear();
+            ClearControls();
             foreach (var kv in mHotarea)
             {
                 if (kv.Value.Contains(e.Location))
@@ -218,7 +219,7 @@ namespace Clipboarder
                                 {
                                     mDB.UpdateContent(kv.Key.Id, editor.Text);
                                     kv.Key.Content = editor.Text;
-                                    this.Controls.Clear();
+                                    ClearControls();
                                     this.Invalidate();
                                 }));
                             toolbar.Items.Add(mCodeMenu);
@@ -241,7 +242,7 @@ namespace Clipboarder
                                 {
                                     mDB.UpdateContent(kv.Key.Id, Database.ContentType.RawText);
                                     kv.Key.Type = Database.ContentType.RawText;
-                                    this.Controls.Clear();
+                                    ClearControls();
                                     this.Invalidate();
                                 }));
                             break;
@@ -257,7 +258,7 @@ namespace Clipboarder
                                 {
                                     kv.Key.Content = EditImageCallback(kv.Key.Content as Image);
                                     mDB.UpdateContent(kv.Key.Id, kv.Key.Content as Image);
-                                    this.Controls.Clear();
+                                    ClearControls();
                                     this.Invalidate();
                                 }));
                             break;
@@ -269,7 +270,7 @@ namespace Clipboarder
 
                     toolbar.Items.Add(new ToolStripButton("Close",
                         Properties.Resources.process_stop,
-                        (cv1, cv2) => this.Controls.Clear())
+                        (cv1, cv2) => ClearControls())
                     {
                         Alignment = ToolStripItemAlignment.Right,
                     });
@@ -290,7 +291,7 @@ namespace Clipboarder
                 Invalidate();
             }
 
-            mCurrentHoverEntry.Entry = null;
+            mCurrentHoverEntry.Reset();
             if (this.Controls.Count == 0)
             {
                 foreach (var kv in mCopyHotarea)
@@ -321,15 +322,20 @@ namespace Clipboarder
             if (Value < 0) Value = 0;
         }
 
-        protected override void OnMouseWheel(MouseEventArgs e)
+        public void ScrollBit(bool down)
         {
-            base.OnMouseWheel(e);
             if (this.Controls.Count > 0) return;
             int delta = this.Height / 15;
-            Value += e.Delta > 0 ? -delta : delta;
+            Value += down ? delta : -delta;
             if (Value > MaxValue) Value = MaxValue;
             if (Value < 0) Value = 0;
             Invalidate();
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            ScrollBit(e.Delta <= 0);
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
@@ -346,28 +352,61 @@ namespace Clipboarder
             }
         }
 
-        public Rectangle DrawTitle(Graphics graphics, Database.Entry e, Font font, int top, Brush color)
+        public bool TryShortcut(Keys key)
         {
-            string no = "No." + e.Id.ToString();
+            if (this.Controls.Count > 0) return false;
+            int i = Properties.Settings.Default.PanelShortcutsMap.IndexOf(key.ToString());
+            if (i < mData.Count && i >= 0)
+            {
+                mCurrentHoverEntry.Entry = mData[i];
+                mCurrentHoverEntry.Hovered = mCurrentHoverEntry.Clicked = true;
+                CopyCallback(mData[i]);
+                Refresh();
+                new Thread(() =>
+                {
+                    Thread.Sleep(500);
+                    mCurrentHoverEntry.Reset();
+                    this.Invoke(new Action(() => Refresh()));
+                }).Start();
+                return true;
+            }
+            return false;
+        }
+
+        public Rectangle DrawTitle(int index, Graphics graphics, Database.Entry e, Font font, int top, Brush color)
+        {
             string now = e.Time.ToString();
 
             int secDiff = (int)DateTime.Now.Subtract(e.Time).TotalSeconds;
             if (secDiff < 60)
-                now = "+" + secDiff.ToString() + "s " + now;
+                now = secDiff.ToString() + "s " + now;
             else if (secDiff < 3600)
-                now = "+" + (secDiff / 60).ToString() + "m" + (secDiff % 60).ToString() + "s " + now;
+                now = (secDiff / 60).ToString() + "m" + (secDiff % 60).ToString() + "s " + now;
             else if (secDiff < 86400)
-                now = "+" + (secDiff / 3600).ToString() + "h" + ((secDiff - secDiff / 3600 * 3600) / 60).ToString() + "m " + now;
+                now = (secDiff / 3600).ToString() + "h" + ((secDiff - secDiff / 3600 * 3600) / 60).ToString() + "m " + now;
 
             if (e.Hits > 1)
                 now += " (" + e.Hits.ToString() + ")";
 
-            var size = TextRenderer.MeasureText(no, font, new Size(0, 0), TextFormatFlags.SingleLine);
+            now = e.Id.ToString() + ". " + now;
             var width = this.Width - SBW - SBW;
-            graphics.FillRectangle(color, SBW, top, width, size.Height);
-            graphics.DrawString(no, new Font(font, FontStyle.Bold), Brushes.White, SBW, top);
-            graphics.DrawString(now, font, Brushes.White,
-                new Rectangle(SBW + size.Width + 5, top, width - 30 - size.Width, size.Height));
+            var height = MonospaceSize.Height;
+
+            graphics.FillRectangle(color, new Rectangle(SBW, top, width, height));
+
+            if (index < Properties.Settings.Default.PanelShortcutsMap.Count)
+            {
+                graphics.DrawString(now, font, Brushes.White, new Rectangle(SBW + MonospaceSize.Width + 5, top, width - 40, height));
+                graphics.FillRectangle(Brushes.Black, new Rectangle(SBW, top, MonospaceSize.Width, height));
+
+                string scKey = Properties.Settings.Default.PanelShortcutsMap[index];
+                graphics.DrawString(scKey.Length > 1 ? scKey.Last().ToString() : scKey,
+                    font, Brushes.White, new Rectangle(SBW, top, MonospaceSize.Width, height), CenterTextFormat);
+            }
+            else
+            {
+                graphics.DrawString(now, font, Brushes.White, new Rectangle(SBW, top, width - 30, height));
+            }
 
             Rectangle hotarea = default(Rectangle);
             if (!string.IsNullOrWhiteSpace(e.SourceUrl))
@@ -380,9 +419,9 @@ namespace Clipboarder
                 var left = this.Width - SBW - urlSize.Width;
                 if (left < SBW) left = SBW;
 
-                graphics.FillRectangle(Brushes.Teal, left, top + size.Height, urlSize.Width, urlSize.Height);
-                graphics.DrawString(url, font, Brushes.White, left, top + size.Height);
-                hotarea = new Rectangle(width - urlSize.Width, size.Height, urlSize.Width, urlSize.Height);
+                graphics.FillRectangle(Brushes.Teal, left, top + height, urlSize.Width, urlSize.Height);
+                graphics.DrawString(url, font, Brushes.White, left, top + height);
+                hotarea = new Rectangle(width - urlSize.Width, height, urlSize.Width, urlSize.Height);
             }
 
             if (e.Content is Image)
@@ -391,14 +430,14 @@ namespace Clipboarder
                 string sizeText = imageSize.Width.ToString() + "x" + imageSize.Height.ToString();
                 var sizeTrueSize = TextRenderer.MeasureText(sizeText, font, new Size(0, 0), TextFormatFlags.SingleLine);
 
-                graphics.FillRectangle(Brushes.LightGray, SBW, top + size.Height, sizeTrueSize.Width, sizeTrueSize.Height);
-                graphics.DrawRectangle(Pens.Black, SBW, top + size.Height, sizeTrueSize.Width, sizeTrueSize.Height);
-                graphics.DrawString(sizeText, font, Brushes.Black, SBW, top + size.Height);
+                graphics.FillRectangle(Brushes.LightGray, SBW, top + height, sizeTrueSize.Width, sizeTrueSize.Height);
+                graphics.DrawRectangle(Pens.Black, SBW, top + height, sizeTrueSize.Width, sizeTrueSize.Height);
+                graphics.DrawString(sizeText, font, Brushes.Black, SBW, top + height);
             }
 
-            graphics.DrawImage(Properties.Resources.shadow, SBW, top + size.Height, this.Width, 16);
+            graphics.DrawImage(Properties.Resources.shadow, SBW, top + height, this.Width, 16);
 
-            Rectangle favArea = new Rectangle(this.Width - SBW - 25, top + (size.Height - 22) / 2, 22, 22);
+            Rectangle favArea = new Rectangle(this.Width - SBW - 25, top + (height - 22) / 2, 22, 22);
             graphics.DrawImage(e.IsFavorited ?
                 Properties.Resources.favorite :
                 Properties.Resources.unfavorite, favArea);
@@ -424,13 +463,14 @@ namespace Clipboarder
             mUrlHotarea.Clear();
             mCopyHotarea.Clear();
             mFavHotarea.Clear();
-            this.Controls.Clear();
+            ClearControls();
 
-            int top = -(int)(Value * mK);
+            int top = -(int)(Value * mK), i = -1;
             bool zebra = false;
             foreach (Database.Entry datum in mData)
             {
                 zebra = !zebra;
+                i++;
                 int entryHeight = datum.IsBig ? BigEntryHeight : SmallEntryHeight;
                 int drawTop = top + MonospaceSize.Height;
                 int drawHeight = entryHeight - MonospaceSize.Height;
@@ -468,19 +508,19 @@ namespace Clipboarder
                             drawHeight2 -= MonospaceSize.Height;
                         }
                         e.Graphics.DrawString(content, Monospace, Brushes.Black,
-                            new Rectangle(5 + SBW, drawTop + 5, this.Width - SBW - 10, drawHeight2 - 10));
+                            new Rectangle(5 + SBW, drawTop + 5, this.Width - SBW - SBW - 10, drawHeight2 - 10));
                         break;
                 }
                 switch (datum.Type)
                 {
                     case Database.ContentType.HTML:
-                DrawTitle(e.Graphics, datum, Monospace, top, Brushes.DarkSlateGray);
+                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.DarkSlateGray);
                         break;
                     case Database.ContentType.RawText:
-                DrawTitle(e.Graphics, datum, Monospace, top, Brushes.Firebrick);
+                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.Firebrick);
                         break;
                     case Database.ContentType.Image:
-                DrawTitle(e.Graphics, datum, Monospace, top, Brushes.PaleVioletRed);
+                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.PaleVioletRed);
                         break;
                 }
 
@@ -491,12 +531,7 @@ namespace Clipboarder
                     if (mCurrentHoverEntry.Clicked)
                         e.Graphics.FillRectangle(Brushes.DarkSlateGray, leftSideBar);
 
-                    e.Graphics.DrawString("C", Monospace, Brushes.White, leftSideBar,
-                        new StringFormat()
-                        {
-                            Alignment = StringAlignment.Center,
-                            LineAlignment = StringAlignment.Center,
-                        });
+                    e.Graphics.DrawString("C", Monospace, Brushes.White, leftSideBar, CenterTextFormat);
                 }
                 else
                 {
@@ -511,11 +546,7 @@ namespace Clipboarder
             {
                 e.Graphics.DrawString(Properties.Resources.EmptyResults,
                     Monospace, Brushes.Black,
-                    new Rectangle(SBW, 0, this.Width - SBW - SBW, this.Height), new StringFormat()
-                    {
-                        Alignment = StringAlignment.Center,
-                        LineAlignment = StringAlignment.Center,
-                    });
+                    new Rectangle(SBW, 0, this.Width - SBW - SBW, this.Height), CenterTextFormat);
                 e.Graphics.FillRectangle(Brushes.LightGray, new Rectangle(0, 0, SBW, this.Height));
             }
 

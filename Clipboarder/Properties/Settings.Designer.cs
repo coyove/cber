@@ -207,5 +207,31 @@ return '\0';
                 this["RuleEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>D1</string>
+  <string>D2</string>
+  <string>D3</string>
+  <string>D4</string>
+  <string>Q</string>
+  <string>W</string>
+  <string>E</string>
+  <string>A</string>
+  <string>S</string>
+  <string>D</string>
+  <string>Z</string>
+  <string>X</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection PanelShortcutsMap {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["PanelShortcutsMap"]));
+            }
+            set {
+                this["PanelShortcutsMap"] = value;
+            }
+        }
     }
 }
