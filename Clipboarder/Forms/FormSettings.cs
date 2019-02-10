@@ -34,6 +34,10 @@ namespace Clipboarder
             textAutoPurgeX.Visible = xpurge > 0;
             textAutoPurgeX.Top = xpurgeButton.Top;
             textAutoPurgeX.Value = Properties.Settings.Default.XPurgeValue;
+
+            checkRule.Checked = Properties.Settings.Default.RuleEnabled;
+            textRule.Text = Properties.Settings.Default.RuleScript;
+            textRule.SetHighlighting("C#");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -48,6 +52,9 @@ namespace Clipboarder
             for (int i = 0; i < 3; i++)
                 if ((groupXPurge.Controls.Find("autoPurge" + i, false).First() as RadioButton).Checked)
                     Properties.Settings.Default.XPurge = i;
+
+            Properties.Settings.Default.RuleScript = textRule.Text;
+            Properties.Settings.Default.RuleEnabled = checkRule.Checked;
 
             Properties.Settings.Default.Save();
             Close();

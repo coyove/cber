@@ -40,20 +40,28 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textDbOpTimeout = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textGSShow = new Clipboarder.Shortcut();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonBrowseIE = new System.Windows.Forms.Button();
             this.groupXPurge = new System.Windows.Forms.GroupBox();
-            this.autoPurge1 = new System.Windows.Forms.RadioButton();
-            this.autoPurge2 = new System.Windows.Forms.RadioButton();
-            this.textAutoPurgeX = new System.Windows.Forms.NumericUpDown();
             this.autoPurge0 = new System.Windows.Forms.RadioButton();
-            this.textGSShow = new Clipboarder.Shortcut();
+            this.textAutoPurgeX = new System.Windows.Forms.NumericUpDown();
+            this.autoPurge2 = new System.Windows.Forms.RadioButton();
+            this.autoPurge1 = new System.Windows.Forms.RadioButton();
+            this.textRule = new ICSharpCode.TextEditor.TextEditorControl();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.checkRule = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.textEntriesPerPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textDbOpTimeout)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupXPurge.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textAutoPurgeX)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -139,9 +147,16 @@
             // 
             this.groupBox1.Controls.Add(this.textGSShow);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.label2);
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // textGSShow
+            // 
+            resources.ApplyResources(this.textGSShow, "textGSShow");
+            this.textGSShow.Name = "textGSShow";
+            this.textGSShow.Paint += new System.Windows.Forms.PaintEventHandler(this.textGSShow_Paint);
             // 
             // groupBox2
             // 
@@ -173,23 +188,14 @@
             this.groupXPurge.Name = "groupXPurge";
             this.groupXPurge.TabStop = false;
             // 
-            // autoPurge1
+            // autoPurge0
             // 
-            resources.ApplyResources(this.autoPurge1, "autoPurge1");
-            this.autoPurge1.Name = "autoPurge1";
-            this.autoPurge1.TabStop = true;
-            this.autoPurge1.Tag = "1";
-            this.autoPurge1.UseVisualStyleBackColor = true;
-            this.autoPurge1.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
-            // 
-            // autoPurge2
-            // 
-            resources.ApplyResources(this.autoPurge2, "autoPurge2");
-            this.autoPurge2.Name = "autoPurge2";
-            this.autoPurge2.TabStop = true;
-            this.autoPurge2.Tag = "2";
-            this.autoPurge2.UseVisualStyleBackColor = true;
-            this.autoPurge2.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
+            resources.ApplyResources(this.autoPurge0, "autoPurge0");
+            this.autoPurge0.Name = "autoPurge0";
+            this.autoPurge0.TabStop = true;
+            this.autoPurge0.Tag = "0";
+            this.autoPurge0.UseVisualStyleBackColor = true;
+            this.autoPurge0.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
             // 
             // textAutoPurgeX
             // 
@@ -206,31 +212,68 @@
             0,
             0});
             // 
-            // autoPurge0
+            // autoPurge2
             // 
-            resources.ApplyResources(this.autoPurge0, "autoPurge0");
-            this.autoPurge0.Name = "autoPurge0";
-            this.autoPurge0.TabStop = true;
-            this.autoPurge0.Tag = "0";
-            this.autoPurge0.UseVisualStyleBackColor = true;
-            this.autoPurge0.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
+            resources.ApplyResources(this.autoPurge2, "autoPurge2");
+            this.autoPurge2.Name = "autoPurge2";
+            this.autoPurge2.TabStop = true;
+            this.autoPurge2.Tag = "2";
+            this.autoPurge2.UseVisualStyleBackColor = true;
+            this.autoPurge2.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
             // 
-            // textGSShow
+            // autoPurge1
             // 
-            resources.ApplyResources(this.textGSShow, "textGSShow");
-            this.textGSShow.Name = "textGSShow";
-            this.textGSShow.Paint += new System.Windows.Forms.PaintEventHandler(this.textGSShow_Paint);
+            resources.ApplyResources(this.autoPurge1, "autoPurge1");
+            this.autoPurge1.Name = "autoPurge1";
+            this.autoPurge1.TabStop = true;
+            this.autoPurge1.Tag = "1";
+            this.autoPurge1.UseVisualStyleBackColor = true;
+            this.autoPurge1.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
+            // 
+            // textRule
+            // 
+            this.textRule.IsReadOnly = false;
+            resources.ApplyResources(this.textRule, "textRule");
+            this.textRule.Name = "textRule";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            resources.ApplyResources(this.tabControl1, "tabControl1");
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.groupXPurge);
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            resources.ApplyResources(this.tabPage1, "tabPage1");
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.checkRule);
+            this.tabPage2.Controls.Add(this.textRule);
+            resources.ApplyResources(this.tabPage2, "tabPage2");
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkRule
+            // 
+            resources.ApplyResources(this.checkRule, "checkRule");
+            this.checkRule.Name = "checkRule";
+            this.checkRule.UseVisualStyleBackColor = true;
             // 
             // FormSettings
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ControlBox = false;
-            this.Controls.Add(this.groupXPurge);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormSettings";
@@ -246,8 +289,11 @@
             this.groupXPurge.ResumeLayout(false);
             this.groupXPurge.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textAutoPurgeX)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -272,5 +318,10 @@
         private System.Windows.Forms.NumericUpDown textAutoPurgeX;
         private System.Windows.Forms.RadioButton autoPurge2;
         private System.Windows.Forms.RadioButton autoPurge0;
+        private ICSharpCode.TextEditor.TextEditorControl textRule;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox checkRule;
     }
 }

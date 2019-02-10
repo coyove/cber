@@ -178,5 +178,31 @@ namespace Clipboarder.Properties {
                 this["FormSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("// public static char Exec(ref string rawText, ref string html, ref Image image, " +
+            "ref string url) {\r\n// returning \'d\' to delete(ignore) the entry\r\n// returning \'f" +
+            "\' to favorite the entry after being stored\r\nreturn \'\\0\';\r\n// }")]
+        public string RuleScript {
+            get {
+                return ((string)(this["RuleScript"]));
+            }
+            set {
+                this["RuleScript"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RuleEnabled {
+            get {
+                return ((bool)(this["RuleEnabled"]));
+            }
+            set {
+                this["RuleEnabled"] = value;
+            }
+        }
     }
 }

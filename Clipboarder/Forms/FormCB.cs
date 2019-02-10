@@ -23,6 +23,8 @@ namespace Clipboarder
 
         public static Database mDB;
 
+        public static ScriptEngine mRule;
+
         private IntPtr mNextClipboardViewer;
 
         private int mListenDeactivated = 0;
@@ -83,12 +85,36 @@ namespace Clipboarder
             //System.Diagnostics.Debug.Print(m.Msg.ToString("x"));
         }
 
+        private char TryInsert(ref Image image, ref string url)
+        {
+            if (mRule == null) return '\0';
+            string rawText = null, html = null;
+            return mRule.Exec(ref rawText, ref html, ref image, ref url);
+        }
+
+        private char TryInsert(ref string rawText, ref string url)
+        {
+            if (mRule == null) return '\0';
+            string html = null;
+            Image image = null;
+            return mRule.Exec(ref rawText, ref html, ref image, ref url);
+        }
+
+        private char TryInsert(ref string rawText, ref string html, ref string url)
+        {
+            if (mRule == null) return '\0';
+            Image image = null;
+            return mRule.Exec(ref rawText, ref html, ref image, ref url);
+        }
+
         private void OnClipboardChanged()
         {
             if (IsTopWindow() && !stayOnTopToolStripMenuItem.Checked) return;
 
             IDataObject data = Clipboard.GetDataObject();
             if (mDB == null || data == null) return;
+
+            char action = '\0';
 
             object html = Clipboard.GetData(DataFormats.Html);
             if (html != null)
@@ -103,7 +129,10 @@ namespace Clipboarder
                     // Copy an image in browser?
                     if (string.IsNullOrWhiteSpace(url))
                         url = Helper.ExtractImgUrlFromHTML(content);
-                    mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image, url);
+
+                    Image img = data.GetData(DataFormats.Bitmap, true) as Image;
+                    if ((action = TryInsert(ref img, ref url)) == 'd') return;
+                    mDB.Insert(img, url);
                 }
                 else
                 {
@@ -115,10 +144,17 @@ namespace Clipboarder
                     }
                     catch (Exception) { }
 
+                    string rawText = data.GetData(DataFormats.UnicodeText)?.ToString();
                     if (plainScript)
-                        mDB.Insert(null, data.GetData(typeof(string))?.ToString(), url);
+                    {
+                        if ((action = TryInsert(ref rawText, ref url)) == 'd') return;
+                        mDB.Insert(null, rawText, url);
+                    }
                     else
-                        mDB.Insert(null, data.GetData(typeof(string))?.ToString(), content, url);
+                    {
+                        if ((action = TryInsert(ref rawText, ref content, ref url)) == 'd') return;
+                        mDB.Insert(rawText, content, url);
+                    }
                 }
             }
             else if (Clipboard.ContainsText())
@@ -126,17 +162,26 @@ namespace Clipboarder
                 if (!listenTextContents.Checked) return;
                 string content = data.GetData(DataFormats.UnicodeText)?.ToString();
                 if (content == null) return;
-                //content = Encoding.UTF8.GetString(Encoding.Default.GetBytes(content));
                 string url = Helper.GetHostFromUri(content) != "" ? content : "";
-                if (content == "") return;
-                mDB.Insert(null, content, url);
+
+                if ((action = TryInsert(ref content, ref url)) == 'd') return;
+                mDB.Insert(content, url);
             }
             else if (Clipboard.ContainsImage())
             {
                 if (!listenImageContents.Checked) return;
-                mDB.Insert(null, data.GetData(DataFormats.Bitmap, true) as Image);
+                var img = data.GetData(DataFormats.Bitmap, true) as Image;
+                string url = null;
+                if ((action = TryInsert(ref img, ref url)) == 'd') return;
+                mDB.Insert(img);
             }
-            this.Invoke(new Action(() => RefreshDataMainView()));
+
+            if (action == 'f')
+            {
+                mDB.Favorite(mDB.LastRowId(), true);
+            }
+
+            RefreshDataMainView();
             mDB.KeepEntriesUnder(
                 (Database.AutoDeletionPolicy)Properties.Settings.Default.XPurge,
                 Properties.Settings.Default.XPurgeValue);
@@ -149,15 +194,15 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
-        protected override bool ProcessDialogKey(Keys keyData)
-        {
-            System.Diagnostics.Debug.Print(keyData.ToString());
-            return base.ProcessDialogKey(keyData);
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadSettings();
+
+            if (Properties.Settings.Default.RuleEnabled)
+            {
+                mRule = new ScriptEngine();
+                mRule.Compile(Properties.Settings.Default.RuleScript);
+            }
 
             mRealExit = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);

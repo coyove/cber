@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptEngine.cs" />
     <Compile Include="SQLite.cs" />
     <EmbeddedResource Include="Forms\FormCB.resx">
       <DependentUpon>FormCB.cs</DependentUpon>

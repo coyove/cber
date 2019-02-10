@@ -134,7 +134,7 @@ namespace ICSharpCode.TextEditor.Document
 		public IHighlightingStrategy FindHighlighter(string name)
 		{
 			object def = highlightingDefs[name];
-			if (def is DictionaryEntry) {
+            if (def is DictionaryEntry) {
 				return LoadDefinition((DictionaryEntry)def);
 			}
 			return def == null ? DefaultHighlighting : (IHighlightingStrategy)def;

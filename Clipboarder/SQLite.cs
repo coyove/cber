@@ -434,15 +434,12 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return id;
         }
 
-        public SQLite3.Result Insert(string name, string contentHtml, string content, string sourceUrl)
+        public SQLite3.Result Insert(string contentHtml, string content, string sourceUrl)
         {
             int id = FindIDByHash(content.GetHashCode());
             IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
                "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
                "INSERT INTO data_table (ts, type, hash, html_content, text_content, source_url) VALUES (?, ?, ?, ?, ?, ?);");
-
-            if (string.IsNullOrWhiteSpace(name))
-                name = Helper.GetDefaultName();
 
             if (contentHtml == null)
                 contentHtml = "";
@@ -466,15 +463,21 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
-        public SQLite3.Result Insert(string name, string content, string sourceUrl = "", ContentType ct = ContentType.RawText)
+        public int LastRowId()
+        {
+            IntPtr stmt = SQLite3.Prepare2(mDB, "select last_insert_rowid();");
+            int count = 0;
+            if (SQLite3.Step(stmt) == SQLite3.Result.Row) count = SQLite3.ColumnInt(stmt, 0);
+            SQLite3.Finalize(stmt);
+            return count;
+        }
+
+        public SQLite3.Result Insert(string content, string sourceUrl = "", ContentType ct = ContentType.RawText)
         {
             int id = FindIDByHash(content.GetHashCode());
             IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
                "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
                "INSERT INTO data_table (ts, type, hash, text_content, source_url) VALUES (?, ?, ?, ?, ?);");
-
-            if (string.IsNullOrWhiteSpace(name))
-                name = Helper.GetDefaultName();
 
             SQLite3.BindInt(stmt, 1, Helper.UnixTimestamp());
             if (id > 0)
@@ -494,24 +497,21 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
-        public SQLite3.Result Insert(string name, System.Drawing.Image content, string sourceUrl = "")
+        public SQLite3.Result Insert(System.Drawing.Image content, string sourceUrl = "")
         {
             if (content == null) return SQLite3.Result.Abort;
             MemoryStream buf = new MemoryStream();
             content.Save(buf, System.Drawing.Imaging.ImageFormat.Png);
-            return Insert(null, buf.GetBuffer(), Database.ContentType.Image, sourceUrl);
+            return Insert(buf.GetBuffer(), Database.ContentType.Image, sourceUrl);
         }
 
-        public SQLite3.Result Insert(string name, byte[] content, ContentType contentType, string sourceUrl = "")
+        public SQLite3.Result Insert(byte[] content, ContentType contentType, string sourceUrl = "")
         {
             int hash = (int)Helper.Crc32(content);
             int id = FindIDByHash(hash);
             IntPtr stmt = SQLite3.Prepare2(mDB, id > 0 ?
                "UPDATE data_table SET ts = ?, hits = hits + 1 WHERE id = ?;" :
                "INSERT INTO data_table (ts, type, hash, binary_content, source_url) VALUES (?, ?, ?, ?, ?);");
-            if (string.IsNullOrWhiteSpace(name))
-                name = Helper.GetDefaultName();
-
             SQLite3.BindInt(stmt, 1, Helper.UnixTimestamp());
 
             if (id > 0)

@@ -84,17 +84,15 @@ namespace Clipboarder
             plainText.Text = "Plain";
             plainText.Click += CodeHighlight_Click;
             mCodeMenu.DropDownItems.Add(plainText);
-            foreach (DictionaryEntry res in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, true))
+            foreach (string key in new string[] {
+                "BAT", "Boo", "C++.NET", "C#", "Coco", "HTML", "JavaScript", "Java", "Patch", "PHP", "TeX", "VBNET", "XML",
+            })
             {
-                if (res.Key.ToString().EndsWith("_Mode"))
-                {
-                    ToolStripMenuItem code = new ToolStripMenuItem();
-                    code.CheckOnClick = true;
-                    code.Text = res.Key.ToString();
-                    code.Text = code.Text.Substring(0, code.Text.Length - 5);
-                    code.Click += CodeHighlight_Click;
-                    mCodeMenu.DropDownItems.Add(code);
-                }
+                ToolStripMenuItem code = new ToolStripMenuItem();
+                code.CheckOnClick = true;
+                code.Text = key;
+                code.Click += CodeHighlight_Click;
+                mCodeMenu.DropDownItems.Add(code);
             }
             mCodeMenu.Text = "Highlight";
             mCodeMenu.Image = Properties.Resources.text_x_script;
