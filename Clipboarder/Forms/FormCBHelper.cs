@@ -129,11 +129,11 @@ namespace Clipboarder
         {
             StringBuilder where = new StringBuilder();
             if (!showTextContents.Checked)
-                where.Append("AND type != " + (int)Database.ContentType.RawText);
+                where.Append(" AND type != " + (int)Database.ContentType.RawText);
             if (!showImageContents.Checked)
-                where.Append("AND type != " + (int)Database.ContentType.Image);
+                where.Append(" AND type != " + (int)Database.ContentType.Image);
             if (!showHTMLContents.Checked)
-                where.Append("AND type != " + (int)Database.ContentType.HTML);
+                where.Append(" AND type != " + (int)Database.ContentType.HTML);
             where.Append((mainData.Tag as Page).Where);
             return where.ToString();
         }

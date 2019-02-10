@@ -181,9 +181,12 @@ namespace Clipboarder.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("// public static char Exec(ref string rawText, ref string html, ref Image image, " +
-            "ref string url) {\r\n// returning \'d\' to delete(ignore) the entry\r\n// returning \'f" +
-            "\' to favorite the entry after being stored\r\nreturn \'\\0\';\r\n// }")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"/// Do not uncomment the following lines, they are not needed
+/// public static char Exec(ref string rawText, ref string html, ref Image image, ref string url) {
+/// returning 'd' to delete(ignore) the entry
+/// returning 'f' to favorite the entry after being stored
+return '\0';
+/// }")]
         public string RuleScript {
             get {
                 return ((string)(this["RuleScript"]));

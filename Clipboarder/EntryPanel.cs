@@ -452,7 +452,7 @@ namespace Clipboarder
                         int newWidth = (int)(img.Width * zoom), newHeight = (int)(img.Height * zoom);
                         e.Graphics.DrawImage(img,
                             (this.Width - SBW - SBW - newWidth) / 2 + SBW,
-                            drawTop + (entryHeight - newHeight) / 2,
+                            drawTop + (entryHeight - MonospaceSize.Height - newHeight) / 2,
                             newWidth, newHeight);
                         break;
                     default:

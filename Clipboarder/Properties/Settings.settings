@@ -42,11 +42,12 @@
       <Value Profile="(Default)">0, 0</Value>
     </Setting>
     <Setting Name="RuleScript" Type="System.String" Scope="User">
-      <Value Profile="(Default)">// public static char Exec(ref string rawText, ref string html, ref Image image, ref string url) {
-// returning 'd' to delete(ignore) the entry
-// returning 'f' to favorite the entry after being stored
+      <Value Profile="(Default)">/// Do not uncomment the following lines, they are not needed
+/// public static char Exec(ref string rawText, ref string html, ref Image image, ref string url) {
+/// returning 'd' to delete(ignore) the entry
+/// returning 'f' to favorite the entry after being stored
 return '\0';
-// }</Value>
+/// }</Value>
     </Setting>
     <Setting Name="RuleEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

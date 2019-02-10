@@ -91,6 +91,13 @@ namespace Clipboarder
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (SearchAndDelete)
+            {
+                if (MessageBox.Show("All search results will be deleted directly without any further confirmations, are you sure?",
+                    Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+            }
+
             StringBuilder res = new StringBuilder();
             if (tab.SelectedTab == tabPageURL)
             {

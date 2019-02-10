@@ -387,15 +387,6 @@
   <data name="&gt;&gt;textDbOpTimeout.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="textGSShow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>179, 24</value>
-  </data>
-  <data name="textGSShow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 30</value>
-  </data>
-  <data name="textGSShow.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;textGSShow.Name" xml:space="preserve">
     <value>textGSShow</value>
   </data>
@@ -432,20 +423,26 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="buttonBrowseIE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="textGSShow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>179, 24</value>
   </data>
-  <data name="buttonBrowseIE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>426, 27</value>
+  <data name="textGSShow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 30</value>
   </data>
-  <data name="buttonBrowseIE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 25</value>
+  <data name="textGSShow.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="buttonBrowseIE.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+  <data name="&gt;&gt;textGSShow.Name" xml:space="preserve">
+    <value>textGSShow</value>
   </data>
-  <data name="buttonBrowseIE.Text" xml:space="preserve">
-    <value>...</value>
+  <data name="&gt;&gt;textGSShow.Type" xml:space="preserve">
+    <value>Clipboarder.Shortcut, Clipboarder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;textGSShow.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;textGSShow.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;buttonBrowseIE.Name" xml:space="preserve">
     <value>buttonBrowseIE</value>
@@ -482,6 +479,105 @@
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="buttonBrowseIE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonBrowseIE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>426, 27</value>
+  </data>
+  <data name="buttonBrowseIE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 25</value>
+  </data>
+  <data name="buttonBrowseIE.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="buttonBrowseIE.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="&gt;&gt;buttonBrowseIE.Name" xml:space="preserve">
+    <value>buttonBrowseIE</value>
+  </data>
+  <data name="&gt;&gt;buttonBrowseIE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonBrowseIE.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;buttonBrowseIE.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;autoPurge0.Name" xml:space="preserve">
+    <value>autoPurge0</value>
+  </data>
+  <data name="&gt;&gt;autoPurge0.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoPurge0.Parent" xml:space="preserve">
+    <value>groupXPurge</value>
+  </data>
+  <data name="&gt;&gt;autoPurge0.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textAutoPurgeX.Name" xml:space="preserve">
+    <value>textAutoPurgeX</value>
+  </data>
+  <data name="&gt;&gt;textAutoPurgeX.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textAutoPurgeX.Parent" xml:space="preserve">
+    <value>groupXPurge</value>
+  </data>
+  <data name="&gt;&gt;textAutoPurgeX.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;autoPurge2.Name" xml:space="preserve">
+    <value>autoPurge2</value>
+  </data>
+  <data name="&gt;&gt;autoPurge2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoPurge2.Parent" xml:space="preserve">
+    <value>groupXPurge</value>
+  </data>
+  <data name="&gt;&gt;autoPurge2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;autoPurge1.Name" xml:space="preserve">
+    <value>autoPurge1</value>
+  </data>
+  <data name="&gt;&gt;autoPurge1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoPurge1.Parent" xml:space="preserve">
+    <value>groupXPurge</value>
+  </data>
+  <data name="&gt;&gt;autoPurge1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupXPurge.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 238</value>
+  </data>
+  <data name="groupXPurge.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 109</value>
+  </data>
+  <data name="groupXPurge.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="groupXPurge.Text" xml:space="preserve">
+    <value>X Purge</value>
+  </data>
+  <data name="&gt;&gt;groupXPurge.Name" xml:space="preserve">
+    <value>groupXPurge</value>
+  </data>
+  <data name="&gt;&gt;groupXPurge.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupXPurge.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;groupXPurge.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="autoPurge0.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -593,30 +689,6 @@
   </data>
   <data name="&gt;&gt;autoPurge1.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="groupXPurge.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 238</value>
-  </data>
-  <data name="groupXPurge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 109</value>
-  </data>
-  <data name="groupXPurge.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="groupXPurge.Text" xml:space="preserve">
-    <value>X Purge</value>
-  </data>
-  <data name="&gt;&gt;groupXPurge.Name" xml:space="preserve">
-    <value>groupXPurge</value>
-  </data>
-  <data name="&gt;&gt;groupXPurge.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupXPurge.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;groupXPurge.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="textRule.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 36</value>

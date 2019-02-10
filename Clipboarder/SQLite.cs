@@ -613,7 +613,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                     query = string.Format("id <= (SELECT id FROM data_table ORDER BY id DESC LIMIT 1) - {0} AND favorited = 0", flag);
                     break;
                 case AutoDeletionPolicy.TimeBefore:
-                    query = string.Format("ts < (SELECT ts FROM data_table ORDER BY id DESC LIMIT 1) - {0} AND favorited = 0", flag * 3600);
+                    query = string.Format("ts < (SELECT ts FROM data_table ORDER BY ts DESC LIMIT 1) - {0} AND favorited = 0", flag * 3600);
                     break;
                 default:
                     return;

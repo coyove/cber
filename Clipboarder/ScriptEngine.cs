@@ -60,8 +60,19 @@ namespace CBerScriptSpace {{
 
         public char Exec(ref string rawText, ref string html, ref Image image, ref string url)
         {
+            if (mExec == null) return '\0';
             var args = new object[] { rawText, html, image, url };
-            var ans = (char)mExec.Invoke(null, args);
+            char ans = '\0';
+            try
+            {
+                ans = (char)mExec.Invoke(null, args);
+            }
+            catch (TargetInvocationException e)
+            {
+                MessageBox.Show("Exception from the rule script:" + Environment.NewLine +
+                    e.InnerException.ToString());
+                return ans;
+            }
             rawText = args[0] as string;
             html = args[1] as string;
             image = args[2] as Image;
