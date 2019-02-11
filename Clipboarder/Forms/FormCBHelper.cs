@@ -141,9 +141,15 @@ namespace Clipboarder
         {
             mainData.Clear();
 
-            for (int i = toolStripNav.Items.Count - 1; i >= 0; i--)
-                if ((toolStripNav.Items[i] as ToolStripButton)?.Name.StartsWith("nav") == true)
-                    toolStripNav.Items.RemoveAt(i);
+            for (int i = mBarNav.Buttons.Count - 1; i >= 0; i--)
+            {
+                if (mBarNav.Buttons[i].Name.StartsWith("nav"))
+                {
+                    var btn = mBarNav.Buttons[i];
+                    mBarNav.Buttons.RemoveAt(i);
+                    btn.Dispose();
+                }
+            }
 
             string where = CalcWhere();
             int epp = Properties.Settings.Default.EntriesPerPage;
@@ -160,10 +166,7 @@ namespace Clipboarder
             if (currentPage > pages) currentPage = pages;
             (mainData.Tag as Page).Current = currentPage;
 
-            foreach (Database.Entry e in mDB.Paging(where.ToString(), 
-                null, 
-                (currentPage - 1) * epp, 
-                epp))
+            foreach (Database.Entry e in mDB.Paging(where.ToString(), null, (currentPage - 1) * epp, epp))
             {
                 mainData.Add(e);
             }
@@ -174,13 +177,15 @@ namespace Clipboarder
             for (int i = startEnd.Item1; i <= startEnd.Item2; i++)
             {
                 if (i < 1 || i > pages) continue;
-                ToolStripButton button = new ToolStripButton();
-                button.Text = " " + i.ToString() + " ";
+                ToolBarButton button = new ToolBarButton();
+                button.Text = i.ToString();
                 button.Enabled = i != currentPage;
                 button.Name = "nav" + i.ToString();
                 button.Tag = i;
-                button.Click += NavBtn_Click;
-                toolStripNav.Items.Insert(toolStripNav.Items.IndexOf(buttonLastPage), button);
+                button.ImageKey = "box";
+                //button.Click += NavBtn_Click;
+                //toolStripNav.Items.Insert(toolStripNav.Items.IndexOf(buttonLastPage), button);
+                mBarNav.Buttons.Add(button);
             }
             buttonLastPage.Tag = pages;
         }

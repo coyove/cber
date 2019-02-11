@@ -311,6 +311,9 @@
     <None Include="Resources\shadow.png" />
     <None Include="Resources\favorite.png" />
     <None Include="Resources\unfavorite.png" />
+    <None Include="Resources\Find.bmp" />
+    <None Include="Resources\Favorites_9002_24.bmp" />
+    <None Include="Resources\Box_10401_24.bmp" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

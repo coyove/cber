@@ -648,10 +648,8 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                "SELECT id, ts, type, text_content, binary_content, hits, source_url, html_content, favorited FROM data_table WHERE 1 = 1 {0} ORDER BY {1} LIMIT {2}, {3};",
                where, orderByFields, start, length);
             IntPtr stmt = SQLite3.Prepare2(mDB, query);
-            bool gotResults = false;
             while (SQLite3.Step(stmt) == SQLite3.Result.Row)
             {
-                gotResults = true;
                 Entry e = new Entry();
                 e.Id = SQLite3.ColumnInt(stmt, 0);
                 e.Time = new DateTime(1970, 1, 1).AddSeconds(SQLite3.ColumnInt(stmt, 1)).ToLocalTime();

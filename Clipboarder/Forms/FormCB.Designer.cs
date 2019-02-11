@@ -35,11 +35,6 @@
             this.buttonLastPage = new System.Windows.Forms.ToolStripButton();
             this.buttonClearWhere = new System.Windows.Forms.ToolStripButton();
             this.statusPagesInfo = new System.Windows.Forms.ToolStripButton();
-            this.toolStripMain = new System.Windows.Forms.ToolStrip();
-            this.buttonFavorites = new System.Windows.Forms.ToolStripButton();
-            this.buttonSearchName = new System.Windows.Forms.ToolStripButton();
-            this.buttonSearchTimespan = new System.Windows.Forms.ToolStripButton();
-            this.buttonSearchUrls = new System.Windows.Forms.ToolStripButton();
             this.statusInfo = new System.Windows.Forms.StatusStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +69,6 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripNav.SuspendLayout();
-            this.toolStripMain.SuspendLayout();
             this.statusInfo.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
@@ -116,46 +110,6 @@
             this.statusPagesInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             resources.ApplyResources(this.statusPagesInfo, "statusPagesInfo");
             this.statusPagesInfo.Name = "statusPagesInfo";
-            // 
-            // toolStripMain
-            // 
-            resources.ApplyResources(this.toolStripMain, "toolStripMain");
-            this.toolStripMain.ImageScalingSize = new System.Drawing.Size(22, 22);
-            this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonFavorites,
-            this.buttonSearchName,
-            this.buttonSearchTimespan,
-            this.buttonSearchUrls});
-            this.toolStripMain.Name = "toolStripMain";
-            // 
-            // buttonFavorites
-            // 
-            this.buttonFavorites.CheckOnClick = true;
-            resources.ApplyResources(this.buttonFavorites, "buttonFavorites");
-            this.buttonFavorites.Name = "buttonFavorites";
-            this.buttonFavorites.Tag = "name";
-            this.buttonFavorites.Click += new System.EventHandler(this.buttonFavorites_Click);
-            // 
-            // buttonSearchName
-            // 
-            resources.ApplyResources(this.buttonSearchName, "buttonSearchName");
-            this.buttonSearchName.Name = "buttonSearchName";
-            this.buttonSearchName.Tag = "name";
-            this.buttonSearchName.Click += new System.EventHandler(this.buttonUrls_Click);
-            // 
-            // buttonSearchTimespan
-            // 
-            resources.ApplyResources(this.buttonSearchTimespan, "buttonSearchTimespan");
-            this.buttonSearchTimespan.Name = "buttonSearchTimespan";
-            this.buttonSearchTimespan.Tag = "time";
-            this.buttonSearchTimespan.Click += new System.EventHandler(this.buttonUrls_Click);
-            // 
-            // buttonSearchUrls
-            // 
-            resources.ApplyResources(this.buttonSearchUrls, "buttonSearchUrls");
-            this.buttonSearchUrls.Name = "buttonSearchUrls";
-            this.buttonSearchUrls.Tag = "url";
-            this.buttonSearchUrls.Click += new System.EventHandler(this.buttonUrls_Click);
             // 
             // statusInfo
             // 
@@ -404,7 +358,6 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.mainData);
-            this.Controls.Add(this.toolStripMain);
             this.Controls.Add(this.toolStripNav);
             this.Controls.Add(this.menuMain);
             this.Controls.Add(this.statusInfo);
@@ -417,8 +370,6 @@
             this.Resize += new System.EventHandler(this.FormCB_Resize);
             this.toolStripNav.ResumeLayout(false);
             this.toolStripNav.PerformLayout();
-            this.toolStripMain.ResumeLayout(false);
-            this.toolStripMain.PerformLayout();
             this.statusInfo.ResumeLayout(false);
             this.statusInfo.PerformLayout();
             this.menuMain.ResumeLayout(false);
@@ -455,17 +406,12 @@
         private System.Windows.Forms.ToolStripStatusLabel statusDbPath;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStripMain;
-        private System.Windows.Forms.ToolStripButton buttonSearchUrls;
         private System.Windows.Forms.ToolStrip toolStripNav;
         private System.Windows.Forms.ToolStripButton buttonFirstPage;
         private System.Windows.Forms.ToolStripButton buttonLastPage;
         private System.Windows.Forms.ToolStripButton buttonClearWhere;
-        private System.Windows.Forms.ToolStripButton buttonSearchTimespan;
-        private System.Windows.Forms.ToolStripButton buttonSearchName;
         private EntryPanel mainData;
         private System.Windows.Forms.ToolStripMenuItem searchDeleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton buttonFavorites;
         private System.Windows.Forms.ToolStripButton statusPagesInfo;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
