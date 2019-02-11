@@ -55,8 +55,7 @@ namespace Clipboarder
 
         public Action<Database.Entry> DeleteCallback;
 
-        static int SmallEntryHeight = 200;
-        static int BigEntryHeight = 300;
+        static int StdEntryHeight = 120;
         static int SBW = 25;
         static int MinimalScrollbarHeight = 25;
         static Brush ScrollbarBrush = Brushes.Gray;
@@ -119,7 +118,7 @@ namespace Clipboarder
                 int height = 0;
                 foreach (var datum in mData)
                 {
-                    height += datum.IsBig ? BigEntryHeight : SmallEntryHeight;
+                    height += (int)(datum.IsBig * StdEntryHeight);
                 }
                 return height;
             }
@@ -398,6 +397,12 @@ namespace Clipboarder
             {
                 graphics.DrawString(now, font, Brushes.White, new Rectangle(SBW + MonospaceSize.Width + 5, top, width - 40, height));
                 graphics.FillRectangle(Brushes.Black, new Rectangle(SBW, top, MonospaceSize.Width, height));
+                graphics.FillPolygon(Brushes.Black, new PointF[] {
+                    new PointF(SBW + MonospaceSize.Width, top),
+                    new PointF(SBW + MonospaceSize.Width + 4, top + height / 2),
+                    new PointF(SBW + MonospaceSize.Width, top + height),
+                    new PointF(SBW + MonospaceSize.Width - 4, top + height / 2),
+                });
 
                 string scKey = Properties.Settings.Default.PanelShortcutsMap[index];
                 graphics.DrawString(scKey.Length > 1 ? scKey.Last().ToString() : scKey,
@@ -437,7 +442,8 @@ namespace Clipboarder
 
             graphics.DrawImage(Properties.Resources.shadow, SBW, top + height, this.Width, 16);
 
-            Rectangle favArea = new Rectangle(this.Width - SBW - 25, top + (height - 22) / 2, 22, 22);
+            int favSize = MonospaceSize.Height - 4;
+            Rectangle favArea = new Rectangle(this.Width - SBW - favSize - 3, top + (height - favSize) / 2, favSize, favSize);
             graphics.DrawImage(e.IsFavorited ?
                 Properties.Resources.favorite :
                 Properties.Resources.unfavorite, favArea);
@@ -457,6 +463,7 @@ namespace Clipboarder
             base.OnPaint(e);
             var container = e.Graphics.BeginContainer();
             e.Graphics.Clip = new Region(e.ClipRectangle);
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             //e.Graphics.FillRectangle(Brushes.White, e.ClipRectangle);
 
             mHotarea.Clear();
@@ -471,7 +478,7 @@ namespace Clipboarder
             {
                 zebra = !zebra;
                 i++;
-                int entryHeight = datum.IsBig ? BigEntryHeight : SmallEntryHeight;
+                int entryHeight = (int)(datum.IsBig * StdEntryHeight);
                 int drawTop = top + MonospaceSize.Height;
                 int drawHeight = entryHeight - MonospaceSize.Height;
                 e.Graphics.FillRectangle(BgBrush, SBW, top, this.Width, entryHeight);

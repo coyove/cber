@@ -24,9 +24,9 @@ namespace Clipboarder
         private void FormShortcuts_Load(object sender, EventArgs e)
         {
             textGSShow.Text = Properties.Settings.Default.GSShow;
-            textExImageEditor.Text = Properties.Settings.Default.ExternalImageEditor;
+            buttonBrowseIE.Tag = Properties.Settings.Default.ExternalImageEditor;
+            buttonBrowseIE.Text = System.IO.Path.GetFileName(buttonBrowseIE.Tag.ToString());
             textEntriesPerPage.Value = Properties.Settings.Default.EntriesPerPage;
-            textDbOpTimeout.Value = Properties.Settings.Default.DbOpTimeout;
 
             int xpurge = Properties.Settings.Default.XPurge;
             var xpurgeButton = (groupXPurge.Controls.Find("autoPurge" + xpurge, false).First() as RadioButton);
@@ -45,9 +45,8 @@ namespace Clipboarder
             if (textGSShow.Text != "")
                 Properties.Settings.Default.GSShow = textGSShow.Text;
 
-            Properties.Settings.Default.ExternalImageEditor = textExImageEditor.Text;
+            Properties.Settings.Default.ExternalImageEditor = buttonBrowseIE.Tag.ToString();
             Properties.Settings.Default.EntriesPerPage = (int)textEntriesPerPage.Value;
-            Properties.Settings.Default.DbOpTimeout = (int)textDbOpTimeout.Value;
             Properties.Settings.Default.XPurgeValue = (int)textAutoPurgeX.Value;
             for (int i = 0; i < 3; i++)
                 if ((groupXPurge.Controls.Find("autoPurge" + i, false).First() as RadioButton).Checked)
@@ -67,7 +66,8 @@ namespace Clipboarder
 
             if (openDb.ShowDialog() == DialogResult.OK)
             {
-                textExImageEditor.Text = openDb.FileName;
+                buttonBrowseIE.Tag = openDb.FileName;
+                buttonBrowseIE.Text = System.IO.Path.GetFileName(openDb.FileName);
             }
         }
 

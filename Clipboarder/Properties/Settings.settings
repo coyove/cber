@@ -8,9 +8,6 @@
     <Setting Name="ExternalImageEditor" Type="System.String" Scope="User">
       <Value Profile="(Default)">mspaint.exe</Value>
     </Setting>
-    <Setting Name="DbOpTimeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1000</Value>
-    </Setting>
     <Setting Name="DbPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">.</Value>
     </Setting>

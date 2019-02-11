@@ -105,49 +105,44 @@ namespace Clipboarder
         
         public Shortcut() : base()
         {
+            TableLayoutPanel table = new TableLayoutPanel();
+            table.Dock = DockStyle.Fill;
+            table.ColumnCount = 4;
+            table.RowCount = 1;
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34));
+
             box = new ComboBox();
             this.Controls.Add(box);
 
             cbCtrl = new CheckBox();
             cbCtrl.Text = "Ctrl";
             cbCtrl.AutoSize = true;
-            this.Controls.Add(cbCtrl);
-            cbCtrl.Top = (box.Height - cbCtrl.Height) / 2;
+            // this.Controls.Add(cbCtrl);
+            table.Controls.Add(cbCtrl, 0, 0);
 
             cbAlt = new CheckBox();
             cbAlt.Text = "Alt";
-            cbAlt.Location = new Point(cbCtrl.Location.X + cbCtrl.Width, cbCtrl.Location.Y);
             cbAlt.AutoSize = true;
-            this.Controls.Add(cbAlt);
+            //this.Controls.Add(cbAlt);
+            table.Controls.Add(cbAlt, 1, 0);
 
             cbShift = new CheckBox();
             cbShift.Text = "Shift";
-            cbShift.Location = new Point(cbAlt.Location.X + cbAlt.Width, cbCtrl.Location.Y);
             cbShift.AutoSize = true;
-            this.Controls.Add(cbShift);
+            //this.Controls.Add(cbShift);
+            table.Controls.Add(cbShift, 2, 0);
 
-            box.Left = cbShift.Location.X + cbShift.Width;
-            box.Width = 100;
             box.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            //box.TextAlign = HorizontalAlignment.Center;
-            //box.ReadOnly = true;
-            //box.KeyDown += (s, e) =>
-            //{
-            //    if (!e.KeyCode.HasFlag(Keys.ShiftKey) &&
-            //    !e.KeyCode.HasFlag(Keys.ControlKey) &&
-            //    !e.KeyCode.HasFlag(Keys.Alt))
-            //    {
-            //        box.Text = e.KeyCode.ToString();
-            //    }
-            //    else
-            //    {
-            //        box.Text = "";
-            //    }
-            //};
             foreach (string name in Enum.GetNames(typeof(Keys)))
             {
                 box.Items.Add(name);
             }
+            table.Controls.Add(box, 3, 0);
+
+            this.Controls.Add(table);
         }
 
         public override string Text

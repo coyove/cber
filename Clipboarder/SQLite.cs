@@ -333,18 +333,18 @@ namespace Clipboarder
             public object Content { get; set; }
             public string Html { get; set; }
             public bool IsFavorited { get; set; }
-            public bool IsBig
+            public float IsBig
             {
                 get
                 {
                     switch (Type)
                     {
                         case ContentType.Image:
-                            return (Content as Image).Size.Height > 800;
+                            return (Content as Image).Size.Height > 800 ? 2.5f : 2f;
                         case ContentType.HTML:
-                            return Html.Length > 1000;
+                            return Html.Length > 1000 ? 2f : 1f;
                         default:
-                            return (Content.ToString()).Length > 1000;
+                            return (Content.ToString()).Length > 1000 ? 2f : 1f;
                     }
                 }
             }
