@@ -59,6 +59,7 @@ namespace Clipboarder
         static int SBW = 25;
         static int MinimalScrollbarHeight = 25;
         static Brush ScrollbarBrush = Brushes.Gray;
+        static Brush DarkDarkGray = new SolidBrush(Color.FromArgb(0x40, 0x40, 0x40));
         static Brush LightLightGray = new SolidBrush(Color.FromArgb(0xee, 0xee, 0xee));
         static Brush BgBrush = new SolidBrush(Color.FromArgb(0xFF, 0xfC, 0xe3));
         static Font Monospace = new Font("Consolas", 12);
@@ -396,8 +397,8 @@ namespace Clipboarder
             if (index < Properties.Settings.Default.PanelShortcutsMap.Count)
             {
                 graphics.DrawString(now, font, Brushes.White, new Rectangle(SBW + MonospaceSize.Width + 5, top, width - 40, height));
-                graphics.FillRectangle(Brushes.Black, new Rectangle(SBW, top, MonospaceSize.Width, height));
-                graphics.FillPolygon(Brushes.Black, new PointF[] {
+                graphics.FillRectangle(DarkDarkGray, new Rectangle(SBW, top, MonospaceSize.Width, height));
+                graphics.FillPolygon(DarkDarkGray, new PointF[] {
                     new PointF(SBW + MonospaceSize.Width, top),
                     new PointF(SBW + MonospaceSize.Width + 4, top + height / 2),
                     new PointF(SBW + MonospaceSize.Width, top + height),
@@ -521,7 +522,7 @@ namespace Clipboarder
                 switch (datum.Type)
                 {
                     case Database.ContentType.HTML:
-                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.DarkSlateGray);
+                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.Peru);
                         break;
                     case Database.ContentType.RawText:
                 DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.Firebrick);

@@ -16,7 +16,6 @@ namespace Clipboarder
         {
             public int Current;
             public string Where = "";
-            public bool BruteSearch = false;
         }
 
         [DllImport("user32.dll")]
@@ -149,7 +148,7 @@ namespace Clipboarder
             string where = CalcWhere();
             int epp = Properties.Settings.Default.EntriesPerPage;
             int currentPage = (mainData.Tag as Page).Current;
-            int totalEntries = mDB.TotalEntries(where, (mainData.Tag as Page).BruteSearch);
+            int totalEntries = mDB.TotalEntries(where);
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
             buttonClearWhere.Visible = (mainData.Tag as Page).Where != "";
@@ -164,8 +163,7 @@ namespace Clipboarder
             foreach (Database.Entry e in mDB.Paging(where.ToString(), 
                 null, 
                 (currentPage - 1) * epp, 
-                epp,
-                (mainData.Tag as Page).BruteSearch))
+                epp))
             {
                 mainData.Add(e);
             }

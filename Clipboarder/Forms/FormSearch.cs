@@ -16,8 +16,6 @@ namespace Clipboarder
 
         public string WhereClause { get; private set; }
 
-        public bool BruteSearch { get; private set; }
-
         public bool SearchAndDelete = false;
 
         static Regex mReChinese = new Regex("[\u4e00-\u9fa5]");
@@ -144,19 +142,10 @@ namespace Clipboarder
                     return;
                 }
 
-                if (mReChinese.IsMatch(textSearchName.Text))
-                {
-                    res.Append(textSearchName.Text);
-                    BruteSearch = true;
-                }
-                else
-                {
                     string name = textSearchName.Text.Replace("'", "''");
                     res.AppendFormat("AND text_content LIKE '%{0}%'", name);
-                }
-                //res.Append(textSearchName.Text);
             }
-            if (!BruteSearch && checkSearchInFavs.Checked)
+            if (checkSearchInFavs.Checked)
                 res.Append(" AND favorited = 1");
             WhereClause = (res.ToString());
             Close();

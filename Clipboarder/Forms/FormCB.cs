@@ -444,14 +444,12 @@ namespace Clipboarder
             frm.ShowDialog();
             mListenDeactivated = 0;
             (mainData.Tag as Page).Where = frm.WhereClause;
-            (mainData.Tag as Page).BruteSearch = frm.BruteSearch;
             RefreshDataMainView();
         }
 
         private void buttonClearWhere_Click(object sender, EventArgs e)
         {
             (mainData.Tag as Page).Where = "";
-            (mainData.Tag as Page).BruteSearch = false;
             buttonFavorites.Checked = false;
             RefreshDataMainView();
         }
@@ -464,11 +462,6 @@ namespace Clipboarder
             frm.SearchAndDelete = true;
             frm.ShowDialog();
             mListenDeactivated = 0;
-            if (frm.BruteSearch)
-            {
-                MessageBox.Show("Not supported");
-                return;
-            }
             if (string.IsNullOrWhiteSpace(frm.WhereClause)) return;
             mDB.Delete(frm.WhereClause);
             RefreshDataMainView();
@@ -478,7 +471,6 @@ namespace Clipboarder
         {
             var p = mainData.Tag as Page;
             p.Where = buttonFavorites.Checked ? "AND favorited = 1" : "";
-            p.BruteSearch = false;
             RefreshDataMainView();
         }
     }

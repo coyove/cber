@@ -242,6 +242,9 @@
     <EmbeddedResource Include="Forms\FormCB.zh-Hans.resx">
       <DependentUpon>FormCB.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSearch.zh-Hans.resx">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
