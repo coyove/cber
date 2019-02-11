@@ -200,10 +200,5 @@ namespace Clipboarder
         {
             dateTimeEndPicker.Value = (DateTime)dateTimeEndPicker.Tag;
         }
-
-        private void textSearchName_TextChanged(object sender, EventArgs e)
-        {
-            labelSearchChinese.Visible = (mReChinese.IsMatch(textSearchName.Text));
-        }
     }
 }

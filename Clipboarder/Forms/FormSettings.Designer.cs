@@ -48,11 +48,12 @@
             this.textAutoPurgeX = new System.Windows.Forms.NumericUpDown();
             this.autoPurge2 = new System.Windows.Forms.RadioButton();
             this.autoPurge1 = new System.Windows.Forms.RadioButton();
-            this.textRule = new ICSharpCode.TextEditor.TextEditorControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.checkRule = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.textRule = new ICSharpCode.TextEditor.TextEditorControl();
             ((System.ComponentModel.ISupportInitialize)(this.textEntriesPerPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textDbOpTimeout)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -62,6 +63,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -230,12 +232,6 @@
             this.autoPurge1.UseVisualStyleBackColor = true;
             this.autoPurge1.CheckedChanged += new System.EventHandler(this.autoPurge0_CheckedChanged);
             // 
-            // textRule
-            // 
-            this.textRule.IsReadOnly = false;
-            resources.ApplyResources(this.textRule, "textRule");
-            this.textRule.Name = "textRule";
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -255,8 +251,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.checkRule);
-            this.tabPage2.Controls.Add(this.textRule);
+            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
             resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -267,10 +262,23 @@
             this.checkRule.Name = "checkRule";
             this.checkRule.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.textRule, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.checkRule, 0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // textRule
+            // 
+            resources.ApplyResources(this.textRule, "textRule");
+            this.textRule.IsReadOnly = false;
+            this.textRule.Name = "textRule";
+            // 
             // FormSettings
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ControlBox = false;
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button2);
@@ -292,7 +300,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -318,10 +327,11 @@
         private System.Windows.Forms.NumericUpDown textAutoPurgeX;
         private System.Windows.Forms.RadioButton autoPurge2;
         private System.Windows.Forms.RadioButton autoPurge0;
-        private ICSharpCode.TextEditor.TextEditorControl textRule;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.CheckBox checkRule;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private ICSharpCode.TextEditor.TextEditorControl textRule;
     }
 }
