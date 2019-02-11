@@ -55,8 +55,8 @@ namespace Clipboarder
 
         public Action<Database.Entry> DeleteCallback;
 
-        static int StdEntryHeight = 120;
-        static int SBW = 25;
+        static int StdEntryHeight = 150;
+        static int SBW = 15;
         static int MinimalScrollbarHeight = 25;
         static Brush ScrollbarBrush = Brushes.Gray;
         static Brush DarkDarkGray = new SolidBrush(Color.FromArgb(0x40, 0x40, 0x40));
@@ -155,14 +155,6 @@ namespace Clipboarder
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (e.X >= this.Width - SBW)
-            {
-                sbDown = e.Location;
-                sbValue = Value;
-                sbMove = true;
-                return;
-            }
-
             foreach (var kv in mFavHotarea)
             {
                 if (kv.Value.Contains(e.Location))
@@ -174,13 +166,12 @@ namespace Clipboarder
                 }
             }
 
-            foreach (var kv in mUrlHotarea)
+            if (e.X >= this.Width - SBW * 2)
             {
-                if (kv.Value.Contains(e.Location))
-                {
-                    Process.Start(kv.Key.SourceUrl);
-                    return;
-                }
+                sbDown = e.Location;
+                sbValue = Value;
+                sbMove = true;
+                return;
             }
 
             if (mCurrentHoverEntry.Hotarea.Contains(e.Location))
@@ -188,6 +179,19 @@ namespace Clipboarder
                 mCurrentHoverEntry.Clicked = true;
                 Invalidate();
                 return;
+            }
+
+            foreach (var kv in mUrlHotarea)
+            {
+                if (kv.Value.Contains(e.Location))
+                {
+                    try
+                    {
+                        Process.Start(kv.Key.SourceUrl);
+                        return;
+                    }
+                    catch (Exception) { }
+                }
             }
 
             ClearControls();
@@ -545,7 +549,7 @@ namespace Clipboarder
                 {
                     e.Graphics.FillRectangle(zebra ? Brushes.LightGray : LightLightGray, leftSideBar);
                 }
-                mCopyHotarea[datum] = new Rectangle(0, top, SBW, entryHeight);
+                mCopyHotarea[datum] = new Rectangle(0, top, SBW * 3, entryHeight);
 
                 top += entryHeight;
             }

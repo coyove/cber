@@ -87,17 +87,18 @@ namespace Clipboarder
 
         private void LoadSettings()
         {
-            showTextContents.Checked = showImageContents.Checked = showHTMLContents.Checked = false;
             listenTextContents.Checked = listenImageContents.Checked = listenHTMLContents.Checked = false;
             foreach (string show in 
                 Properties.Settings.Default.ShowContents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                (menuMain.Items.Find("show" + show + "Contents", true).First() as ToolStripMenuItem).Checked = true;
+                var btn = mViewFilter.FirstOrDefault(v => v.Tag.ToString() == "show" + show);
+                if (btn != null) btn.Pushed = true;
             }
+
             foreach (string listen in 
                 Properties.Settings.Default.ListenContents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                (menuMain.Items.Find("listen" + listen + "Contents", true).First() as ToolStripMenuItem).Checked = true;
+                (cberMenu.DropDownItems.Find("listen" + listen + "Contents", true).First() as ToolStripMenuItem).Checked = true;
             }
             hideAfterCopyToolStripMenuItem.Checked = Properties.Settings.Default.HideAfterCopy;
             stayOnTopToolStripMenuItem.Checked = Properties.Settings.Default.StayOnTop;
@@ -114,9 +115,9 @@ namespace Clipboarder
             Properties.Settings.Default.ListenContents = "";
             foreach (string show in new string[] { "Text", "Image", "HTML" })
             {
-                if ((menuMain.Items.Find("show" + show + "Contents", true).First() as ToolStripMenuItem).Checked)
+                if (mViewFilter.First(v => v.Tag.ToString() == "show" + show).Pushed)
                     Properties.Settings.Default.ShowContents += show + ",";
-                if ((menuMain.Items.Find("listen" + show + "Contents", true).First() as ToolStripMenuItem).Checked)
+                if ((cberMenu.DropDownItems.Find("listen" + show + "Contents", true).First() as ToolStripMenuItem).Checked)
                     Properties.Settings.Default.ListenContents += show + ",";
             }
             Properties.Settings.Default.FormLocation = this.Location;
@@ -127,11 +128,11 @@ namespace Clipboarder
         private string CalcWhere()
         {
             StringBuilder where = new StringBuilder();
-            if (!showTextContents.Checked)
+            if (!mViewFilter[0].Pushed)
                 where.Append(" AND type != " + (int)Database.ContentType.RawText);
-            if (!showImageContents.Checked)
+            if (!mViewFilter[2].Pushed)
                 where.Append(" AND type != " + (int)Database.ContentType.Image);
-            if (!showHTMLContents.Checked)
+            if (!mViewFilter[1].Pushed)
                 where.Append(" AND type != " + (int)Database.ContentType.HTML);
             where.Append((mainData.Tag as Page).Where);
             return where.ToString();
@@ -157,9 +158,8 @@ namespace Clipboarder
             int totalEntries = mDB.TotalEntries(where);
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
-            buttonClearWhere.Visible = (mainData.Tag as Page).Where != "";
-            statusDbPath.Text = mDB.Path;
-            statusPagesInfo.Text = string.Format("{0}/{2}/{1}MB", totalEntries, ((double)new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00"), pages);
+            statusDbPath.Text = string.Format("{3} ({0}/{1}MB)",
+                totalEntries, ((double)new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00"), pages, mDB.Path);
 
             if (pages == 0) return;
             if (currentPage < 1) currentPage = 1;
@@ -172,22 +172,21 @@ namespace Clipboarder
             }
             mainData.Refresh();
 
-            buttonFirstPage.Tag = 1;
             var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
-            for (int i = startEnd.Item1; i <= startEnd.Item2; i++)
+            Action<int> addButton = (i) =>
             {
-                if (i < 1 || i > pages) continue;
                 ToolBarButton button = new ToolBarButton();
-                button.Text = i.ToString();
+                button.Text = "[" + i.ToString() + "]";
                 button.Enabled = i != currentPage;
                 button.Name = "nav" + i.ToString();
                 button.Tag = i;
                 button.ImageKey = "box";
-                //button.Click += NavBtn_Click;
-                //toolStripNav.Items.Insert(toolStripNav.Items.IndexOf(buttonLastPage), button);
                 mBarNav.Buttons.Add(button);
-            }
-            buttonLastPage.Tag = pages;
+            };
+
+            if (startEnd.Item1 != 1) addButton(1);
+            for (int i = startEnd.Item1; i <= startEnd.Item2; i++) addButton(i);
+            if (startEnd.Item2 != pages) addButton(pages);
         }
     }
 }

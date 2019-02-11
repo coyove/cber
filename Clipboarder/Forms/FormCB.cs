@@ -27,6 +27,7 @@ namespace Clipboarder
 
         public ToolBar mBar;
         public ToolBar mBarNav;
+        public ToolBarButton[] mViewFilter = new ToolBarButton[3];
 
         private IntPtr mNextClipboardViewer;
 
@@ -205,8 +206,19 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            InitUi();
             LoadSettings();
 
             if (Properties.Settings.Default.RuleEnabled)
@@ -214,46 +226,6 @@ namespace Clipboarder
                 mRule = new ScriptEngine();
                 mRule.Compile(Properties.Settings.Default.RuleScript);
             }
-
-            mBar = new ToolBar();
-            mBar.ImageList = new ImageList();
-            mBar.ImageList.Images.Add("s", Properties.Resources.Find);
-            mBar.ImageList.Images.Add("f", Properties.Resources.Favorites_9002_24);
-            mBar.ImageList.Images.Add("box", Properties.Resources.Box_10401_24);
-            mBar.ImageList.TransparentColor = Color.FromArgb(255, 0, 255);
-            mBar.Buttons.Add(new ToolBarButton("Favorites") { ImageKey = "f", Tag = "favorites", Style = ToolBarButtonStyle.ToggleButton });
-            mBar.Buttons.Add(new ToolBarButton("Search") { ImageKey = "s", Tag = "searchname" });
-            mBar.Buttons.Add(new ToolBarButton("Search Time") { ImageKey = "s", Tag = "searchtime" });
-            mBar.Buttons.Add(new ToolBarButton("Search URL") { ImageKey = "s", Tag = "searchurl" });
-            mBar.ButtonClick += (tbBtn, tbEvent) =>
-            {
-                ToolBarButton btn = tbEvent.Button;
-                switch (btn.Tag.ToString())
-                {
-                    case "searchname":
-                    case "searchtime":
-                    case "searchurl":
-                        PrepareSearch(btn.Tag.ToString().Substring(6));
-                        break;
-                    case "favorites":
-                        (mainData.Tag as Page).Where = btn.Pushed ? "AND favorited = 1" : "";
-                        RefreshDataMainView();
-                        break;
-                }
-            };
-            this.Controls.Add(mBar);
-            mBar.Refresh();
-
-            mBarNav = new ToolBar();
-            mBarNav.ImageList = mBar.ImageList;
-            mBarNav.Dock = DockStyle.Bottom;
-            mBarNav.Buttons.Add("zzz");
-            mBarNav.ButtonClick += (tbBtn, tbEvent) =>
-            {
-                (mainData.Tag as Page).Current = (int)(tbEvent.Button.Tag ?? 0);
-                RefreshDataMainView();
-            };
-            this.Controls.Add(mBarNav);
 
             mRealExit = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
@@ -481,12 +453,22 @@ namespace Clipboarder
 
         private void PrepareSearch(string t)
         {
+            foreach (ToolBarButton btn in mBar.Buttons)
+            {
+                if (btn.Tag.ToString() == "search" + t)
+                    btn.Pushed = true;
+            }
             FormSearch frm = new FormSearch();
             mListenDeactivated = 1;
             frm.SwitchTab(t);
             frm.ShowDialog();
             mListenDeactivated = 0;
             (mainData.Tag as Page).Where = frm.WhereClause;
+            if (string.IsNullOrWhiteSpace(frm.WhereClause))
+            {
+                foreach (ToolBarButton btn in mBar.Buttons) btn.Pushed = false;
+            }
+            frm.Dispose();
             RefreshDataMainView();
         }
 
