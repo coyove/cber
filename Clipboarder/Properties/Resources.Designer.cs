@@ -368,6 +368,15 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open window.
+        /// </summary>
+        internal static string OpenCBer {
+            get {
+                return ResourceManager.GetString("OpenCBer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap PageNumber {
@@ -436,12 +445,39 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search in Timespan.
+        /// </summary>
+        internal static string SearchTimespan {
+            get {
+                return ResourceManager.GetString("SearchTimespan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search URLs.
+        /// </summary>
+        internal static string SearchURLs {
+            get {
+                return ResourceManager.GetString("SearchURLs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap shadow {
             get {
                 object obj = ResourceManager.GetObject("shadow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Favorites.
+        /// </summary>
+        internal static string ShowFavorites {
+            get {
+                return ResourceManager.GetString("ShowFavorites", resourceCulture);
             }
         }
         

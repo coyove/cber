@@ -257,6 +257,9 @@
   <data name="statusDbPath.Text" xml:space="preserve">
     <value>Main database</value>
   </data>
+  <data name="statusDbPath.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
   <data name="statusInfo.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 484</value>
   </data>

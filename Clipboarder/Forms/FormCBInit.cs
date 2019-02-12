@@ -33,10 +33,11 @@ namespace Clipboarder
             mBar.ImageList.TransparentColor = Color.FromArgb(255, 0, 255);
 
             mBar.Buttons.Add(new ToolBarButton() { ImageKey = "home", Tag = "home" });
-            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "f", Tag = "favorites", Style = ToolBarButtonStyle.ToggleButton });
-            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "s", Tag = "searchname" });
-            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "time", Tag = "searchtime" });
-            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "link", Tag = "searchurl" });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "f", Tag = "favorites", ToolTipText = resx.ShowFavorites, Style = ToolBarButtonStyle.ToggleButton });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "s", Tag = "searchname", ToolTipText = resx.Search });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "time", Tag = "searchtime", ToolTipText = resx.SearchTimespan });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "link", Tag = "searchurl", ToolTipText = resx.SearchURLs });
+            mBar.Buttons.Add(new ToolBarButton() { Enabled = false, Tag = "" });
             mBar.Buttons.Add(mViewFilter[0] = new ToolBarButton() { ImageKey = "text", Tag = "showText", ToolTipText = resx.ShowText });
             mBar.Buttons.Add(mViewFilter[1] = new ToolBarButton() { ImageKey = "web", Tag = "showHTML", ToolTipText = resx.ShowHTML });
             mBar.Buttons.Add(mViewFilter[2] = new ToolBarButton() { ImageKey = "image", Tag = "showImage", ToolTipText = resx.ShowImage });
@@ -84,6 +85,31 @@ namespace Clipboarder
 
             mBarNav.BringToFront();
             mainData.BringToFront();
+
+            statusInfo.Renderer = new StatusBarCustomRenderer();
+            //statusDbPath.TextAlign = ContentAlignment.MiddleRight;
+
+            notifyIcon.Icon = resx.SystrayIcon;
+            notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {
+                new MenuItem(listenToolStripMenuItem.Text, listenToolStripMenuItem_Click),
+                new MenuItem(resx.OpenCBer, (v1, v2) => notifyIcon_MouseDoubleClick(v1, null)),
+                new MenuItem(exitToolStripMenuItem.Text, exitToolStripMenuItem_Click),
+            });
+        }
+
+        public class StatusBarCustomRenderer : ToolStripSystemRenderer
+        {
+            protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+            {
+                if (e.Item is ToolStripStatusLabel)
+                {
+                    TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont, e.TextRectangle,
+                        e.TextColor, Color.Transparent, e.TextFormat | TextFormatFlags.Right | TextFormatFlags.PathEllipsis);
+                    return;
+                }
+
+                base.OnRenderItemText(e);
+            }
         }
     }
 }

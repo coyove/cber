@@ -229,13 +229,7 @@ namespace Clipboarder
 
             mRealExit = false;
             mNextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
-            mainData.Tag = new Page() { Current = 1 };
-            notifyIcon.Icon = Properties.Resources.SystrayIcon;
-            notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {
-                new MenuItem(listenToolStripMenuItem.Text, listenToolStripMenuItem_Click),
-                new MenuItem("Open", (v1, v2) => notifyIcon_MouseDoubleClick(v1, null)),
-                new MenuItem(exitToolStripMenuItem.Text, exitToolStripMenuItem_Click),
-            });
+            mainData.Tag = new Page() { Current = 1 }; 
 
             string dbPath = Properties.Settings.Default.DbPath == "." ?
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "cber.db") :
@@ -466,7 +460,9 @@ namespace Clipboarder
             (mainData.Tag as Page).Where = frm.WhereClause;
             if (string.IsNullOrWhiteSpace(frm.WhereClause))
             {
-                foreach (ToolBarButton btn in mBar.Buttons) btn.Pushed = false;
+                foreach (ToolBarButton btn in mBar.Buttons)
+                    if (!btn.Tag.ToString().StartsWith("show"))
+                        btn.Pushed = false;
             }
             frm.Dispose();
             RefreshDataMainView();
