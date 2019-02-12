@@ -14,24 +14,41 @@ namespace Clipboarder
         private void InitUi()
         {
             mBar = new ToolBar();
+            mBar.Wrappable = false;
             mBar.TextAlign = ToolBarTextAlign.Right;
             mBar.ImageList = new ImageList();
             mBar.ImageList.Images.Add("s", resx.Find);
             mBar.ImageList.Images.Add("f", resx.Favorites_9002_24);
             mBar.ImageList.Images.Add("box", resx.Box_10401_24);
-            mBar.ImageList.Images.Add("time", resx.Timer_709_24);
+            mBar.ImageList.Images.Add("time", resx.clock);
+            mBar.ImageList.Images.Add("home", resx.Home);
+            mBar.ImageList.Images.Add("link", resx.Link);
             mBar.ImageList.Images.Add("text", resx.Note);
             mBar.ImageList.Images.Add("web", resx.Web);
             mBar.ImageList.Images.Add("image", resx.InsertPicture);
+            mBar.ImageList.Images.Add("left", resx.DoubleLeftArrow);
+            mBar.ImageList.Images.Add("right", resx.DoubleRightArrow);
+            mBar.ImageList.Images.Add("page", resx.Document);
+            mBar.ImageList.Images.Add("curpage", resx.PageNumber);
             mBar.ImageList.TransparentColor = Color.FromArgb(255, 0, 255);
-            mBar.Buttons.Add(new ToolBarButton(resx.ShowAll) { ImageKey = "time", Tag = "time" });
-            mBar.Buttons.Add(new ToolBarButton(resx.Favorites) { ImageKey = "f", Tag = "favorites", Style = ToolBarButtonStyle.ToggleButton });
-            mBar.Buttons.Add(new ToolBarButton(resx.Search) { ImageKey = "s", Tag = "searchname" });
-            mBar.Buttons.Add(new ToolBarButton(resx.Timespan) { ImageKey = "s", Tag = "searchtime" });
-            mBar.Buttons.Add(new ToolBarButton(resx.ByURLs) { ImageKey = "s", Tag = "searchurl" });
+
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "home", Tag = "home" });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "f", Tag = "favorites", Style = ToolBarButtonStyle.ToggleButton });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "s", Tag = "searchname" });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "time", Tag = "searchtime" });
+            mBar.Buttons.Add(new ToolBarButton() { ImageKey = "link", Tag = "searchurl" });
+            mBar.Buttons.Add(mViewFilter[0] = new ToolBarButton() { ImageKey = "text", Tag = "showText", ToolTipText = resx.ShowText });
+            mBar.Buttons.Add(mViewFilter[1] = new ToolBarButton() { ImageKey = "web", Tag = "showHTML", ToolTipText = resx.ShowHTML });
+            mBar.Buttons.Add(mViewFilter[2] = new ToolBarButton() { ImageKey = "image", Tag = "showImage", ToolTipText = resx.ShowImage });
             mBar.ButtonClick += (tbBtn, tbEvent) =>
             {
                 ToolBarButton btn = tbEvent.Button;
+                if (btn.Tag.ToString().StartsWith("show"))
+                {
+                    btn.Pushed = !btn.Pushed;
+                    RefreshDataMainView();
+                    return;
+                }
                 switch (btn.Tag.ToString())
                 {
                     case "searchname":
@@ -43,8 +60,10 @@ namespace Clipboarder
                         (mainData.Tag as Page).Where = btn.Pushed ? "AND favorited = 1" : "";
                         RefreshDataMainView();
                         break;
-                    case "time":
-                        foreach (ToolBarButton btn2 in mBar.Buttons) btn2.Pushed = false;
+                    case "home":
+                        foreach (ToolBarButton btn2 in mBar.Buttons)
+                            if (!btn2.Tag.ToString().StartsWith("show"))
+                                btn2.Pushed = false;
                         (mainData.Tag as Page).Where = "";
                         (mainData.Tag as Page).Current = 1;
                         RefreshDataMainView();
@@ -56,22 +75,13 @@ namespace Clipboarder
             mBarNav = new ToolBar();
             mBarNav.ImageList = mBar.ImageList;
             mBarNav.Dock = DockStyle.Bottom;
-            mBarNav.Buttons.Add(mViewFilter[0] = new ToolBarButton("Text") { ImageKey = "text", Tag = "showText" });
-            mBarNav.Buttons.Add(mViewFilter[1] = new ToolBarButton("HTML") { ImageKey = "web", Tag = "showHTML" });
-            mBarNav.Buttons.Add(mViewFilter[2] = new ToolBarButton("Image") { ImageKey = "image", Tag = "showImage" });
             mBarNav.ButtonClick += (tbBtn, tbEvent) =>
             {
-                if (tbEvent.Button.Tag.ToString().StartsWith("show"))
-                {
-                    tbEvent.Button.Pushed = !tbEvent.Button.Pushed;
-                }
-                else
-                {
-                    (mainData.Tag as Page).Current = (int)(tbEvent.Button.Tag ?? 0);
-                }
+                (mainData.Tag as Page).Current = (int)(tbEvent.Button.Tag ?? 0);
                 RefreshDataMainView();
             };
             this.Controls.Add(mBarNav);
+
             mBarNav.BringToFront();
             mainData.BringToFront();
         }

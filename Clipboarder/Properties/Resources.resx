@@ -121,9 +121,6 @@
   <data name="SystrayIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystrayIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="StatusOperationTimedout" xml:space="preserve">
-    <value>System is busy, try pressing F5 to refresh</value>
-  </data>
   <data name="DatabaseNotAvailable" xml:space="preserve">
     <value>Database {0} is not available.
 Exiting now...</value>
@@ -191,9 +188,6 @@ Exiting now...</value>
   <data name="favorite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\favorite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Pages" xml:space="preserve">
-    <value>Last ({0})</value>
-  </data>
   <data name="shadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shadow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -227,20 +221,8 @@ Exiting now...</value>
   <data name="Web" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Web.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ByURLs" xml:space="preserve">
-    <value>URLs</value>
-  </data>
-  <data name="Favorites" xml:space="preserve">
-    <value>Favorites</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
-  </data>
-  <data name="ShowAll" xml:space="preserve">
-    <value>Show All</value>
-  </data>
-  <data name="Timespan" xml:space="preserve">
-    <value>Timespan</value>
   </data>
   <data name="Close_6519_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Close_6519_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -253,5 +235,41 @@ Exiting now...</value>
   </data>
   <data name="VSProject_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VSProject_html.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Home" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Home.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Link" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Link.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ShowHTML" xml:space="preserve">
+    <value>Show HTML Contents</value>
+  </data>
+  <data name="ShowImage" xml:space="preserve">
+    <value>Show Image Contents</value>
+  </data>
+  <data name="ShowText" xml:space="preserve">
+    <value>Show Text Contents</value>
+  </data>
+  <data name="AppWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AppWindow.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Document.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DoubleLeftArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DoubleLeftArrow.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DoubleRightArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DoubleRightArrow.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FillUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FillUp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PageNumber" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PageNumber.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

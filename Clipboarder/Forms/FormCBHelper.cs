@@ -173,20 +173,21 @@ namespace Clipboarder
             mainData.Refresh();
 
             var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
-            Action<int> addButton = (i) =>
+            Action<int, string> addButton = (i, key) =>
             {
                 ToolBarButton button = new ToolBarButton();
-                button.Text = "[" + i.ToString() + "]";
-                button.Enabled = i != currentPage;
+                button.Text = "[ " + i.ToString() + " ]";
+                button.Pushed = i == currentPage;
+                if (button.Pushed && key == "page") key = "curpage";
                 button.Name = "nav" + i.ToString();
                 button.Tag = i;
-                button.ImageKey = "box";
+                button.ImageKey = key;
                 mBarNav.Buttons.Add(button);
             };
 
-            if (startEnd.Item1 != 1) addButton(1);
-            for (int i = startEnd.Item1; i <= startEnd.Item2; i++) addButton(i);
-            if (startEnd.Item2 != pages) addButton(pages);
+            if (startEnd.Item1 != 1) addButton(1, "left");
+            for (int i = startEnd.Item1; i <= startEnd.Item2; i++) addButton(i, "page");
+            if (startEnd.Item2 != pages) addButton(pages, "right");
         }
     }
 }

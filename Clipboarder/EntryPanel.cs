@@ -224,6 +224,8 @@ namespace Clipboarder
                             mPanel.Controls.Add(editor);
                             toolbar.Tag = editor;
                             toolbar.Buttons.Add(new ToolBarButton("Save") { ImageKey = "save", Tag = "save" });
+                            foreach (MenuItem m in mCodeMenu.MenuItems)
+                                if (m.Checked) editor.SetHighlighting(m.Text);
                             break;
                         case Database.ContentType.HTML:
                             var browser = new WebBrowser();

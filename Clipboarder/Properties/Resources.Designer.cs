@@ -61,6 +61,16 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AppWindow {
+            get {
+                object obj = ResourceManager.GetObject("AppWindow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] ASPX {
@@ -101,11 +111,12 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to URLs.
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static string ByURLs {
+        internal static System.Drawing.Bitmap clock {
             get {
-                return ResourceManager.GetString("ByURLs", resourceCulture);
+                object obj = ResourceManager.GetObject("clock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -189,6 +200,36 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Document {
+            get {
+                object obj = ResourceManager.GetObject("Document", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleLeftArrow {
+            get {
+                object obj = ResourceManager.GetObject("DoubleLeftArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleRightArrow {
+            get {
+                object obj = ResourceManager.GetObject("DoubleRightArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empty Results.
         /// </summary>
         internal static string EmptyResults {
@@ -208,15 +249,6 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Favorites.
-        /// </summary>
-        internal static string Favorites {
-            get {
-                return ResourceManager.GetString("Favorites", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Favorites_9002_24 {
@@ -229,9 +261,29 @@ namespace Clipboarder.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FillUp {
+            get {
+                object obj = ResourceManager.GetObject("FillUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Find {
             get {
                 object obj = ResourceManager.GetObject("Find", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Home {
+            get {
+                object obj = ResourceManager.GetObject("Home", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -277,6 +329,16 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Link {
+            get {
+                object obj = ResourceManager.GetObject("Link", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;xsd:schema xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; &gt;
         ///	&lt;xsd:annotation&gt;
@@ -306,11 +368,12 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last ({0}).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static string Pages {
+        internal static System.Drawing.Bitmap PageNumber {
             get {
-                return ResourceManager.GetString("Pages", resourceCulture);
+                object obj = ResourceManager.GetObject("PageNumber", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -383,20 +446,29 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show All.
+        ///   Looks up a localized string similar to Show HTML Contents.
         /// </summary>
-        internal static string ShowAll {
+        internal static string ShowHTML {
             get {
-                return ResourceManager.GetString("ShowAll", resourceCulture);
+                return ResourceManager.GetString("ShowHTML", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to System is busy, try pressing F5 to refresh.
+        ///   Looks up a localized string similar to Show Image Contents.
         /// </summary>
-        internal static string StatusOperationTimedout {
+        internal static string ShowImage {
             get {
-                return ResourceManager.GetString("StatusOperationTimedout", resourceCulture);
+                return ResourceManager.GetString("ShowImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Text Contents.
+        /// </summary>
+        internal static string ShowText {
+            get {
+                return ResourceManager.GetString("ShowText", resourceCulture);
             }
         }
         
@@ -465,15 +537,6 @@ namespace Clipboarder.Properties {
             get {
                 object obj = ResourceManager.GetObject("Timer_709_24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Timespan.
-        /// </summary>
-        internal static string Timespan {
-            get {
-                return ResourceManager.GetString("Timespan", resourceCulture);
             }
         }
         

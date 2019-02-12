@@ -327,6 +327,15 @@
     <None Include="Resources\Delete.bmp" />
     <None Include="Resources\VSProject_html.bmp" />
     <None Include="Resources\Save.bmp" />
+    <None Include="Resources\Home.bmp" />
+    <None Include="Resources\Link.bmp" />
+    <None Include="Resources\clock.bmp" />
+    <None Include="Resources\DoubleRightArrow.bmp" />
+    <None Include="Resources\DoubleLeftArrow.bmp" />
+    <None Include="Resources\FillUp.bmp" />
+    <None Include="Resources\AppWindow.bmp" />
+    <None Include="Resources\Document.bmp" />
+    <None Include="Resources\PageNumber.bmp" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
