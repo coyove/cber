@@ -35,35 +35,25 @@
             this.textUrlSearch = new System.Windows.Forms.TextBox();
             this.tab = new System.Windows.Forms.TabControl();
             this.tabPageName = new System.Windows.Forms.TabPage();
-            this.tableMainSearch = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.textSearchName = new System.Windows.Forms.TextBox();
             this.tabPageTime = new System.Windows.Forms.TabPage();
-            this.tableTimespan = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.dateTimeStartPicker = new System.Windows.Forms.DateTimePicker();
-            this.dateTimeEndPicker = new System.Windows.Forms.DateTimePicker();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button5 = new System.Windows.Forms.Button();
+            this.dateTimeEndPicker = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dateTimeStartPicker = new System.Windows.Forms.DateTimePicker();
             this.tabPageURL = new System.Windows.Forms.TabPage();
-            this.tableUrls = new System.Windows.Forms.TableLayoutPanel();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.checkSearchInFavs = new System.Windows.Forms.CheckBox();
             this.tableMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableButtons = new System.Windows.Forms.TableLayoutPanel();
             this.tab.SuspendLayout();
             this.tabPageName.SuspendLayout();
-            this.tableMainSearch.SuspendLayout();
             this.tabPageTime.SuspendLayout();
-            this.tableTimespan.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tabPageURL.SuspendLayout();
-            this.tableUrls.SuspendLayout();
             this.tableMain.SuspendLayout();
             this.tableButtons.SuspendLayout();
             this.SuspendLayout();
@@ -77,7 +67,6 @@
             // 
             // listUrls
             // 
-            this.tableUrls.SetColumnSpan(this.listUrls, 2);
             resources.ApplyResources(this.listUrls, "listUrls");
             this.listUrls.FormattingEnabled = true;
             this.listUrls.Name = "listUrls";
@@ -96,32 +85,26 @@
             // 
             // tab
             // 
+            resources.ApplyResources(this.tab, "tab");
             this.tab.Controls.Add(this.tabPageName);
             this.tab.Controls.Add(this.tabPageTime);
             this.tab.Controls.Add(this.tabPageURL);
-            resources.ApplyResources(this.tab, "tab");
             this.tab.Name = "tab";
             this.tab.SelectedIndex = 0;
             this.tab.SelectedIndexChanged += new System.EventHandler(this.tab_SelectedIndexChanged);
             // 
             // tabPageName
             // 
-            this.tabPageName.Controls.Add(this.tableMainSearch);
             resources.ApplyResources(this.tabPageName, "tabPageName");
+            this.tabPageName.Controls.Add(this.label5);
+            this.tabPageName.Controls.Add(this.textSearchName);
             this.tabPageName.Name = "tabPageName";
             this.tabPageName.UseVisualStyleBackColor = true;
             // 
-            // tableMainSearch
+            // label5
             // 
-            resources.ApplyResources(this.tableMainSearch, "tableMainSearch");
-            this.tableMainSearch.Controls.Add(this.label4, 0, 0);
-            this.tableMainSearch.Controls.Add(this.textSearchName, 0, 1);
-            this.tableMainSearch.Name = "tableMainSearch";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
             // 
             // textSearchName
             // 
@@ -130,70 +113,16 @@
             // 
             // tabPageTime
             // 
-            this.tabPageTime.Controls.Add(this.tableTimespan);
             resources.ApplyResources(this.tabPageTime, "tabPageTime");
+            this.tabPageTime.Controls.Add(this.button5);
+            this.tabPageTime.Controls.Add(this.dateTimeEndPicker);
+            this.tabPageTime.Controls.Add(this.label3);
+            this.tabPageTime.Controls.Add(this.button4);
+            this.tabPageTime.Controls.Add(this.button3);
+            this.tabPageTime.Controls.Add(this.label2);
+            this.tabPageTime.Controls.Add(this.dateTimeStartPicker);
             this.tabPageTime.Name = "tabPageTime";
             this.tabPageTime.UseVisualStyleBackColor = true;
-            // 
-            // tableTimespan
-            // 
-            resources.ApplyResources(this.tableTimespan, "tableTimespan");
-            this.tableTimespan.Controls.Add(this.label2, 0, 0);
-            this.tableTimespan.Controls.Add(this.label3, 0, 2);
-            this.tableTimespan.Controls.Add(this.dateTimeStartPicker, 1, 0);
-            this.tableTimespan.Controls.Add(this.dateTimeEndPicker, 1, 2);
-            this.tableTimespan.Controls.Add(this.tableLayoutPanel1, 1, 1);
-            this.tableTimespan.Controls.Add(this.tableLayoutPanel2, 1, 3);
-            this.tableTimespan.Name = "tableTimespan";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // dateTimeStartPicker
-            // 
-            resources.ApplyResources(this.dateTimeStartPicker, "dateTimeStartPicker");
-            this.dateTimeStartPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeStartPicker.Name = "dateTimeStartPicker";
-            // 
-            // dateTimeEndPicker
-            // 
-            resources.ApplyResources(this.dateTimeEndPicker, "dateTimeEndPicker");
-            this.dateTimeEndPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeEndPicker.Name = "dateTimeEndPicker";
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.button3, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button4, 1, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // button3
-            // 
-            resources.ApplyResources(this.button3, "button3");
-            this.button3.Name = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            resources.ApplyResources(this.button4, "button4");
-            this.button4.Name = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.button5, 0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // button5
             // 
@@ -202,20 +131,50 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // dateTimeEndPicker
+            // 
+            resources.ApplyResources(this.dateTimeEndPicker, "dateTimeEndPicker");
+            this.dateTimeEndPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimeEndPicker.Name = "dateTimeEndPicker";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // button4
+            // 
+            resources.ApplyResources(this.button4, "button4");
+            this.button4.Name = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            resources.ApplyResources(this.button3, "button3");
+            this.button3.Name = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // dateTimeStartPicker
+            // 
+            resources.ApplyResources(this.dateTimeStartPicker, "dateTimeStartPicker");
+            this.dateTimeStartPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimeStartPicker.Name = "dateTimeStartPicker";
+            // 
             // tabPageURL
             // 
-            this.tabPageURL.Controls.Add(this.tableUrls);
             resources.ApplyResources(this.tabPageURL, "tabPageURL");
+            this.tabPageURL.Controls.Add(this.listUrls);
+            this.tabPageURL.Controls.Add(this.textUrlSearch);
+            this.tabPageURL.Controls.Add(this.label1);
             this.tabPageURL.Name = "tabPageURL";
             this.tabPageURL.UseVisualStyleBackColor = true;
-            // 
-            // tableUrls
-            // 
-            resources.ApplyResources(this.tableUrls, "tableUrls");
-            this.tableUrls.Controls.Add(this.listUrls, 0, 1);
-            this.tableUrls.Controls.Add(this.textUrlSearch, 1, 0);
-            this.tableUrls.Controls.Add(this.label1, 0, 0);
-            this.tableUrls.Name = "tableUrls";
             // 
             // buttonSearch
             // 
@@ -257,16 +216,11 @@
             this.Load += new System.EventHandler(this.FormUrls_Load);
             this.tab.ResumeLayout(false);
             this.tabPageName.ResumeLayout(false);
-            this.tableMainSearch.ResumeLayout(false);
-            this.tableMainSearch.PerformLayout();
+            this.tabPageName.PerformLayout();
             this.tabPageTime.ResumeLayout(false);
-            this.tableTimespan.ResumeLayout(false);
-            this.tableTimespan.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tabPageTime.PerformLayout();
             this.tabPageURL.ResumeLayout(false);
-            this.tableUrls.ResumeLayout(false);
-            this.tableUrls.PerformLayout();
+            this.tabPageURL.PerformLayout();
             this.tableMain.ResumeLayout(false);
             this.tableButtons.ResumeLayout(false);
             this.tableButtons.PerformLayout();
@@ -292,14 +246,9 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TabPage tabPageName;
         private System.Windows.Forms.TextBox textSearchName;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkSearchInFavs;
         private System.Windows.Forms.TableLayoutPanel tableMain;
         private System.Windows.Forms.TableLayoutPanel tableButtons;
-        private System.Windows.Forms.TableLayoutPanel tableUrls;
-        private System.Windows.Forms.TableLayoutPanel tableTimespan;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TableLayoutPanel tableMainSearch;
+        private System.Windows.Forms.Label label5;
     }
 }

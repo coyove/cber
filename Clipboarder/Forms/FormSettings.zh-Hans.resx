@@ -122,13 +122,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 15</value>
+    <value>70, 13</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>显示主窗口:</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 15</value>
+    <value>134, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>重启 C-ber 以应用新设置</value>
@@ -137,28 +137,52 @@
     <value>确定</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 15</value>
+    <value>70, 13</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>图片编辑器:</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 15</value>
+    <value>106, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>每页显示记录条数:</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 15</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>写入超时时间 (ms):</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>全局快捷键</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>设置</value>
+  </data>
+  <data name="groupXPurge.Text" xml:space="preserve">
+    <value>自动删除</value>
+  </data>
+  <data name="autoPurge0.Text" xml:space="preserve">
+    <value>保留全部记录</value>
+  </data>
+  <data name="autoPurge2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 17</value>
+  </data>
+  <data name="autoPurge2.Text" xml:space="preserve">
+    <value>删除X小时前的记录</value>
+  </data>
+  <data name="autoPurge1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 17</value>
+  </data>
+  <data name="autoPurge1.Text" xml:space="preserve">
+    <value>保留最新的X条记录，删除其余的</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>规则</value>
+  </data>
+  <data name="checkRule.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 17</value>
+  </data>
+  <data name="checkRule.Text" xml:space="preserve">
+    <value>启用规则脚本</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>设置</value>

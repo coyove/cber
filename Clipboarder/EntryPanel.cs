@@ -41,9 +41,11 @@ namespace Clipboarder
 
         private EntryStatus mCurrentHoverEntry = new EntryStatus();
 
-        private ToolStripDropDownButton mCodeMenu = new ToolStripDropDownButton();
+        private ContextMenu mCodeMenu = new ContextMenu();
 
         private Panel mPanel;
+
+        private ImageList mImageList;
 
         private double mK;
 
@@ -72,41 +74,38 @@ namespace Clipboarder
             this.DoubleBuffered = true;
             this.TabStop = false;
 
-            ToolStripMenuItem plainText = new ToolStripMenuItem();
-            plainText.CheckOnClick = true;
-            plainText.Checked = true;
-            plainText.Text = "Plain";
-            plainText.Click += CodeHighlight_Click;
-            mCodeMenu.DropDownItems.Add(plainText);
             foreach (string key in new string[] {
-                "BAT", "Boo", "C++.NET", "C#", "Coco", "HTML", "JavaScript", "Java", "Patch", "PHP", "TeX", "VBNET", "XML",
+                "Default", "BAT", "Boo", "C++.NET", "C#", "Coco", "HTML", "JavaScript", "Java", "Patch", "PHP", "TeX", "VBNET", "XML",
             })
             {
-                ToolStripMenuItem code = new ToolStripMenuItem();
-                code.CheckOnClick = true;
+                MenuItem code = new MenuItem();
                 code.Text = key;
                 code.Click += CodeHighlight_Click;
-                mCodeMenu.DropDownItems.Add(code);
+                mCodeMenu.MenuItems.Add(code);
             }
-            mCodeMenu.Text = "Highlight";
-            mCodeMenu.Image = Properties.Resources.text_x_script;
+
+            mImageList = new ImageList();
+            mImageList.TransparentColor = Color.FromArgb(255, 0, 255);
+            mImageList.Images.Add("close", Properties.Resources.Close_6519_24);
+            mImageList.Images.Add("delete", Properties.Resources.Delete);
+            mImageList.Images.Add("image", Properties.Resources.InsertPicture);
+            mImageList.Images.Add("html", Properties.Resources.VSProject_html);
+            mImageList.Images.Add("save", Properties.Resources.Save);
         }
 
         private void CodeHighlight_Click(object sender, EventArgs e)
         {
-            foreach (var item in mCodeMenu.DropDownItems)
-                (item as ToolStripMenuItem).Checked = false;
+            foreach (var item in mCodeMenu.MenuItems)
+                (item as MenuItem).Checked = false;
 
-            var m = (sender as ToolStripMenuItem);
+            var m = (sender as MenuItem);
             m.Checked = true;
 
             foreach (var ctrl in mPanel.Controls)
             {
                 if (ctrl is ICSharpCode.TextEditor.TextEditorControl)
                 {
-                    (ctrl as ICSharpCode.TextEditor.TextEditorControl).SetHighlighting(
-                        m.Text == "Plain" ? "" : m.Text
-                    );
+                    (ctrl as ICSharpCode.TextEditor.TextEditorControl).SetHighlighting(m.Text);
                     break;
                 }
             }
@@ -155,6 +154,12 @@ namespace Clipboarder
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+            if (this.Controls.Count > 0)
+            {
+                ClearControls();
+                this.Refresh();
+            }
+
             foreach (var kv in mFavHotarea)
             {
                 if (kv.Value.Contains(e.Location))
@@ -204,9 +209,10 @@ namespace Clipboarder
                     mPanel.Size = kv.Value.Size;
                     mPanel.TabStop = false;
 
-                    var toolbar = new ToolStrip();
+                    var toolbar = new ToolBar();
                     toolbar.Dock = DockStyle.Top;
-                    toolbar.TabStop = false;
+                    toolbar.TextAlign = ToolBarTextAlign.Right;
+                    toolbar.ImageList = mImageList;
 
                     switch (kv.Key.Type)
                     {
@@ -214,22 +220,10 @@ namespace Clipboarder
                             var editor = new ICSharpCode.TextEditor.TextEditorControl();
                             editor.Text = kv.Key.Content as string;
                             editor.Dock = DockStyle.Fill;
-                            editor.TabStop = false;
+                            editor.ContextMenu = mCodeMenu;
                             mPanel.Controls.Add(editor);
-
-                            toolbar.Items.Add(new ToolStripButton("Save",
-                                Properties.Resources.document_save,
-                                (sv1, sv2) =>
-                                {
-                                    mDB.UpdateContent(kv.Key.Id, editor.Text);
-                                    kv.Key.Content = editor.Text;
-                                    ClearControls();
-                                    this.Invalidate();
-                                }));
-                            toolbar.Items.Add(mCodeMenu);
-                            foreach (var item in mCodeMenu.DropDownItems)
-                                if ((item as ToolStripMenuItem).Checked)
-                                    CodeHighlight_Click(item, null);
+                            toolbar.Tag = editor;
+                            toolbar.Buttons.Add(new ToolBarButton("Save") { ImageKey = "save", Tag = "save" });
                             break;
                         case Database.ContentType.HTML:
                             var browser = new WebBrowser();
@@ -239,16 +233,7 @@ namespace Clipboarder
                             browser.ScriptErrorsSuppressed = true;
                             browser.TabStop = false;
                             mPanel.Controls.Add(browser);
-
-                            toolbar.Items.Add(new ToolStripButton("HTML to Text",
-                                Properties.Resources.text_html,
-                                (httv1, httv2) =>
-                                {
-                                    mDB.UpdateContent(kv.Key.Id, Database.ContentType.RawText);
-                                    kv.Key.Type = Database.ContentType.RawText;
-                                    ClearControls();
-                                    this.Invalidate();
-                                }));
+                            toolbar.Buttons.Add(new ToolBarButton("HTML to Text") { ImageKey = "html", Tag = "htt" });
                             break;
                         case Database.ContentType.Image:
                             var viewer = new ImageViewer();
@@ -256,28 +241,46 @@ namespace Clipboarder
                             viewer.Image = kv.Key.Content as Image;
                             mPanel.Controls.Add(viewer);
                             viewer.CalcFitZoom();
-                            toolbar.Items.Add(new ToolStripButton("Edit",
-                                Properties.Resources.image_x_generic,
-                                (eiv1, eiv2) =>
-                                {
-                                    kv.Key.Content = EditImageCallback(kv.Key.Content as Image);
-                                    mDB.UpdateContent(kv.Key.Id, kv.Key.Content as Image);
-                                    ClearControls();
-                                    this.Invalidate();
-                                }));
+                            toolbar.Buttons.Add(new ToolBarButton("Edit") { ImageKey = "image", Tag = "editimage" });
                             break;
                     }
 
-                    toolbar.Items.Add(new ToolStripButton("Delete", 
-                        Properties.Resources.mail_mark_not_junk,
-                        (cv1, cv2) => DeleteCallback(kv.Key)));
-
-                    toolbar.Items.Add(new ToolStripButton("Close",
-                        Properties.Resources.process_stop,
-                        (cv1, cv2) => ClearControls())
+                    toolbar.Buttons.Add(new ToolBarButton("Delete") { ImageKey = "delete", Tag = "delete" });
+                    toolbar.Buttons.Add(new ToolBarButton("Close") { ImageKey = "close", Tag = "close" });
+                    toolbar.ButtonClick += (s, ev) =>
                     {
-                        Alignment = ToolStripItemAlignment.Right,
-                    });
+                        switch (ev.Button.Tag.ToString())
+                        {
+                            case "close":
+                                ClearControls();
+                                Invalidate();
+                                break;
+                            case "delete":
+                                DeleteCallback(kv.Key);
+                                break;
+                            case "editimage":
+                                kv.Key.Content = EditImageCallback(kv.Key.Content as Image);
+                                mDB.UpdateContent(kv.Key.Id, kv.Key.Content as Image);
+                                ClearControls();
+                                Invalidate();
+                                break;
+                            case "htt":
+                                mDB.HTMLToText(kv.Key.Id);
+                                kv.Key.Type = Database.ContentType.RawText;
+                                kv.Key.Content = kv.Key.Html;
+                                ClearControls();
+                                this.Invalidate();
+                                break;
+                            case "save":
+                                var editor = toolbar.Tag as ICSharpCode.TextEditor.TextEditorControl;
+                                mDB.UpdateContent(kv.Key.Id, editor.Text);
+                                kv.Key.Content = editor.Text;
+                                ClearControls();
+                                this.Invalidate();
+                                break;
+                        }
+                    };
+                    //mPanel.Controls.Add(toolbar);
                     mPanel.Controls.Add(toolbar);
                     this.Controls.Add(mPanel);
                     break;
@@ -460,12 +463,22 @@ namespace Clipboarder
         protected override void OnResize(EventArgs eventargs)
         {
             base.OnResize(eventargs);
+            ClearControls();
             Invalidate();
+        }
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            this.Select();
+            this.Focus();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+            //if (this.Controls.Count > 0) return;
+
             var container = e.Graphics.BeginContainer();
             e.Graphics.Clip = new Region(e.ClipRectangle);
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -475,7 +488,7 @@ namespace Clipboarder
             mUrlHotarea.Clear();
             mCopyHotarea.Clear();
             mFavHotarea.Clear();
-            ClearControls();
+            //ClearControls();
 
             int top = -(int)(Value * mK), i = -1;
             bool zebra = false;

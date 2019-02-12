@@ -117,23 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="buttonCancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>搜索URL:</value>
+  </data>
+  <data name="tabPageName.Text" xml:space="preserve">
+    <value>内容</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>查询文字:</value>
+  </data>
+  <data name="tabPageTime.Text" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="button5.Text" xml:space="preserve">
+    <value>最后一条记录</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>终止日期:</value>
+  </data>
+  <data name="button4.Text" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>过去24小时</value>
+  </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>开始日期:</value>
+    <value>起始日期:</value>
   </data>
-  <data name="dateTimeStartPicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>64, 24</value>
+  <data name="tabPageURL.Text" xml:space="preserve">
+    <value>URL</value>
   </data>
-  <data name="dateTimeEndPicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>64, 162</value>
+  <data name="buttonSearch.Text" xml:space="preserve">
+    <value>搜索</value>
   </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>65, 72</value>
+  <data name="checkSearchInFavs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 17</value>
   </data>
-  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>65, 210</value>
+  <data name="checkSearchInFavs.Text" xml:space="preserve">
+    <value>仅在收藏夹内搜索</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>搜索</value>
   </data>
 </root>

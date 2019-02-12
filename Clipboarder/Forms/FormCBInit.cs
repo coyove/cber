@@ -14,14 +14,15 @@ namespace Clipboarder
         private void InitUi()
         {
             mBar = new ToolBar();
+            mBar.TextAlign = ToolBarTextAlign.Right;
             mBar.ImageList = new ImageList();
-            mBar.ImageList.Images.Add("s", Properties.Resources.Find);
-            mBar.ImageList.Images.Add("f", Properties.Resources.Favorites_9002_24);
-            mBar.ImageList.Images.Add("box", Properties.Resources.Box_10401_24);
-            mBar.ImageList.Images.Add("time", Properties.Resources.Timer_709_24);
-            mBar.ImageList.Images.Add("text", Properties.Resources.Note);
-            mBar.ImageList.Images.Add("web", Properties.Resources.Web);
-            mBar.ImageList.Images.Add("image", Properties.Resources.InsertPicture);
+            mBar.ImageList.Images.Add("s", resx.Find);
+            mBar.ImageList.Images.Add("f", resx.Favorites_9002_24);
+            mBar.ImageList.Images.Add("box", resx.Box_10401_24);
+            mBar.ImageList.Images.Add("time", resx.Timer_709_24);
+            mBar.ImageList.Images.Add("text", resx.Note);
+            mBar.ImageList.Images.Add("web", resx.Web);
+            mBar.ImageList.Images.Add("image", resx.InsertPicture);
             mBar.ImageList.TransparentColor = Color.FromArgb(255, 0, 255);
             mBar.Buttons.Add(new ToolBarButton(resx.ShowAll) { ImageKey = "time", Tag = "time" });
             mBar.Buttons.Add(new ToolBarButton(resx.Favorites) { ImageKey = "f", Tag = "favorites", Style = ToolBarButtonStyle.ToggleButton });
@@ -58,7 +59,6 @@ namespace Clipboarder
             mBarNav.Buttons.Add(mViewFilter[0] = new ToolBarButton("Text") { ImageKey = "text", Tag = "showText" });
             mBarNav.Buttons.Add(mViewFilter[1] = new ToolBarButton("HTML") { ImageKey = "web", Tag = "showHTML" });
             mBarNav.Buttons.Add(mViewFilter[2] = new ToolBarButton("Image") { ImageKey = "image", Tag = "showImage" });
-            mBarNav.Buttons.Add(new ToolBarButton() { Style = ToolBarButtonStyle.Separator });
             mBarNav.ButtonClick += (tbBtn, tbEvent) =>
             {
                 if (tbEvent.Button.Tag.ToString().StartsWith("show"))

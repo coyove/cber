@@ -82,6 +82,13 @@ namespace Clipboarder
             }
         }
 
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            this.Select();
+            this.Focus();
+        }
+
         protected override void OnPaint(PaintEventArgs pe)
         {
             var container = pe.Graphics.BeginContainer();

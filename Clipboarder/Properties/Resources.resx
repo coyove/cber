@@ -182,29 +182,8 @@ Exiting now...</value>
   <data name="DeleteAllConfirm" xml:space="preserve">
     <value>Are you sure of deleting all entries?</value>
   </data>
-  <data name="document_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\document-save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="image_x_generic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\image-x-generic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="process_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\process-stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="text_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text-html.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="text_x_script" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text-x-script.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="edit_copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\edit-copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="EmptyResults" xml:space="preserve">
     <value>Empty Results</value>
-  </data>
-  <data name="mail_mark_not_junk" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mail-mark-not-junk.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SearchAndDeleteTitle" xml:space="preserve">
     <value>Search &amp; Delete</value>
@@ -249,7 +228,7 @@ Exiting now...</value>
     <value>..\Resources\Web.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ByURLs" xml:space="preserve">
-    <value>By URLs</value>
+    <value>URLs</value>
   </data>
   <data name="Favorites" xml:space="preserve">
     <value>Favorites</value>
@@ -262,5 +241,17 @@ Exiting now...</value>
   </data>
   <data name="Timespan" xml:space="preserve">
     <value>Timespan</value>
+  </data>
+  <data name="Close_6519_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Close_6519_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VSProject_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VSProject_html.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

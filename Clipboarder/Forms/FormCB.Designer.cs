@@ -32,28 +32,28 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCB));
             this.statusInfo = new System.Windows.Forms.StatusStrip();
             this.cberMenu = new System.Windows.Forms.ToolStripDropDownButton();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.deleteAllEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusDbPath = new System.Windows.Forms.ToolStripStatusLabel();
-            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.searchDeleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.stayOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideAfterCopyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainData = new Clipboarder.EntryPanel();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.listenToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listenTextContents = new System.Windows.Forms.ToolStripMenuItem();
             this.listenImageContents = new System.Windows.Forms.ToolStripMenuItem();
             this.listenHTMLContents = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.deleteAllEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchDeleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.stayOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideAfterCopyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusDbPath = new System.Windows.Forms.ToolStripStatusLabel();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.mainData = new Clipboarder.EntryPanel();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusInfo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,89 +87,6 @@
             resources.ApplyResources(this.cberMenu, "cberMenu");
             this.cberMenu.Name = "cberMenu";
             // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
-            // 
-            // selectToolStripMenuItem
-            // 
-            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
-            resources.ApplyResources(this.selectToolStripMenuItem, "selectToolStripMenuItem");
-            this.selectToolStripMenuItem.Click += new System.EventHandler(this.statusDbPath_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
-            // 
-            // deleteAllEntriesToolStripMenuItem
-            // 
-            this.deleteAllEntriesToolStripMenuItem.Name = "deleteAllEntriesToolStripMenuItem";
-            resources.ApplyResources(this.deleteAllEntriesToolStripMenuItem, "deleteAllEntriesToolStripMenuItem");
-            this.deleteAllEntriesToolStripMenuItem.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
-            // 
-            // statusDbPath
-            // 
-            this.statusDbPath.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.statusDbPath.Name = "statusDbPath";
-            this.statusDbPath.Padding = new System.Windows.Forms.Padding(2);
-            resources.ApplyResources(this.statusDbPath, "statusDbPath");
-            this.statusDbPath.Spring = true;
-            // 
-            // notifyIcon
-            // 
-            resources.ApplyResources(this.notifyIcon, "notifyIcon");
-            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
-            // 
-            // searchDeleteToolStripMenuItem1
-            // 
-            this.searchDeleteToolStripMenuItem1.Name = "searchDeleteToolStripMenuItem1";
-            resources.ApplyResources(this.searchDeleteToolStripMenuItem1, "searchDeleteToolStripMenuItem1");
-            this.searchDeleteToolStripMenuItem1.Click += new System.EventHandler(this.searchDeleteToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
-            // 
-            // refreshToolStripMenuItem
-            // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            resources.ApplyResources(this.refreshToolStripMenuItem, "refreshToolStripMenuItem");
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.shortcutsToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
-            // 
-            // stayOnTopToolStripMenuItem
-            // 
-            this.stayOnTopToolStripMenuItem.CheckOnClick = true;
-            this.stayOnTopToolStripMenuItem.Name = "stayOnTopToolStripMenuItem";
-            resources.ApplyResources(this.stayOnTopToolStripMenuItem, "stayOnTopToolStripMenuItem");
-            this.stayOnTopToolStripMenuItem.Click += new System.EventHandler(this.stayOnTopToolStripMenuItem_Click);
-            // 
-            // hideAfterCopyToolStripMenuItem
-            // 
-            this.hideAfterCopyToolStripMenuItem.CheckOnClick = true;
-            this.hideAfterCopyToolStripMenuItem.Name = "hideAfterCopyToolStripMenuItem";
-            resources.ApplyResources(this.hideAfterCopyToolStripMenuItem, "hideAfterCopyToolStripMenuItem");
-            // 
             // listenToolStripMenuItem
             // 
             this.listenToolStripMenuItem.Checked = true;
@@ -177,24 +94,6 @@
             this.listenToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.listenToolStripMenuItem.Name = "listenToolStripMenuItem";
             resources.ApplyResources(this.listenToolStripMenuItem, "listenToolStripMenuItem");
-            // 
-            // mainData
-            // 
-            resources.ApplyResources(this.mainData, "mainData");
-            this.mainData.Name = "mainData";
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // listenToToolStripMenuItem
             // 
@@ -222,6 +121,107 @@
             this.listenHTMLContents.CheckOnClick = true;
             this.listenHTMLContents.Name = "listenHTMLContents";
             resources.ApplyResources(this.listenHTMLContents, "listenHTMLContents");
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
+            // 
+            // selectToolStripMenuItem
+            // 
+            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
+            resources.ApplyResources(this.selectToolStripMenuItem, "selectToolStripMenuItem");
+            this.selectToolStripMenuItem.Click += new System.EventHandler(this.statusDbPath_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            // 
+            // deleteAllEntriesToolStripMenuItem
+            // 
+            this.deleteAllEntriesToolStripMenuItem.Name = "deleteAllEntriesToolStripMenuItem";
+            resources.ApplyResources(this.deleteAllEntriesToolStripMenuItem, "deleteAllEntriesToolStripMenuItem");
+            this.deleteAllEntriesToolStripMenuItem.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
+            // 
+            // searchDeleteToolStripMenuItem1
+            // 
+            this.searchDeleteToolStripMenuItem1.Name = "searchDeleteToolStripMenuItem1";
+            resources.ApplyResources(this.searchDeleteToolStripMenuItem1, "searchDeleteToolStripMenuItem1");
+            this.searchDeleteToolStripMenuItem1.Click += new System.EventHandler(this.searchDeleteToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // stayOnTopToolStripMenuItem
+            // 
+            this.stayOnTopToolStripMenuItem.CheckOnClick = true;
+            this.stayOnTopToolStripMenuItem.Name = "stayOnTopToolStripMenuItem";
+            resources.ApplyResources(this.stayOnTopToolStripMenuItem, "stayOnTopToolStripMenuItem");
+            this.stayOnTopToolStripMenuItem.Click += new System.EventHandler(this.stayOnTopToolStripMenuItem_Click);
+            // 
+            // hideAfterCopyToolStripMenuItem
+            // 
+            this.hideAfterCopyToolStripMenuItem.CheckOnClick = true;
+            this.hideAfterCopyToolStripMenuItem.Name = "hideAfterCopyToolStripMenuItem";
+            resources.ApplyResources(this.hideAfterCopyToolStripMenuItem, "hideAfterCopyToolStripMenuItem");
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            resources.ApplyResources(this.refreshToolStripMenuItem, "refreshToolStripMenuItem");
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.shortcutsToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // statusDbPath
+            // 
+            this.statusDbPath.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.statusDbPath.Name = "statusDbPath";
+            this.statusDbPath.Padding = new System.Windows.Forms.Padding(2);
+            resources.ApplyResources(this.statusDbPath, "statusDbPath");
+            this.statusDbPath.Spring = true;
+            // 
+            // notifyIcon
+            // 
+            resources.ApplyResources(this.notifyIcon, "notifyIcon");
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // mainData
+            // 
+            resources.ApplyResources(this.mainData, "mainData");
+            this.mainData.Name = "mainData";
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // FormCB
             // 

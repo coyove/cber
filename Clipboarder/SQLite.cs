@@ -576,6 +576,16 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
+        public SQLite3.Result HTMLToText(int id)
+        {
+            IntPtr stmt = SQLite3.Prepare2(mDB, "UPDATE data_table SET type = ?, text_content = html_content WHERE id = ?");
+            SQLite3.BindInt(stmt, 1, (int)ContentType.RawText);
+            SQLite3.BindInt(stmt, 2, id);
+            var res = SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            return res;
+        }
+
         public SQLite3.Result Delete(int id)
         {
             IntPtr stmt = SQLite3.Prepare2(mDB, id == -1 ?
