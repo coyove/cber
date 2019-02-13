@@ -221,5 +221,17 @@ return '\0';
                 this["PanelShortcutsMap"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UsePlainTextBox {
+            get {
+                return ((bool)(this["UsePlainTextBox"]));
+            }
+            set {
+                this["UsePlainTextBox"] = value;
+            }
+        }
     }
 }

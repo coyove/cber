@@ -217,15 +217,36 @@ namespace Clipboarder
                     switch (kv.Key.Type)
                     {
                         case Database.ContentType.RawText:
-                            var editor = new ICSharpCode.TextEditor.TextEditorControl();
-                            editor.Text = kv.Key.Content as string;
-                            editor.Dock = DockStyle.Fill;
-                            editor.ContextMenu = mCodeMenu;
-                            mPanel.Controls.Add(editor);
-                            toolbar.Tag = editor;
+                            if (Properties.Settings.Default.UsePlainTextBox)
+                            {
+                                var editor = new RichTextBox();
+                                editor.KeyDown += (s, re) =>
+                                {
+                                    if (re.Control && re.KeyCode == Keys.V)
+                                    {
+                                        editor.Paste(DataFormats.GetFormat(DataFormats.UnicodeText));
+                                        re.Handled = true;
+                                    }
+                                };
+                                editor.Dock = DockStyle.Fill;
+                                editor.Font = Monospace;
+                                editor.BorderStyle = BorderStyle.None;
+                                editor.Text = kv.Key.Content as string;
+                                toolbar.Tag = editor;
+                                mPanel.Controls.Add(editor);
+                            }
+                            else
+                            {
+                                var editor = new ICSharpCode.TextEditor.TextEditorControl();
+                                editor.Text = kv.Key.Content as string;
+                                editor.Dock = DockStyle.Fill;
+                                editor.ContextMenu = mCodeMenu;
+                                mPanel.Controls.Add(editor);
+                                toolbar.Tag = editor;
+                                foreach (MenuItem m in mCodeMenu.MenuItems)
+                                    if (m.Checked) editor.SetHighlighting(m.Text);
+                            }
                             toolbar.Buttons.Add(new ToolBarButton("Save") { ImageKey = "save", Tag = "save" });
-                            foreach (MenuItem m in mCodeMenu.MenuItems)
-                                if (m.Checked) editor.SetHighlighting(m.Text);
                             break;
                         case Database.ContentType.HTML:
                             var browser = new WebBrowser();
@@ -275,8 +296,9 @@ namespace Clipboarder
                                 break;
                             case "save":
                                 var editor = toolbar.Tag as ICSharpCode.TextEditor.TextEditorControl;
-                                mDB.UpdateContent(kv.Key.Id, editor.Text);
-                                kv.Key.Content = editor.Text;
+                                var content = editor != null ? editor.Text : (toolbar.Tag as RichTextBox).Text;
+                                mDB.UpdateContent(kv.Key.Id, content);
+                                kv.Key.Content = content;
                                 ClearControls();
                                 this.Invalidate();
                                 break;

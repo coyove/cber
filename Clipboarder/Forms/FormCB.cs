@@ -487,5 +487,24 @@ namespace Clipboarder
             mDB.Delete(frm.WhereClause);
             RefreshDataMainView();
         }
+
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PrepareSearch("name");
+        }
+
+        private void showFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ToolBarButton btn in mBar.Buttons)
+            {
+                if (btn.Tag.ToString() == "favorites")
+                {
+                    btn.Pushed = !btn.Pushed;
+                    (mainData.Tag as Page).Where = btn.Pushed ? "AND favorited = 1" : "";
+                    RefreshDataMainView();
+                    break;
+                }
+            }
+        }
     }
 }

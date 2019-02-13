@@ -38,6 +38,8 @@ namespace Clipboarder
             checkRule.Checked = Properties.Settings.Default.RuleEnabled;
             textRule.Text = Properties.Settings.Default.RuleScript;
             textRule.SetHighlighting("C#");
+
+            checkPlainTextBox.Checked = Properties.Settings.Default.UsePlainTextBox;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -54,6 +56,7 @@ namespace Clipboarder
 
             Properties.Settings.Default.RuleScript = textRule.Text;
             Properties.Settings.Default.RuleEnabled = checkRule.Checked;
+            Properties.Settings.Default.UsePlainTextBox = checkPlainTextBox.Checked;
 
             Properties.Settings.Default.Save();
             Close();
