@@ -82,7 +82,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cell.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="EntryPanel.cs">
       <SubType>Component</SubType>

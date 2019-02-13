@@ -188,19 +188,22 @@ namespace Clipboarder
             int totalEntries = mDB.TotalEntries(where);
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
-            mPathDisplay.Text = string.Format("{3} ({0}/{1}MB)",
-                totalEntries, ((double)new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00"), pages, mDB.Path);
+            string status = string.Format(" ({2}:{0}:{1}MB)",
+                totalEntries,
+                ((double)new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00"),
+                System.IO.Path.GetFileName(mDB.Path));
 
             if (pages == 0)
             {
-                this.Text = Application.ProductName;
+                this.Text = Application.ProductName + status;
                 return;
             }
 
             if (currentPage < 1) currentPage = 1;
             if (currentPage > pages) currentPage = pages;
             (mainData.Tag as Page).Current = currentPage;
-            this.Text = Application.ProductName + " - P" + currentPage;
+            this.Text = Application.ProductName + 
+                " [" + string.Format(Properties.Resources.PageNumberFormat, currentPage) + "]" + status;
 
             foreach (Database.Entry e in mDB.Paging(
                 where.ToString(), 

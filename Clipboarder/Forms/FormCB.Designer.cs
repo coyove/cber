@@ -43,18 +43,17 @@
             this.menuItem4 = new System.Windows.Forms.MenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem8 = new System.Windows.Forms.MenuItem();
-            this.openDatabase = new System.Windows.Forms.MenuItem();
-            this.openDatabaseLocation = new System.Windows.Forms.MenuItem();
-            this.menuItem11 = new System.Windows.Forms.MenuItem();
-            this.deleteAllEntries = new System.Windows.Forms.MenuItem();
-            this.deleteAllEntriesButFavs = new System.Windows.Forms.MenuItem();
-            this.menuPages = new System.Windows.Forms.MenuItem();
-            this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.searchContent = new System.Windows.Forms.MenuItem();
             this.searchTimespan = new System.Windows.Forms.MenuItem();
             this.searchURL = new System.Windows.Forms.MenuItem();
             this.menuItem9 = new System.Windows.Forms.MenuItem();
+            this.openDatabase = new System.Windows.Forms.MenuItem();
+            this.openDatabaseLocation = new System.Windows.Forms.MenuItem();
+            this.menuItem11 = new System.Windows.Forms.MenuItem();
             this.searchAndDelete = new System.Windows.Forms.MenuItem();
+            this.deleteAllEntries = new System.Windows.Forms.MenuItem();
+            this.deleteAllEntriesButFavs = new System.Windows.Forms.MenuItem();
+            this.menuPages = new System.Windows.Forms.MenuItem();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.showTextContents = new System.Windows.Forms.MenuItem();
             this.showImageContents = new System.Windows.Forms.MenuItem();
@@ -84,7 +83,6 @@
             this.mainMenu,
             this.menuItem8,
             this.menuPages,
-            this.menuItem5,
             this.menuItem1,
             this.menuItem10});
             // 
@@ -155,57 +153,17 @@
             // 
             this.menuItem8.Index = 1;
             this.menuItem8.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.openDatabase,
-            this.openDatabaseLocation,
-            this.menuItem11,
-            this.deleteAllEntries,
-            this.deleteAllEntriesButFavs});
-            resources.ApplyResources(this.menuItem8, "menuItem8");
-            // 
-            // openDatabase
-            // 
-            this.openDatabase.Index = 0;
-            resources.ApplyResources(this.openDatabase, "openDatabase");
-            this.openDatabase.Click += new System.EventHandler(this.statusDbPath_Click);
-            // 
-            // openDatabaseLocation
-            // 
-            this.openDatabaseLocation.Index = 1;
-            resources.ApplyResources(this.openDatabaseLocation, "openDatabaseLocation");
-            this.openDatabaseLocation.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
-            // 
-            // menuItem11
-            // 
-            this.menuItem11.Index = 2;
-            resources.ApplyResources(this.menuItem11, "menuItem11");
-            // 
-            // deleteAllEntries
-            // 
-            this.deleteAllEntries.Index = 3;
-            resources.ApplyResources(this.deleteAllEntries, "deleteAllEntries");
-            this.deleteAllEntries.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
-            // 
-            // deleteAllEntriesButFavs
-            // 
-            this.deleteAllEntriesButFavs.Index = 4;
-            resources.ApplyResources(this.deleteAllEntriesButFavs, "deleteAllEntriesButFavs");
-            this.deleteAllEntriesButFavs.Click += new System.EventHandler(this.deleteAllEntriesButFavs_Click);
-            // 
-            // menuPages
-            // 
-            this.menuPages.Index = 2;
-            resources.ApplyResources(this.menuPages, "menuPages");
-            // 
-            // menuItem5
-            // 
-            this.menuItem5.Index = 3;
-            this.menuItem5.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.searchContent,
             this.searchTimespan,
             this.searchURL,
             this.menuItem9,
-            this.searchAndDelete});
-            resources.ApplyResources(this.menuItem5, "menuItem5");
+            this.openDatabase,
+            this.openDatabaseLocation,
+            this.menuItem11,
+            this.searchAndDelete,
+            this.deleteAllEntries,
+            this.deleteAllEntriesButFavs});
+            resources.ApplyResources(this.menuItem8, "menuItem8");
             // 
             // searchContent
             // 
@@ -222,23 +180,57 @@
             // searchURL
             // 
             this.searchURL.Index = 2;
-            this.searchURL.Tag = "url";
             resources.ApplyResources(this.searchURL, "searchURL");
+            this.searchURL.Tag = "url";
             // 
             // menuItem9
             // 
             this.menuItem9.Index = 3;
             resources.ApplyResources(this.menuItem9, "menuItem9");
             // 
+            // openDatabase
+            // 
+            this.openDatabase.Index = 4;
+            resources.ApplyResources(this.openDatabase, "openDatabase");
+            this.openDatabase.Click += new System.EventHandler(this.statusDbPath_Click);
+            // 
+            // openDatabaseLocation
+            // 
+            this.openDatabaseLocation.Index = 5;
+            resources.ApplyResources(this.openDatabaseLocation, "openDatabaseLocation");
+            this.openDatabaseLocation.Click += new System.EventHandler(this.openDatabaseLocationToolStripMenuItem_Click);
+            // 
+            // menuItem11
+            // 
+            this.menuItem11.Index = 6;
+            resources.ApplyResources(this.menuItem11, "menuItem11");
+            // 
             // searchAndDelete
             // 
-            this.searchAndDelete.Index = 4;
+            this.searchAndDelete.Index = 7;
             resources.ApplyResources(this.searchAndDelete, "searchAndDelete");
             this.searchAndDelete.Click += new System.EventHandler(this.searchDeleteToolStripMenuItem_Click);
             // 
+            // deleteAllEntries
+            // 
+            this.deleteAllEntries.Index = 8;
+            resources.ApplyResources(this.deleteAllEntries, "deleteAllEntries");
+            this.deleteAllEntries.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
+            // 
+            // deleteAllEntriesButFavs
+            // 
+            this.deleteAllEntriesButFavs.Index = 9;
+            resources.ApplyResources(this.deleteAllEntriesButFavs, "deleteAllEntriesButFavs");
+            this.deleteAllEntriesButFavs.Click += new System.EventHandler(this.deleteAllEntriesButFavs_Click);
+            // 
+            // menuPages
+            // 
+            this.menuPages.Index = 2;
+            resources.ApplyResources(this.menuPages, "menuPages");
+            // 
             // menuItem1
             // 
-            this.menuItem1.Index = 4;
+            this.menuItem1.Index = 3;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.showTextContents,
             this.showImageContents,
@@ -311,7 +303,7 @@
             // 
             // menuItem10
             // 
-            this.menuItem10.Index = 5;
+            this.menuItem10.Index = 4;
             this.menuItem10.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem12});
             resources.ApplyResources(this.menuItem10, "menuItem10");
@@ -375,11 +367,9 @@
         private System.Windows.Forms.MenuItem showFavorites;
         private System.Windows.Forms.MenuItem menuItem4;
         private System.Windows.Forms.MenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.MenuItem menuItem5;
         private System.Windows.Forms.MenuItem searchContent;
         private System.Windows.Forms.MenuItem searchTimespan;
         private System.Windows.Forms.MenuItem searchURL;
-        private System.Windows.Forms.MenuItem menuItem9;
         private System.Windows.Forms.MenuItem searchAndDelete;
         private System.Windows.Forms.MenuItem menuItem7;
         private System.Windows.Forms.MenuItem hideAfterCopyToolStripMenuItem;
@@ -398,6 +388,7 @@
         private System.Windows.Forms.MenuItem menuPages;
         private System.Windows.Forms.MenuItem menuItem10;
         private System.Windows.Forms.MenuItem menuItem12;
+        private System.Windows.Forms.MenuItem menuItem9;
     }
 }
 

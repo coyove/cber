@@ -14,10 +14,10 @@ namespace Clipboarder
         private PathLabel mPathDisplay;
         private void InitUi()
         {
-            mPathDisplay = new PathLabel();
-            mPathDisplay.Dock = DockStyle.Bottom;
-            mainData.BringToFront();
-            this.Controls.Add(mPathDisplay);
+            //mPathDisplay = new PathLabel();
+            //mPathDisplay.Dock = DockStyle.Bottom;
+            //mainData.BringToFront();
+            //this.Controls.Add(mPathDisplay);
 
             notifyIcon.Icon = resx.SystrayIcon;
             notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] {

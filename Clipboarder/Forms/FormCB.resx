@@ -130,6 +130,21 @@
   <metadata name="mainMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>458, 17</value>
   </metadata>
+  <data name="mainMenu.Text" xml:space="preserve">
+    <value>Listen</value>
+  </data>
+  <data name="menuItem8.Text" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="menuPages.Text" xml:space="preserve">
+    <value>Goto</value>
+  </data>
+  <data name="menuItem1.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="menuItem10.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="listenToolStripMenuItem.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>CtrlE</value>
@@ -138,13 +153,13 @@
     <value>Listen clipboard</value>
   </data>
   <data name="listenTextContents.Text" xml:space="preserve">
-    <value>Listen "Text"s</value>
+    <value>- Listen Texts</value>
   </data>
   <data name="listenImageContents.Text" xml:space="preserve">
-    <value>Listen "Image"s</value>
+    <value>- Listen Images</value>
   </data>
   <data name="listenHTMLContents.Text" xml:space="preserve">
-    <value>Listen "HTML"s</value>
+    <value>- Listen HTMLs</value>
   </data>
   <data name="menuItem7.Text" xml:space="preserve">
     <value>-</value>
@@ -164,14 +179,32 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="mainMenu.Text" xml:space="preserve">
-    <value>Listen</value>
+  <data name="searchContent.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
+    <value>CtrlF</value>
+  </data>
+  <data name="searchContent.Text" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="searchTimespan.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
+    <value>CtrlT</value>
+  </data>
+  <data name="searchTimespan.Text" xml:space="preserve">
+    <value>Search timespan...</value>
+  </data>
+  <data name="searchURL.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
+    <value>CtrlU</value>
+  </data>
+  <data name="searchURL.Text" xml:space="preserve">
+    <value>Search URLs...</value>
+  </data>
+  <data name="menuItem9.Text" xml:space="preserve">
+    <value>-</value>
   </data>
   <data name="openDatabase.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>CtrlO</value>
   </data>
   <data name="openDatabase.Text" xml:space="preserve">
-    <value>Open DB</value>
+    <value>Open/Create DB</value>
   </data>
   <data name="openDatabaseLocation.Text" xml:space="preserve">
     <value>Open DB's location</value>
@@ -179,59 +212,32 @@
   <data name="menuItem11.Text" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="searchAndDelete.Text" xml:space="preserve">
+    <value>Search &amp;&amp; Delete...</value>
+  </data>
   <data name="deleteAllEntries.Text" xml:space="preserve">
     <value>Delete all entries</value>
   </data>
   <data name="deleteAllEntriesButFavs.Text" xml:space="preserve">
     <value>Delete all but favorites</value>
   </data>
-  <data name="menuItem8.Text" xml:space="preserve">
-    <value>Database</value>
-  </data>
-  <data name="menuPages.Text" xml:space="preserve">
-    <value>Goto</value>
-  </data>
-  <data name="searchContent.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
-    <value>CtrlF</value>
-  </data>
-  <data name="searchContent.Text" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="searchTimespan.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
-    <value>CtrlT</value>
-  </data>
-  <data name="searchTimespan.Text" xml:space="preserve">
-    <value>Search timespan</value>
-  </data>
-  <data name="searchURL.Text" xml:space="preserve">
-    <value>Search URLs</value>
-  </data>
-  <data name="menuItem9.Text" xml:space="preserve">
-    <value>-</value>
-  </data>
-  <data name="searchAndDelete.Text" xml:space="preserve">
-    <value>Search &amp;&amp; Delete</value>
-  </data>
-  <data name="menuItem5.Text" xml:space="preserve">
-    <value>Search</value>
-  </data>
   <data name="showTextContents.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>Ctrl1</value>
   </data>
   <data name="showTextContents.Text" xml:space="preserve">
-    <value>Show "Text"s</value>
+    <value>Show Texts</value>
   </data>
   <data name="showImageContents.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>Ctrl2</value>
   </data>
   <data name="showImageContents.Text" xml:space="preserve">
-    <value>Show "Image"s</value>
+    <value>Show Images</value>
   </data>
   <data name="showHTMLContents.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>Ctrl3</value>
   </data>
   <data name="showHTMLContents.Text" xml:space="preserve">
-    <value>Show "HTML"s</value>
+    <value>Show HTMLs</value>
   </data>
   <data name="menuItem2.Text" xml:space="preserve">
     <value>-</value>
@@ -257,14 +263,8 @@
   <data name="viewSettings.Text" xml:space="preserve">
     <value>Settings...</value>
   </data>
-  <data name="menuItem1.Text" xml:space="preserve">
-    <value>View</value>
-  </data>
   <data name="menuItem12.Text" xml:space="preserve">
     <value>About</value>
-  </data>
-  <data name="menuItem10.Text" xml:space="preserve">
-    <value>Help</value>
   </data>
   <data name="mainData.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -277,7 +277,7 @@
     <value>2, 3, 2, 3</value>
   </data>
   <data name="mainData.Size" type="System.Drawing.Size, System.Drawing">
-    <value>331, 465</value>
+    <value>329, 485</value>
   </data>
   <data name="mainData.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -307,10 +307,7 @@
     <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>331, 465</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+    <value>329, 485</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>304, 524</value>
@@ -396,48 +393,6 @@
   <data name="&gt;&gt;menuItem8.Type" xml:space="preserve">
     <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;openDatabase.Name" xml:space="preserve">
-    <value>openDatabase</value>
-  </data>
-  <data name="&gt;&gt;openDatabase.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;openDatabaseLocation.Name" xml:space="preserve">
-    <value>openDatabaseLocation</value>
-  </data>
-  <data name="&gt;&gt;openDatabaseLocation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuItem11.Name" xml:space="preserve">
-    <value>menuItem11</value>
-  </data>
-  <data name="&gt;&gt;menuItem11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntries.Name" xml:space="preserve">
-    <value>deleteAllEntries</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntries.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntriesButFavs.Name" xml:space="preserve">
-    <value>deleteAllEntriesButFavs</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntriesButFavs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuPages.Name" xml:space="preserve">
-    <value>menuPages</value>
-  </data>
-  <data name="&gt;&gt;menuPages.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuItem5.Name" xml:space="preserve">
-    <value>menuItem5</value>
-  </data>
-  <data name="&gt;&gt;menuItem5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;searchContent.Name" xml:space="preserve">
     <value>searchContent</value>
   </data>
@@ -462,10 +417,46 @@
   <data name="&gt;&gt;menuItem9.Type" xml:space="preserve">
     <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;openDatabase.Name" xml:space="preserve">
+    <value>openDatabase</value>
+  </data>
+  <data name="&gt;&gt;openDatabase.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;openDatabaseLocation.Name" xml:space="preserve">
+    <value>openDatabaseLocation</value>
+  </data>
+  <data name="&gt;&gt;openDatabaseLocation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuItem11.Name" xml:space="preserve">
+    <value>menuItem11</value>
+  </data>
+  <data name="&gt;&gt;menuItem11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;searchAndDelete.Name" xml:space="preserve">
     <value>searchAndDelete</value>
   </data>
   <data name="&gt;&gt;searchAndDelete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deleteAllEntries.Name" xml:space="preserve">
+    <value>deleteAllEntries</value>
+  </data>
+  <data name="&gt;&gt;deleteAllEntries.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deleteAllEntriesButFavs.Name" xml:space="preserve">
+    <value>deleteAllEntriesButFavs</value>
+  </data>
+  <data name="&gt;&gt;deleteAllEntriesButFavs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuPages.Name" xml:space="preserve">
+    <value>menuPages</value>
+  </data>
+  <data name="&gt;&gt;menuPages.Type" xml:space="preserve">
     <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;menuItem1.Name" xml:space="preserve">

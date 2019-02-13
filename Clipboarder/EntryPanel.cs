@@ -73,6 +73,7 @@ namespace Clipboarder
             this.Padding = new Padding(0);
             this.DoubleBuffered = true;
             this.TabStop = false;
+            this.ResizeRedraw = true;
 
             foreach (string key in new string[] {
                 "Default", "BAT", "Boo", "C++.NET", "C#", "Coco", "HTML", "JavaScript", "Java", "Patch", "PHP", "TeX", "VBNET", "XML",
@@ -342,6 +343,7 @@ namespace Clipboarder
         public void TryScrollTo(int value)
         {
             Invalidate();
+            ClearControls();
             Value = value;
             LimitValue();
             Invalidate();
@@ -488,7 +490,7 @@ namespace Clipboarder
         {
             base.OnResize(eventargs);
             ClearControls();
-            Invalidate();
+            Refresh();
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -620,6 +622,11 @@ namespace Clipboarder
             else
             {
                 MaxValue = 0;
+            }
+
+            if (top < this.Height)
+            {
+                e.Graphics.FillRectangle(Brushes.LightGray, new Rectangle(0, top, SBW, this.Height));
             }
 
             e.Graphics.EndContainer(container);

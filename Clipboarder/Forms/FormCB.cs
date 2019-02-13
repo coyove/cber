@@ -404,10 +404,12 @@ namespace Clipboarder
         private void statusDbPath_Click(object sender, EventArgs e)
         {
             OpenFileDialog openDb = new OpenFileDialog();
+            openDb.CheckFileExists = false;
             openDb.Filter = "*.db|*.db";
 
             if (openDb.ShowDialog() == DialogResult.OK)
             {
+                mDB.Close();
                 try
                 {
                     mDB = Database.Open(openDb.FileName);
