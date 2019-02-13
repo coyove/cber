@@ -268,6 +268,11 @@ namespace Clipboarder
                 RefreshDataMainView();
                 mainData.TryScrollTo(old);
             };
+            mainData.NextPageCallbak = () =>
+            {
+                (mainData.Tag as Page).Current++;
+                RefreshDataMainView();
+            };
             RefreshDataMainView();
 
             listenToolStripMenuItem_Click(null, null);
@@ -387,15 +392,6 @@ namespace Clipboarder
             UnregisterShortcuts();
         }
 
-        private void clearEntriesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show(Properties.Resources.DeleteAllConfirm,
-                Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
-            mDB.Delete(-1);
-            RefreshDataMainView();
-        }
-
         private void showTextContentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshDataMainView();
@@ -464,19 +460,6 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
-        private void searchDeleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormSearch frm = new FormSearch();
-            mListenDeactivated = 1;
-            frm.SwitchTab("time");
-            frm.SearchAndDelete = true;
-            frm.ShowDialog();
-            mListenDeactivated = 0;
-            if (string.IsNullOrWhiteSpace(frm.WhereClause)) return;
-            mDB.Delete(frm.WhereClause);
-            RefreshDataMainView();
-        }
-
         private void searchToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PrepareSearch("name");
@@ -502,19 +485,20 @@ namespace Clipboarder
             RefreshDataMainView();
         }
 
-        private void deleteAllEntriesButFavs_Click(object sender, EventArgs e)
-        {
-             if (MessageBox.Show(Properties.Resources.DeleteAllConfirm,
-                Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
-            mDB.Delete(-1, true);
-            RefreshDataMainView();
-        }
-
         private void showAscendingOrder_Click(object sender, EventArgs e)
         {
             foreach (MenuItem m in new MenuItem[] { showAscendingOrder, showDescendingOrder })
                 m.Checked = m == sender;
+            RefreshDataMainView();
+        }
+
+        private void menuItem5_Click(object sender, EventArgs e)
+        {
+            FormClean frm = new FormClean();
+            mListenDeactivated = 1;
+            frm.mDB = mDB;
+            frm.ShowDialog();
+            mListenDeactivated = 0;
             RefreshDataMainView();
         }
     }

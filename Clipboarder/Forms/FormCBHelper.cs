@@ -165,6 +165,7 @@ namespace Clipboarder
             }
 
             mainData.Clear();
+            mainData.Page = mainData.TotalPages = 0;
             mainData.mDB = mDB;
 
             string where = CalcWhere();
@@ -202,6 +203,9 @@ namespace Clipboarder
             if (currentPage < 1) currentPage = 1;
             if (currentPage > pages) currentPage = pages;
             (mainData.Tag as Page).Current = currentPage;
+            mainData.Page = currentPage;
+            mainData.TotalPages = pages;
+
             this.Text = Application.ProductName + 
                 " [" + string.Format(Properties.Resources.PageNumberFormat, currentPage) + "]" + status;
 

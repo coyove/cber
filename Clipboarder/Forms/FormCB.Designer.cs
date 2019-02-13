@@ -50,9 +50,7 @@
             this.openDatabase = new System.Windows.Forms.MenuItem();
             this.openDatabaseLocation = new System.Windows.Forms.MenuItem();
             this.menuItem11 = new System.Windows.Forms.MenuItem();
-            this.searchAndDelete = new System.Windows.Forms.MenuItem();
-            this.deleteAllEntries = new System.Windows.Forms.MenuItem();
-            this.deleteAllEntriesButFavs = new System.Windows.Forms.MenuItem();
+            this.cleanDatabase = new System.Windows.Forms.MenuItem();
             this.menuPages = new System.Windows.Forms.MenuItem();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.showTextContents = new System.Windows.Forms.MenuItem();
@@ -67,9 +65,9 @@
             this.viewSettings = new System.Windows.Forms.MenuItem();
             this.menuItem10 = new System.Windows.Forms.MenuItem();
             this.menuItem12 = new System.Windows.Forms.MenuItem();
-            this.mainData = new Clipboarder.EntryPanel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mainData = new Clipboarder.EntryPanel();
             this.SuspendLayout();
             // 
             // notifyIcon
@@ -160,9 +158,7 @@
             this.openDatabase,
             this.openDatabaseLocation,
             this.menuItem11,
-            this.searchAndDelete,
-            this.deleteAllEntries,
-            this.deleteAllEntriesButFavs});
+            this.cleanDatabase});
             resources.ApplyResources(this.menuItem8, "menuItem8");
             // 
             // searchContent
@@ -205,23 +201,11 @@
             this.menuItem11.Index = 6;
             resources.ApplyResources(this.menuItem11, "menuItem11");
             // 
-            // searchAndDelete
+            // cleanDatabase
             // 
-            this.searchAndDelete.Index = 7;
-            resources.ApplyResources(this.searchAndDelete, "searchAndDelete");
-            this.searchAndDelete.Click += new System.EventHandler(this.searchDeleteToolStripMenuItem_Click);
-            // 
-            // deleteAllEntries
-            // 
-            this.deleteAllEntries.Index = 8;
-            resources.ApplyResources(this.deleteAllEntries, "deleteAllEntries");
-            this.deleteAllEntries.Click += new System.EventHandler(this.clearEntriesToolStripMenuItem_Click);
-            // 
-            // deleteAllEntriesButFavs
-            // 
-            this.deleteAllEntriesButFavs.Index = 9;
-            resources.ApplyResources(this.deleteAllEntriesButFavs, "deleteAllEntriesButFavs");
-            this.deleteAllEntriesButFavs.Click += new System.EventHandler(this.deleteAllEntriesButFavs_Click);
+            this.cleanDatabase.Index = 7;
+            resources.ApplyResources(this.cleanDatabase, "cleanDatabase");
+            this.cleanDatabase.Click += new System.EventHandler(this.menuItem5_Click);
             // 
             // menuPages
             // 
@@ -313,11 +297,6 @@
             this.menuItem12.Index = 0;
             resources.ApplyResources(this.menuItem12, "menuItem12");
             // 
-            // mainData
-            // 
-            resources.ApplyResources(this.mainData, "mainData");
-            this.mainData.Name = "mainData";
-            // 
             // dataGridViewTextBoxColumn1
             // 
             resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
@@ -330,6 +309,11 @@
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // mainData
+            // 
+            resources.ApplyResources(this.mainData, "mainData");
+            this.mainData.Name = "mainData";
             // 
             // FormCB
             // 
@@ -370,7 +354,6 @@
         private System.Windows.Forms.MenuItem searchContent;
         private System.Windows.Forms.MenuItem searchTimespan;
         private System.Windows.Forms.MenuItem searchURL;
-        private System.Windows.Forms.MenuItem searchAndDelete;
         private System.Windows.Forms.MenuItem menuItem7;
         private System.Windows.Forms.MenuItem hideAfterCopyToolStripMenuItem;
         private System.Windows.Forms.MenuItem stayOnTopToolStripMenuItem;
@@ -380,8 +363,6 @@
         private System.Windows.Forms.MenuItem menuItem8;
         private System.Windows.Forms.MenuItem menuItem11;
         private System.Windows.Forms.MenuItem openDatabaseLocation;
-        private System.Windows.Forms.MenuItem deleteAllEntries;
-        private System.Windows.Forms.MenuItem deleteAllEntriesButFavs;
         private System.Windows.Forms.MenuItem showAscendingOrder;
         private System.Windows.Forms.MenuItem menuItem2;
         private System.Windows.Forms.MenuItem showDescendingOrder;
@@ -389,6 +370,7 @@
         private System.Windows.Forms.MenuItem menuItem10;
         private System.Windows.Forms.MenuItem menuItem12;
         private System.Windows.Forms.MenuItem menuItem9;
+        private System.Windows.Forms.MenuItem cleanDatabase;
     }
 }
 

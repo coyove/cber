@@ -26,6 +26,8 @@ namespace Clipboarder
 
         private Dictionary<Database.Entry, Rectangle> mFavHotarea = new Dictionary<Database.Entry, Rectangle>();
 
+        private Rectangle mNextPageHotarea;
+
         private struct EntryStatus {
             public Database.Entry Entry;
             public bool Hovered;
@@ -57,6 +59,8 @@ namespace Clipboarder
 
         public Action<Database.Entry> DeleteCallback;
 
+        public Action NextPageCallbak;
+
         static int StdEntryHeight = 150;
         static int SBW = 15;
         static int MinimalScrollbarHeight = 25;
@@ -65,6 +69,7 @@ namespace Clipboarder
         static Brush LightLightGray = new SolidBrush(Color.FromArgb(0xee, 0xee, 0xee));
         static Brush BgBrush = new SolidBrush(Color.FromArgb(0xFF, 0xfC, 0xe3));
         static Font Monospace = new Font("Consolas", 12);
+        static Font MonospaceSmall = new Font("Consolas", 10);
         static Size MonospaceSize = TextRenderer.MeasureText("A", Monospace);
         static StringFormat CenterTextFormat = new StringFormat() { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
 
@@ -121,9 +126,14 @@ namespace Clipboarder
                 {
                     height += (int)(datum.IsBig * StdEntryHeight);
                 }
+                height += MonospaceSize.Height * 2;
                 return height;
             }
         }
+
+        public int Page;
+
+        public int TotalPages;
 
         public void Add(Database.Entry datum)
         {
@@ -134,6 +144,7 @@ namespace Clipboarder
         {
             Value = 0;
             mData.Clear();
+            ClearControls();
             Invalidate();
         }
 
@@ -159,6 +170,12 @@ namespace Clipboarder
             {
                 ClearControls();
                 this.Refresh();
+            }
+
+            if (mNextPageHotarea.Contains(e.Location))
+            {
+                NextPageCallbak();
+                return;
             }
 
             foreach (var kv in mFavHotarea)
@@ -466,7 +483,7 @@ namespace Clipboarder
             if (e.Content is Image)
             {
                 Size imageSize = (e.Content as Image).Size;
-                string sizeText = imageSize.Width.ToString() + "x" + imageSize.Height.ToString();
+                string sizeText = string.Format("{0}x{1} {2:0.00}MB", imageSize.Width, imageSize.Height, (double)e.Size / 1024 / 1024);
                 var sizeTrueSize = TextRenderer.MeasureText(sizeText, font, new Size(0, 0), TextFormatFlags.SingleLine);
 
                 graphics.FillRectangle(Brushes.LightGray, SBW, top + height, sizeTrueSize.Width, sizeTrueSize.Height);
@@ -503,18 +520,15 @@ namespace Clipboarder
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            //if (this.Controls.Count > 0) return;
 
             var container = e.Graphics.BeginContainer();
             e.Graphics.Clip = new Region(e.ClipRectangle);
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            //e.Graphics.FillRectangle(Brushes.White, e.ClipRectangle);
 
             mHotarea.Clear();
             mUrlHotarea.Clear();
             mCopyHotarea.Clear();
             mFavHotarea.Clear();
-            //ClearControls();
 
             int top = -(int)(Value * mK), i = -1;
             bool zebra = false;
@@ -535,6 +549,7 @@ namespace Clipboarder
                             this.Width - SBW - SBW, MonospaceSize.Height);
                 }
 
+                #region Draw entry content
                 switch (datum.Type)
                 {
                     case Database.ContentType.Image:
@@ -562,19 +577,24 @@ namespace Clipboarder
                             new Rectangle(5 + SBW, drawTop + 5, this.Width - SBW - SBW - 10, drawHeight2 - 10));
                         break;
                 }
+                #endregion
+
+                #region Draw entry title
                 switch (datum.Type)
                 {
                     case Database.ContentType.HTML:
-                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.Peru);
+                        DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.Peru);
                         break;
                     case Database.ContentType.RawText:
-                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.Firebrick);
+                        DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.Firebrick);
                         break;
                     case Database.ContentType.Image:
-                DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.PaleVioletRed);
+                        DrawTitle(i, e.Graphics, datum, Monospace, top, Brushes.PaleVioletRed);
                         break;
                 }
+                #endregion
 
+                #region Draw the copy button at left side
                 Rectangle leftSideBar = new Rectangle(0, top, SBW, entryHeight);
                 if (mCurrentHoverEntry.Entry == datum)
                 {
@@ -589,18 +609,12 @@ namespace Clipboarder
                     e.Graphics.FillRectangle(zebra ? Brushes.LightGray : LightLightGray, leftSideBar);
                 }
                 mCopyHotarea[datum] = new Rectangle(0, top, SBW * 3, entryHeight);
+                #endregion
 
                 top += entryHeight;
             }
 
-            if (mData.Count == 0)
-            {
-                e.Graphics.DrawString(Properties.Resources.EmptyResults,
-                    Monospace, Brushes.Black,
-                    new Rectangle(SBW, 0, this.Width - SBW - SBW, this.Height), CenterTextFormat);
-                e.Graphics.FillRectangle(Brushes.LightGray, new Rectangle(0, 0, SBW, this.Height));
-            }
-
+            #region Draw scroll bar
             int diff = RealHeight - this.Height;
             e.Graphics.FillRectangle(Brushes.LightGray, new Rectangle(this.Width - SBW, 
                 0, SBW, this.Height));
@@ -623,6 +637,22 @@ namespace Clipboarder
             {
                 MaxValue = 0;
             }
+            #endregion
+
+            #region Draw next page marker
+            mNextPageHotarea = new Rectangle(SBW, top, this.Width - SBW - SBW,
+                TotalPages == Page ? MonospaceSize.Height * 2 : MonospaceSize.Height * 3 / 2);
+            e.Graphics.DrawString(TotalPages == 0 ? "- / -" : string.Format("{0} / {1}", Page, TotalPages), 
+                MonospaceSmall, Brushes.Black, mNextPageHotarea, CenterTextFormat);
+            if (Page != TotalPages)
+            {
+                e.Graphics.FillPolygon(Brushes.Black, new PointF[] {
+                new PointF(this.Width / 2 - 5, mNextPageHotarea.Bottom),
+                new PointF(this.Width / 2, mNextPageHotarea.Bottom + 5),
+                new PointF(this.Width / 2 + 5, mNextPageHotarea.Bottom),
+            });
+            }
+            #endregion
 
             if (top < this.Height)
             {

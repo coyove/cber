@@ -327,6 +327,7 @@ namespace Clipboarder
         {
             public int Id { get; set; }
             public int Hits { get; set; }
+            public int Size { get; set; }
             public ContentType Type { get; set; }
             public string Name { get; set; }
             public string SourceUrl { get; set; }
@@ -606,6 +607,14 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
+        public SQLite3.Result Delete(ContentType ct)
+        {
+            IntPtr stmt = SQLite3.Prepare2(mDB, "DELETE FROM data_table WHERE favorited = 0 AND type = " + ((int)ct).ToString());
+            var res = SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            return res;
+        }
+
         public enum AutoDeletionPolicy
         {
             None,
@@ -644,6 +653,49 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return count;
         }
 
+        public void Vacuum()
+        {
+            IntPtr stmt = SQLite3.Prepare2(mDB, "VACUUM;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+        }
+
+        public void DeleteLargerThan(int bytes)
+        {
+            List<string> ids = new List<string>();
+            IntPtr stmt = SQLite3.Prepare2(mDB, "SELECT id, text_content, binary_content, html_content FROM data_table WHERE favorited = 0;");
+            while (SQLite3.Step(stmt) == SQLite3.Result.Row)
+            {
+                int id = SQLite3.ColumnInt(stmt, 0);
+                string text = SQLite3.ColumnString(stmt, 1);
+                byte[] binary = SQLite3.ColumnByteArray(stmt, 2);
+                string html = SQLite3.ColumnString(stmt, 3);
+                if (!string.IsNullOrEmpty(text) && System.Text.Encoding.UTF8.GetByteCount(text) > bytes)
+                {
+                    ids.Add(id.ToString());
+                    continue;
+                }
+                if (!string.IsNullOrEmpty(html) && System.Text.Encoding.UTF8.GetByteCount(html) > bytes)
+                {
+                    ids.Add(id.ToString());
+                    continue;
+                }
+                if (binary != null && binary.Length > bytes)
+                {
+                    ids.Add(id.ToString());
+                    continue;
+                }
+            }
+            SQLite3.Finalize(stmt);
+
+            if (ids.Count > 0)
+            {
+                stmt = SQLite3.Prepare2(mDB, "DELETE FROM data_table WHERE id IN (" + string.Join(",", ids) + ")");
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
+        }
+
         public Entry[] Paging(string where, string orderByFields, int start, int length)
         {
             if (string.IsNullOrWhiteSpace(where))
@@ -676,6 +728,7 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
                         break;
                     case ContentType.Image:
                         MemoryStream s = new MemoryStream(SQLite3.ColumnByteArray(stmt, 4));
+                        e.Size = (int)s.Length;
                         e.Content = System.Drawing.Image.FromStream(s);
                         s.Dispose();
                         break;

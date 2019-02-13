@@ -130,21 +130,6 @@
   <metadata name="mainMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>458, 17</value>
   </metadata>
-  <data name="mainMenu.Text" xml:space="preserve">
-    <value>Listen</value>
-  </data>
-  <data name="menuItem8.Text" xml:space="preserve">
-    <value>Database</value>
-  </data>
-  <data name="menuPages.Text" xml:space="preserve">
-    <value>Goto</value>
-  </data>
-  <data name="menuItem1.Text" xml:space="preserve">
-    <value>View</value>
-  </data>
-  <data name="menuItem10.Text" xml:space="preserve">
-    <value>Help</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="listenToolStripMenuItem.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>CtrlE</value>
@@ -179,6 +164,9 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
+  <data name="mainMenu.Text" xml:space="preserve">
+    <value>Listen</value>
+  </data>
   <data name="searchContent.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>CtrlF</value>
   </data>
@@ -212,14 +200,14 @@
   <data name="menuItem11.Text" xml:space="preserve">
     <value>-</value>
   </data>
-  <data name="searchAndDelete.Text" xml:space="preserve">
-    <value>Search &amp;&amp; Delete...</value>
+  <data name="cleanDatabase.Text" xml:space="preserve">
+    <value>Clean...</value>
   </data>
-  <data name="deleteAllEntries.Text" xml:space="preserve">
-    <value>Delete all entries</value>
+  <data name="menuItem8.Text" xml:space="preserve">
+    <value>Database</value>
   </data>
-  <data name="deleteAllEntriesButFavs.Text" xml:space="preserve">
-    <value>Delete all but favorites</value>
+  <data name="menuPages.Text" xml:space="preserve">
+    <value>Goto</value>
   </data>
   <data name="showTextContents.Shortcut" type="System.Windows.Forms.Shortcut, System.Windows.Forms">
     <value>Ctrl1</value>
@@ -263,8 +251,20 @@
   <data name="viewSettings.Text" xml:space="preserve">
     <value>Settings...</value>
   </data>
+  <data name="menuItem1.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="menuItem12.Text" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="menuItem10.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
+    <value>Content</value>
   </data>
   <data name="mainData.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -274,10 +274,10 @@
     <value>0, 0</value>
   </data>
   <data name="mainData.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 3, 2, 3</value>
+    <value>2, 4, 2, 4</value>
   </data>
   <data name="mainData.Size" type="System.Drawing.Size, System.Drawing">
-    <value>329, 485</value>
+    <value>411, 571</value>
   </data>
   <data name="mainData.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -294,23 +294,20 @@
   <data name="&gt;&gt;mainData.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
-    <value>Content</value>
-  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
+    <value>120, 120</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>329, 485</value>
+    <value>411, 571</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>304, 524</value>
+    <value>376, 643</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>C-ber</value>
@@ -435,22 +432,10 @@
   <data name="&gt;&gt;menuItem11.Type" xml:space="preserve">
     <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;searchAndDelete.Name" xml:space="preserve">
-    <value>searchAndDelete</value>
+  <data name="&gt;&gt;cleanDatabase.Name" xml:space="preserve">
+    <value>cleanDatabase</value>
   </data>
-  <data name="&gt;&gt;searchAndDelete.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntries.Name" xml:space="preserve">
-    <value>deleteAllEntries</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntries.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntriesButFavs.Name" xml:space="preserve">
-    <value>deleteAllEntriesButFavs</value>
-  </data>
-  <data name="&gt;&gt;deleteAllEntriesButFavs.Type" xml:space="preserve">
+  <data name="&gt;&gt;cleanDatabase.Type" xml:space="preserve">
     <value>System.Windows.Forms.MenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;menuPages.Name" xml:space="preserve">
