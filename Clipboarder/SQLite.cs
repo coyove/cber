@@ -586,13 +586,13 @@ CREATE INDEX data_table_hash_idx ON data_table (hash);
             return res;
         }
 
-        public SQLite3.Result Delete(int id)
+        public SQLite3.Result Delete(int id, bool excludeFavorites = false)
         {
-            IntPtr stmt = SQLite3.Prepare2(mDB, id == -1 ?
-                "DELETE FROM data_table;" :
-                "DELETE FROM data_table WHERE id = ?");
-            if (id > -1)
-                SQLite3.BindInt(stmt, 1, id);
+            string query = "DELETE FROM data_table WHERE 1 = 1";
+            if (id > -1) query += " AND id = " + id.ToString();
+            if (excludeFavorites) query += " AND favorited = 0";
+
+            IntPtr stmt = SQLite3.Prepare2(mDB, query);
             var res = SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             return res;

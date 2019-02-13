@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Clipboarder
 {
-    class ImageViewer : Panel
+    class BasicControls : Panel
     {
         private int mZoom = 100;
 
@@ -17,7 +17,7 @@ namespace Clipboarder
 
         public Image Image;
 
-        public ImageViewer() : base()
+        public BasicControls() : base()
         {
             MouseWheel += (s, e) =>
             {
@@ -105,11 +105,11 @@ namespace Clipboarder
 
     class Shortcut : Panel
     {
-        private CheckBox cbShift; 
-        private CheckBox cbAlt; 
+        private CheckBox cbShift;
+        private CheckBox cbAlt;
         private CheckBox cbCtrl;
         private ComboBox box;
-        
+
         public Shortcut() : base()
         {
             TableLayoutPanel table = new TableLayoutPanel();
@@ -189,6 +189,19 @@ namespace Clipboarder
                     }
                 }
             }
+        }
+    }
+
+
+    class PathLabel : Label
+    {
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            //base.OnPaint(e);
+            TextRenderer.DrawText(e.Graphics, this.Text, this.Font,
+                new Rectangle(0, 0, this.Width, this.Height),
+                this.ForeColor, this.BackColor,
+                TextFormatFlags.Right | TextFormatFlags.PathEllipsis | TextFormatFlags.VerticalCenter);
         }
     }
 }

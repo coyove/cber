@@ -387,6 +387,15 @@ namespace Clipboarder.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page {0}.
+        /// </summary>
+        internal static string PageNumberFormat {
+            get {
+                return ResourceManager.GetString("PageNumberFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] Patch_Mode {

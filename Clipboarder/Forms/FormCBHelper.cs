@@ -91,17 +91,26 @@ namespace Clipboarder
             foreach (string show in 
                 Properties.Settings.Default.ShowContents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                var btn = mViewFilter.FirstOrDefault(v => v.Tag.ToString() == "show" + show);
-                if (btn != null) btn.Pushed = true;
+                switch (show)
+                {
+                    case "Text": showTextContents.Checked = true; break;
+                    case "Image":showImageContents.Checked = true; break;
+                    case "HTML": showHTMLContents.Checked = true; break;
+                }
             }
 
             foreach (string listen in 
                 Properties.Settings.Default.ListenContents.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                (cberMenu.DropDownItems.Find("listen" + listen + "Contents", true).First() as ToolStripMenuItem).Checked = true;
+                switch (listen)
+                {
+                    case "Text": listenTextContents.Checked = true; break;
+                    case "Image":listenImageContents.Checked = true; break;
+                    case "HTML": listenHTMLContents.Checked = true; break;
+                }
             }
             hideAfterCopyToolStripMenuItem.Checked = Properties.Settings.Default.HideAfterCopy;
-            stayOnTopToolStripMenuItem.Checked = Properties.Settings.Default.StayOnTop;
+            stayOnTopToolStripMenuItem.Checked = !Properties.Settings.Default.StayOnTop;
             stayOnTopToolStripMenuItem_Click(null, null);
             this.Location = Properties.Settings.Default.FormLocation;
             this.Size = Properties.Settings.Default.FormSize;
@@ -115,10 +124,12 @@ namespace Clipboarder
             Properties.Settings.Default.ListenContents = "";
             foreach (string show in new string[] { "Text", "Image", "HTML" })
             {
-                if (mViewFilter.First(v => v.Tag.ToString() == "show" + show).Pushed)
-                    Properties.Settings.Default.ShowContents += show + ",";
-                if ((cberMenu.DropDownItems.Find("listen" + show + "Contents", true).First() as ToolStripMenuItem).Checked)
-                    Properties.Settings.Default.ListenContents += show + ",";
+                if (showTextContents.Checked) Properties.Settings.Default.ShowContents += "Text,";
+                if (showImageContents.Checked) Properties.Settings.Default.ShowContents += "Image,";
+                if (showHTMLContents.Checked) Properties.Settings.Default.ShowContents += "HTML,";
+                if (listenTextContents.Checked) Properties.Settings.Default.ListenContents += "Text,";
+                if (listenImageContents.Checked) Properties.Settings.Default.ListenContents += "Image,";
+                if (listenHTMLContents.Checked) Properties.Settings.Default.ListenContents += "HTML,";
             }
             Properties.Settings.Default.FormLocation = this.Location;
             Properties.Settings.Default.FormSize = this.Size;
@@ -128,11 +139,11 @@ namespace Clipboarder
         private string CalcWhere()
         {
             StringBuilder where = new StringBuilder();
-            if (!mViewFilter[0].Pushed)
+            if (!showTextContents.Checked)
                 where.Append(" AND type != " + (int)Database.ContentType.RawText);
-            if (!mViewFilter[2].Pushed)
+            if (!showImageContents.Checked)
                 where.Append(" AND type != " + (int)Database.ContentType.Image);
-            if (!mViewFilter[1].Pushed)
+            if (!showHTMLContents.Checked)
                 where.Append(" AND type != " + (int)Database.ContentType.HTML);
             where.Append((mainData.Tag as Page).Where);
             return where.ToString();
@@ -140,54 +151,89 @@ namespace Clipboarder
 
         private void RefreshDataMainView()
         {
-            mainData.Clear();
-
-            for (int i = mBarNav.Buttons.Count - 1; i >= 0; i--)
+            var clearButton = this.Controls.Find("ClearWhere", true).FirstOrDefault() as Button;
+            if (clearButton != null)
             {
-                if (mBarNav.Buttons[i].Name.StartsWith("nav"))
-                {
-                    var btn = mBarNav.Buttons[i];
-                    mBarNav.Buttons.RemoveAt(i);
-                    btn.Dispose();
-                }
+                clearButton.Parent.Controls.Remove(clearButton);
+                clearButton.Dispose();
+            }
+            for (int i = menuPages.MenuItems.Count - 1; i >= 0; i--)
+            {
+                var m = menuPages.MenuItems[i];
+                menuPages.MenuItems.RemoveAt(i);
+                m.Dispose();
             }
 
+            mainData.Clear();
+            mainData.mDB = mDB;
+
             string where = CalcWhere();
+            if (!string.IsNullOrWhiteSpace((mainData.Tag as Page).Where))
+            {
+                Button clearAll = new Button();
+                clearAll.Name = "ClearWhere";
+                clearAll.Text = "Show All";
+                clearAll.Dock = DockStyle.Top;
+                clearAll.Click += (s, e) =>
+                {
+                    (mainData.Tag as Page).Where = "";
+                    RefreshDataMainView();
+                };
+                this.Controls.Add(clearAll);
+                mainData.BringToFront();
+            }
+
             int epp = Properties.Settings.Default.EntriesPerPage;
             int currentPage = (mainData.Tag as Page).Current;
             int totalEntries = mDB.TotalEntries(where);
             int pages = (int)Math.Ceiling((double)totalEntries / (double)epp);
 
-            statusDbPath.Text = string.Format("{3} ({0}/{1}MB)",
+            mPathDisplay.Text = string.Format("{3} ({0}/{1}MB)",
                 totalEntries, ((double)new System.IO.FileInfo(mDB.Path).Length / 1024 / 1024).ToString("0.00"), pages, mDB.Path);
 
-            if (pages == 0) return;
+            if (pages == 0)
+            {
+                this.Text = Application.ProductName;
+                return;
+            }
+
             if (currentPage < 1) currentPage = 1;
             if (currentPage > pages) currentPage = pages;
             (mainData.Tag as Page).Current = currentPage;
+            this.Text = Application.ProductName + " - P" + currentPage;
 
-            foreach (Database.Entry e in mDB.Paging(where.ToString(), null, (currentPage - 1) * epp, epp))
+            foreach (Database.Entry e in mDB.Paging(
+                where.ToString(), 
+                showAscendingOrder.Checked ? "ts ASC, id ASC" : "ts DESC, id DESC", 
+                (currentPage - 1) * epp,
+                epp))
             {
                 mainData.Add(e);
             }
             mainData.Refresh();
 
-            var startEnd = Helper.SlidingWindow(pages, 5, currentPage);
+            var startEnd = Helper.SlidingWindow(pages, 10, currentPage);
             Action<int, string> addButton = (i, key) =>
             {
-                ToolBarButton button = new ToolBarButton();
-                button.Text = "[ " + i.ToString() + " ]";
-                button.Pushed = i == currentPage;
-                if (button.Pushed && key == "page") key = "curpage";
-                button.Name = "nav" + i.ToString();
+                MenuItem button = new MenuItem();
+                button.Text = string.Format(Properties.Resources.PageNumberFormat, i);
+                button.Checked = i == currentPage;
+                button.RadioCheck = true;
                 button.Tag = i;
-                button.ImageKey = key;
-                mBarNav.Buttons.Add(button);
+                button.Click += (s, e) =>
+                {
+                    (mainData.Tag as Page).Current = i;
+                    RefreshDataMainView();
+                };
+                if (i >= 1 && i <= 12)
+                    button.Shortcut = System.Windows.Forms.Shortcut.F1 + i - 1;
+                menuPages.MenuItems.Add(button);
             };
 
             if (startEnd.Item1 != 1) addButton(1, "left");
             for (int i = startEnd.Item1; i <= startEnd.Item2; i++) addButton(i, "page");
             if (startEnd.Item2 != pages) addButton(pages, "right");
+
         }
     }
 }

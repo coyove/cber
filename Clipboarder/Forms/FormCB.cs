@@ -65,10 +65,10 @@ namespace Clipboarder
                             this.Invoke(new Action(() =>
                                                 {
                                                     this.Enabled = false;
-                                                    this.Text += " (Busy)";
+                                                    this.Text = Application.ProductName + " (Busy)";
                                                     OnClipboardChanged();
+                                                    RefreshDataMainView();
                                                     this.Enabled = true;
-                                                    this.Text = this.Text.Substring(0, this.Text.Length - 7);
                                                 }));
                             mListenDeactivated = 0;
                         });
@@ -193,7 +193,6 @@ namespace Clipboarder
                 mDB.Favorite(mDB.LastRowId(), true);
             }
 
-            RefreshDataMainView();
             mDB.KeepEntriesUnder(
                 (Database.AutoDeletionPolicy)Properties.Settings.Default.XPurge,
                 Properties.Settings.Default.XPurgeValue);
@@ -271,7 +270,7 @@ namespace Clipboarder
             };
             RefreshDataMainView();
 
-            listenToolStripMenuItem_Click(listenToolStripMenuItem, null);
+            listenToolStripMenuItem_Click(null, null);
 
             RegisterShortcut(Properties.Settings.Default.GSShow,
                 () => notifyIcon_MouseDoubleClick(null, null));
@@ -315,20 +314,19 @@ namespace Clipboarder
 
         private void stayOnTopToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            stayOnTopToolStripMenuItem.Checked = !stayOnTopToolStripMenuItem.Checked;
             this.TopMost = stayOnTopToolStripMenuItem.Checked;
         }
 
         private void listenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (sender != listenToolStripMenuItem)
-                listenToolStripMenuItem.Checked = !listenToolStripMenuItem.Checked;
+            listenToolStripMenuItem.Checked = !listenToolStripMenuItem.Checked;
             mListenDeactivated = listenToolStripMenuItem.Checked ? 0 : 1;
             notifyIcon.ContextMenu.MenuItems[0].Checked = mListenDeactivated == 0;
-        }
-
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RefreshDataMainView();
+            if (sender != null)
+            {
+                listenHTMLContents.Checked = listenTextContents.Checked = listenImageContents.Checked = listenToolStripMenuItem.Checked;
+            }
         }
 
         public bool IsTopWindow()
@@ -447,23 +445,12 @@ namespace Clipboarder
 
         private void PrepareSearch(string t)
         {
-            foreach (ToolBarButton btn in mBar.Buttons)
-            {
-                if (btn.Tag.ToString() == "search" + t)
-                    btn.Pushed = true;
-            }
             FormSearch frm = new FormSearch();
             mListenDeactivated = 1;
             frm.SwitchTab(t);
             frm.ShowDialog();
             mListenDeactivated = 0;
             (mainData.Tag as Page).Where = frm.WhereClause;
-            if (string.IsNullOrWhiteSpace(frm.WhereClause))
-            {
-                foreach (ToolBarButton btn in mBar.Buttons)
-                    if (!btn.Tag.ToString().StartsWith("show"))
-                        btn.Pushed = false;
-            }
             frm.Dispose();
             RefreshDataMainView();
         }
@@ -505,6 +492,28 @@ namespace Clipboarder
                     break;
                 }
             }
+        }
+
+        private void showFavorites_Click(object sender, EventArgs e)
+        {
+            (mainData.Tag as Page).Where = "AND favorited = 1";
+            RefreshDataMainView();
+        }
+
+        private void deleteAllEntriesButFavs_Click(object sender, EventArgs e)
+        {
+             if (MessageBox.Show(Properties.Resources.DeleteAllConfirm,
+                Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+            mDB.Delete(-1, true);
+            RefreshDataMainView();
+        }
+
+        private void showAscendingOrder_Click(object sender, EventArgs e)
+        {
+            foreach (MenuItem m in new MenuItem[] { showAscendingOrder, showDescendingOrder })
+                m.Checked = m == sender;
+            RefreshDataMainView();
         }
     }
 }

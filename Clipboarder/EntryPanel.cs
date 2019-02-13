@@ -259,7 +259,7 @@ namespace Clipboarder
                             toolbar.Buttons.Add(new ToolBarButton("HTML to Text") { ImageKey = "html", Tag = "htt" });
                             break;
                         case Database.ContentType.Image:
-                            var viewer = new ImageViewer();
+                            var viewer = new BasicControls();
                             viewer.Dock = DockStyle.Fill;
                             viewer.Image = kv.Key.Content as Image;
                             mPanel.Controls.Add(viewer);
