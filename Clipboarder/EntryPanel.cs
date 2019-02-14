@@ -32,11 +32,12 @@ namespace Clipboarder
             public Database.Entry Entry;
             public bool Hovered;
             public bool Clicked;
+            public bool NextPageHovered;
             public Rectangle Hotarea;
 
             public void Reset()
             {
-                Hovered = Clicked = false;
+                Hovered = Clicked = NextPageHovered = false;
                 Entry = null;
             }
         }
@@ -341,6 +342,12 @@ namespace Clipboarder
             }
 
             mCurrentHoverEntry.Reset();
+            if (mNextPageHotarea.Contains(e.Location))
+            {
+                mCurrentHoverEntry.NextPageHovered = true;
+            }
+            Invalidate(mNextPageHotarea);
+
             if (this.Controls.Count == 0)
             {
                 foreach (var kv in mCopyHotarea)
@@ -355,6 +362,7 @@ namespace Clipboarder
                     }
                 }
             }
+
         }
 
         public void TryScrollTo(int value)
@@ -640,17 +648,27 @@ namespace Clipboarder
             #endregion
 
             #region Draw next page marker
-            mNextPageHotarea = new Rectangle(SBW, top, this.Width - SBW - SBW,
-                TotalPages == Page ? MonospaceSize.Height * 2 : MonospaceSize.Height * 3 / 2);
+            mNextPageHotarea = new Rectangle(SBW, top, this.Width - SBW - SBW, MonospaceSize.Height * 2);
             e.Graphics.DrawString(TotalPages == 0 ? "- / -" : string.Format("{0} / {1}", Page, TotalPages), 
                 MonospaceSmall, Brushes.Black, mNextPageHotarea, CenterTextFormat);
             if (Page != TotalPages)
             {
-                e.Graphics.FillPolygon(Brushes.Black, new PointF[] {
-                new PointF(this.Width / 2 - 5, mNextPageHotarea.Bottom),
-                new PointF(this.Width / 2, mNextPageHotarea.Bottom + 5),
-                new PointF(this.Width / 2 + 5, mNextPageHotarea.Bottom),
-            });
+                int top2 = top + MonospaceSize.Height * 3 / 2;
+                PointF[] triangle = new PointF[] {
+                new PointF(this.Width / 2 - 5, top2),
+                new PointF(this.Width / 2,  top2 + 5),
+                new PointF(this.Width / 2 + 5,  top2)
+                };
+                if (mCurrentHoverEntry.NextPageHovered)
+                {
+                    e.Graphics.FillEllipse(Brushes.DarkSlateGray,
+                        new Rectangle(this.Width / 2 - 8, top2 + 1 - 8, 16, 16));
+                    e.Graphics.FillPolygon(Brushes.White, triangle);
+                }
+                else
+                {
+                    e.Graphics.FillPolygon(Brushes.Black, triangle);
+                }
             }
             #endregion
 
